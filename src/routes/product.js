@@ -6,9 +6,6 @@ const {
   getProductCategoryList,
   getProductCategories,
   getProductsByCategoryName,
-  addNewProduct,
-  updateProductById,
-  deleteProductById,
 } = require('../controllers/product');
 
 // get all products
@@ -44,30 +41,6 @@ router.get('/category/:categoryName', (req, res) => {
   const { categoryName } = req.params;
 
   res.send(getProductsByCategoryName({ categoryName, ...req._options }));
-});
-
-// add new product
-router.post('/add', (req, res) => {
-  res.status(201).send(addNewProduct({ ...req.body }));
-});
-
-// update product by id (PUT)
-router.put('/:id', (req, res) => {
-  const { id } = req.params;
-
-  res.send(updateProductById({ id, ...req.body }));
-});
-
-// update product by id (PATCH)
-router.patch('/:id', (req, res) => {
-  const { id } = req.params;
-
-  res.send(updateProductById({ id, ...req.body }));
-});
-
-// delete product by id
-router.delete('/:id', (req, res) => {
-  res.send(deleteProductById({ ...req.params }));
 });
 
 module.exports = router;
