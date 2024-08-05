@@ -71,7 +71,18 @@ Explore all the routes and more at [DummyJSON/Docs](https://dummyjson.com/docs/)
 
 This project is open-source and available under the [MIT License](LICENSE).
 
+## How to maintain
 
+### Environment
 
+* Install `env-cmd` globally to executing commands using an environment from an env file.
 
+```
+npm install -g env-cmd
+```
 
+* Install `nodemon` globally to monitor for any changes in the source and automatically restart the server.
+
+```
+npm install -g nodemon
+```
