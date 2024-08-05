@@ -1,3 +1,6 @@
+# Miscellaneous
+.DS_Store
+
 # Custom configs
 yarn.lock
 package-lock.json
