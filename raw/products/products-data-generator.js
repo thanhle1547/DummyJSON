@@ -1,5 +1,4 @@
 const fs = require('fs');
-const sharp = require('sharp');
 const {
   getRandomNumberBetween,
   getRandomNumberFloatBetween,
@@ -164,13 +163,6 @@ function generateThumbnailImage(product) {
   if (!fs.existsSync(dir)) {
     return;
   }
-
-  const folder = fs.readdirSync(dir);
-  const image = `${dir}/${folder[0]}`;
-
-  const sharpImage = sharp(image);
-  const resizedImage = sharpImage.resize({ width: 300, height: 300, fit: 'contain' });
-  const pngImage = resizedImage.png();
 
   if (fs.existsSync(`${dir}/thumbnail.png`)) {
     return;

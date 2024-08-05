@@ -4,7 +4,6 @@ const helmet = require('helmet');
 const cors = require('cors');
 
 const applyRateLimit = require('../utils/applyRateLimit');
-const logger = require('./logger');
 const cleanRequest = require('./cleanRequest');
 const delayResponse = require('./delayResponse');
 
@@ -22,8 +21,6 @@ function injectMiddleWares(app) {
   app.use(express.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
 
   applyRateLimit(app);
-
-  app.use(logger);
 
   app.use(cleanRequest);
 

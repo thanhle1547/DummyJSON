@@ -46,10 +46,4 @@ helpers.verifyPostHandler = id => {
   return post;
 };
 
-helpers.isRequestInWhitelist = req => {
-  const url = req.originalUrl || req.url;
-
-  return requestWhitelist.find(u => url.includes(u));
-};
-
 module.exports = helpers;

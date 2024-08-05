@@ -27,8 +27,6 @@ Give it a spin at [DummyJSON](https://dummyjson.com) and make your development p
 - **HTTP Methods Support**: We've got all your HTTP methods covered - GET, POST, PUT, PATCH, and DELETE.
 - **Delay Responses**: Simulate real-world conditions with adjustable response delays.
 - **Cross-framework Compatibility**: Seamlessly integrate with React, Angular, Vue, Ember, or vanilla JavaScript.
-- **Dynamic Image Generation**: Generate placeholder images with customizable options.
-- **Identicon**: Generate customizable identicon on the go.
 
 ## Available Resources
 
@@ -44,8 +42,6 @@ Over **10** resources ready for use:
 - [250+ Todos](https://dummyjson.com/todos)
 - [Authentication/Authorization](https://dummyjson.com/auth)
 - [Custom HTTP Response](https://dummyjson.com/docs/http)
-- [Dynamic/Placeholder Images](https://dummyjson.com/image)
-- [Identicon](https://dummyjson.com/docs/image#image-identicon)
 
 ## How to Fetch Data
 
@@ -71,101 +67,11 @@ Note: Pagination is also supported.
 
 Explore all the routes and more at [DummyJSON/Docs](https://dummyjson.com/docs/).
 
----
-
-# Dummy Image Generator
-
-Dummy Image Generator is a simple Node.js service for generating placeholder images with customizable options.
-
-## Usage
-
-You can use the service by making HTTP requests to the following URL:
-
-https://dummyjson.com/image
-
-### Basic Examples
-
-- Generate a 300x300 image:
-
-  https://dummyjson.com/image/300
-
-  ![Example](https://dummyjson.com/image/300)
-
-- Generate a 250x100 image:
-
-  https://dummyjson.com/image/250x100
-
-  ![Example](https://dummyjson.com/image/250x100)
-
-### Customization Options
-
-- Change background color (hexadecimal or CSS color name):
-
-  https://dummyjson.com/image/250x100/teal
-
-  ![Example](https://dummyjson.com/image/250x100/teal)
-
-- Change background color and text color (hexadecimal or CSS color name):
-
-  https://dummyjson.com/image/350x200/333333/eae0d0
-
-  ![Example](https://dummyjson.com/image/350x200/333333/eae0d0)
-
-- Add custom text:
-
-  https://dummyjson.com/image/350x200/?text=Hello+Peter
-
-  ![Example](https://dummyjson.com/image/350x200/?text=Hello+Peter)
-
-- Specify font family:
-
-  https://dummyjson.com/image/350x200/282828/eae0d0/?text=Hello+Peter&fontFamily=cookie
-
-  ![Example](https://dummyjson.com/image/350x200/282828/eae0d0/?text=Hello+Peter&fontFamily=cookie)
-
-### Image Formats
-
-- Specify image format (png, jpg, webp):
-
-  https://dummyjson.com/image/400x200/282828?type=jpg
-
-  ![Example](https://dummyjson.com/image/400x200/282828?type=jpg)
-
-### Additional Customizations
-
-- Specify font size:
-
-  https://dummyjson.com/image/400x200?text=Hello+Peter!&fontSize=16
-
-  ![Example](https://dummyjson.com/image/400x200/?text=Hello+Peter!&fontSize=16)
-
-## Supported Fonts
-
-- Bitter
-- Cairo
-- Comfortaa
-- Cookie
-- Dosis
-- Gotham
-- Lobster
-- Marhey
-- Pacifico
-- Poppins
-- Quicksand
-- Qwigley
-- Satisfy
-- Ubuntu
-
----
-
-# Generate identicon
-
-https://dummyjson.com/icon/HASH/SIZE
-
-https://dummyjson.com/icon/abc123/150
-
-![Example](https://dummyjson.com/icon/abc123/150)
-
 ## License
 
 This project is open-source and available under the [MIT License](LICENSE).
+
+
+
+
+

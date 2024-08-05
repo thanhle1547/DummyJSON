@@ -16,11 +16,6 @@ router.use(['/todo', '/todos'], require('./todo'));
 router.use(['/user', '/users'], require('./user'));
 router.use(['/http', '/https'], require('./http'));
 router.use(['/test', '/ping', '/health'], require('./test'));
-router.use(['/image', '/i'], require('./image'));
-router.use('/icon', require('./icon'));
-
-// dynamic resource routes
-router.use('/c', require('./custom-response'));
 
 // redrector
 router.use('/', require('./redirect'));
