@@ -285,6 +285,134 @@
         </code></pre>
       </div>
 
+      <div class="resource" id="products-filter">
+        <a href="#products-filter" class="res-title">Filter products</a>
+        <div>
+          <p class="res-tip">
+            You can pass `price` param to filter the results,
+            `price` should be follow the pattern `&lt;from&gt;-&lt;to&gt;`.
+          </p>
+          <pre><code class="language-js">
+            fetch('https://dummyjson.com/products?price=20-70')
+            .then(res => res.json())
+            .then(console.log);
+          </code></pre>
+  
+          <button class="show-output btn">Show Output</button>
+  
+          <pre class="output"><code class="language-json">
+            {
+              "products": [
+                {
+                  "id": 6,
+                  "title": "Calvin Klein CK One",
+                  "price": 49.99,
+                  /* rest product data */
+                },
+                {
+                  "id": 44,
+                  "title": "Family Tree Photo Frame",
+                  "price": 29.99,
+                  /* rest product data */
+                },
+                {...}
+                // 30 items
+              ],
+              "total": 194,
+              "skip": 0,
+              "limit": 30
+            }
+          </code></pre>
+        </div>
+
+        <div>
+          <p class="res-tip">
+            You can omit `to` to filter the products from a specific price.
+          </p>
+          <pre><code class="language-js">
+            fetch('https://dummyjson.com/products?price=20-')
+            .then(res => res.json())
+            .then(console.log);
+          </code></pre>
+          <p class="res-tip">
+            The dash-separated is optional when you need to filter
+            the products from a specific price.
+          </p>
+          <pre><code class="language-js">
+            fetch('https://dummyjson.com/products?price=20')
+            .then(res => res.json())
+            .then(console.log);
+          </code></pre>
+  
+          <button class="show-output btn">Show Output</button>
+  
+          <pre class="output"><code class="language-json">
+            {
+              "products": [
+                {
+                  "id": 6,
+                  "title": "Calvin Klein CK One",
+                  "price": 49.99,
+                  /* rest product data */
+                },
+                {
+                  "id": 44,
+                  "title": "Family Tree Photo Frame",
+                  "price": 29.99,
+                  /* rest product data */
+                },
+                {...}
+                // 30 items
+              ],
+              "total": 194,
+              "skip": 0,
+              "limit": 30
+            }
+          </code></pre>
+        </div>
+
+        <div>
+          <p class="res-tip">
+            You can omit `from` to filter the products have lower price.
+          </p>
+          <p class="res-tip">
+            The leading dash is required when you need to filter
+            the products have lower price.
+          </p>
+          <pre><code class="language-js">
+            fetch('https://dummyjson.com/products?price=-70')
+            .then(res => res.json())
+            .then(console.log);
+          </code></pre>
+  
+          <button class="show-output btn">Show Output</button>
+  
+          <pre class="output"><code class="language-json">
+            {
+              "products": [
+                {
+                  "id": 1,
+                  "title": "Essence Mascara Lash Princess",
+                  "price": 9.99,
+                  /* rest product data */
+                },
+                {
+                  "id": 2,
+                  "title": "Eyeshadow Palette with Mirror",
+                  "price": 19.99,
+                  /* rest product data */
+                },
+                {...}
+                // 30 items
+              ],
+              "total": 194,
+              "skip": 0,
+              "limit": 30
+            }
+          </code></pre>
+        </div>
+      </div>
+
       <div class="resource" id="products-categories">
         <a href="#products-categories" class="res-title">Get all products categories</a>
         <pre><code class="language-js">
