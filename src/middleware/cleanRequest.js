@@ -19,6 +19,7 @@ const cleanRequest = (req, res, next) => {
 
     const { limit = 30, skip = 0, q, key, value, delay, sortBy } = req.query;
     let { select, order } = req.query;
+    let { price } = req.query;
 
     if (!isNumber(limit)) {
       throw new APIError('Invalid limit', 400);
@@ -73,6 +74,24 @@ const cleanRequest = (req, res, next) => {
       order = 'asc';
     }
 
+    const filterBy = [];
+
+    if (price) {
+      if (trueTypeOf(price) === 'string') {
+        const range = price.split('-');
+        price = {
+          from: +range[0] || undefined,
+          to: +range[1] || undefined,
+        };
+
+        filterBy.push({
+          property: 'price',
+          condition: 'range',
+          value: price,
+        });
+      }
+    }
+
     options.limit = parseInt(limit, 10);
     options.skip = parseInt(skip, 10);
     options.delay = parseInt(delay, 10);
@@ -82,6 +101,7 @@ const cleanRequest = (req, res, next) => {
     options.value = value;
     options.sortBy = sortBy;
     options.order = order;
+    options.filterBy = filterBy;
 
     if (req.headers['content-type']?.startsWith('multipart/form-data')) {
       upload.none()(req, res, next);

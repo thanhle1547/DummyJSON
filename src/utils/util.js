@@ -150,6 +150,37 @@ utils.limitArray = (arr, limit) => {
   return limit === 0 || limit > arr.length ? arr : arr.slice(0, limit);
 };
 
+utils.filterArray = (arr, filterBy) => {
+  if (filterBy.length == 0) return arr;
+
+  const arrCopy = utils.deepCopy(arr);
+
+  const filteredArray = arrCopy.filter((item) => {
+    for (const option of filterBy) {
+      const value = item[option.property]
+
+      if (option.condition == 'range') {
+        const range = option.value;
+        const from = range.from;
+        const to = range.to;
+
+        if (from !== undefined && to !== undefined) {
+          return value >= from && value <= to;
+        } else if (from !== undefined) {
+          return value >= from;
+        } else if (to !== undefined) {
+          return value <= to;
+        } else {
+          return true;
+        }
+      }
+    }
+    return true;
+  });
+
+  return filteredArray;
+}
+
 utils.sortArray = (arr, sortBy, order) => {
   const arrCopy = utils.deepCopy(arr);
 
