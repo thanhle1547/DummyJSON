@@ -2,7 +2,7 @@ const router = require('express').Router();
 const path = require('path');
 const { capitalize } = require('../utils/util');
 
-const { GOOGLE_TAG_ID, GOOGLE_PUBLISHER_ID, GOOGLE_ADS_TXT_CONTENT } = process.env;
+const { GOOGLE_TAG_ID, GOOGLE_PUBLISHER_ID } = process.env;
 const commonVariables = {
   googleTagId: GOOGLE_TAG_ID,
   googlePublisherId: GOOGLE_PUBLISHER_ID,
@@ -59,23 +59,6 @@ router.get('/custom-response', (req, res) => {
 
 router.get('/robots.txt', (req, res) => {
   res.sendFile(path.join(__dirname, '../../', 'public', 'robots.txt'));
-});
-
-router.get('/sitemap.xml', (req, res) => {
-  res.sendFile(path.join(__dirname, '../../', 'public', 'sitemap.xml'));
-});
-
-router.get('/ads.txt', (req, res, next) => {
-  if (GOOGLE_ADS_TXT_CONTENT) {
-    res.attachment('ads.txt');
-    res.set('Content-Disposition', 'inline');
-    res.type('txt');
-    res.send(GOOGLE_ADS_TXT_CONTENT);
-
-    return;
-  }
-
-  next();
 });
 
 router.get('/favicon.ico', (req, res) => {
