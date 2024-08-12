@@ -94,3 +94,7 @@ typings/
 .firebaserc
 firebase.json
 *.cache
+
+src/constants/secrets/*
+!firebase-credentials.example.json
+

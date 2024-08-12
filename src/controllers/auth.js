@@ -7,6 +7,7 @@ const {
   findUserWithUsernameAndId,
 } = require('../utils/util');
 const { thirtyDaysInMints: maxTokenExpireTime } = require('../constants');
+const getApp = require('./firebase_app');
 
 const controller = {};
 
@@ -81,5 +82,52 @@ controller.getNewRefreshToken = async data => {
 
   return { token: newAccessToken, refreshToken: newRefreshToken };
 };
+
+controller.getSingleFirebaseUsers = async data => {
+  const { appName } = data;
+
+  if (appName === undefined) {
+    throw new APIError('App name required', 401);
+  }
+
+  const app = getApp(appName);
+
+  if (app === undefined) {
+    throw new APIError('Missing Firebase Credentials', 401);
+  }
+
+  const auth = app.auth();
+
+  try {
+    const result = await auth.listUsers(1);
+
+    const users = result.users;
+
+    if (users.length === 0) return null;
+
+    const user = users[0];
+
+    return {
+      "id": user.uid,
+      "name": user.displayName,
+      "email": user.email,
+      "phone": user.phoneNumber,
+      "image": user.photoURL,
+    };
+  } catch (e) {
+    const message = e.message;
+
+    const rawResponseText = 'Raw server response: ';
+    const rawResponseIndex = message.indexOf(rawResponseText);
+    if (rawResponseIndex !== -1) {
+      const rawResponse = message.substring(rawResponseIndex + rawResponseText.length + 1, message.length - 1);
+      const response = JSON.parse(rawResponse);
+
+      throw new APIError(response.error.message, response.error.code);
+    }
+
+    throw e;
+  }
+}
 
 module.exports = controller;
