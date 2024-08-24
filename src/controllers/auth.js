@@ -7,7 +7,7 @@ const {
   findUserWithUsernameAndId,
 } = require('../utils/util');
 const { thirtyDaysInMints: maxTokenExpireTime } = require('../constants');
-const getApp = require('./firebase_app');
+const { getAdminAuth, getFirebaseAuthError } = require('../utils/firebase');
 
 const controller = {};
 
@@ -84,21 +84,9 @@ controller.getNewRefreshToken = async data => {
 };
 
 controller.getSingleFirebaseUsers = async data => {
-  const { appName } = data;
-
-  if (appName === undefined) {
-    throw new APIError('App name required', 401);
-  }
-
-  const app = getApp(appName);
-
-  if (app === undefined) {
-    throw new APIError('Missing Firebase Credentials', 401);
-  }
-
-  const auth = app.auth();
-
   try {
+    const auth = getAdminAuth(data);
+
     const result = await auth.listUsers(1);
 
     const users = result.users;
@@ -115,18 +103,7 @@ controller.getSingleFirebaseUsers = async data => {
       "image": user.photoURL,
     };
   } catch (e) {
-    const message = e.message;
-
-    const rawResponseText = 'Raw server response: ';
-    const rawResponseIndex = message.indexOf(rawResponseText);
-    if (rawResponseIndex !== -1) {
-      const rawResponse = message.substring(rawResponseIndex + rawResponseText.length + 1, message.length - 1);
-      const response = JSON.parse(rawResponse);
-
-      throw new APIError(response.error.message, response.error.code);
-    }
-
-    throw e;
+    throw getFirebaseAuthError(e);
   }
 }
 

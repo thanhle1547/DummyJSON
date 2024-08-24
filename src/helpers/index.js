@@ -1,8 +1,23 @@
 const { requestWhitelist } = require('../constants');
 const { isNumber, dataInMemory } = require('../utils/util');
 const APIError = require('../utils/error');
+const getApp = require('../controllers/firebase_app');
 
 const helpers = {};
+
+helpers.verifyAdmim = id => {
+  if (id === undefined) {
+    throw new APIError('App name required', 401);
+  }
+
+  const app = getApp(id);
+
+  if (app === undefined) {
+    throw new APIError('Missing Firebase Credentials', 401);
+  }
+
+  return app;
+}
 
 // verify if we have user id and it's valid
 helpers.verifyUserHandler = id => {
