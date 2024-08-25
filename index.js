@@ -1,7 +1,6 @@
 const express = require('express');
 const injectMiddleWares = require('./src/middleware');
 const errorMiddleware = require('./src/middleware/error');
-const authUser = require('./src/middleware/auth');
 const routes = require('./src/routes');
 const { validateEnvVar, loadDataInMemory, isDev, redirectFn } = require('./src/utils/util');
 const { version } = require('./package.json');
@@ -30,9 +29,6 @@ async function setupApp() {
 
   // routes
   app.use('/', routes);
-
-  // routes with authorization
-  app.use('/auth/', authUser, routes);
 
   app.get('*', (req, res) => {
     res.status(404).send();

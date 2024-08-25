@@ -7,7 +7,7 @@ const {
   findUserWithUsernameAndId,
 } = require('../utils/util');
 const { thirtyDaysInMints: maxTokenExpireTime } = require('../constants');
-const { getAdminAuth, getFirebaseAuthError } = require('../utils/firebase');
+const { getAdminAuth, getUserCollectionRef, getFirebaseAuthError } = require('../utils/firebase');
 
 const controller = {};
 
@@ -101,6 +101,45 @@ controller.getSingleFirebaseUsers = async data => {
       "email": user.email,
       "phone": user.phoneNumber,
       "image": user.photoURL,
+    };
+  } catch (e) {
+    throw getFirebaseAuthError(e);
+  }
+}
+
+controller.loginSocial = async data => {
+  try {
+    const auth = getAdminAuth(data);
+
+    const { token, expiresInMins = 60 } = data
+  
+    const decodedToken = await auth.verifyIdToken(token);
+
+    const userCollectionRef = getUserCollectionRef(data);
+
+    const payload = {
+      "id": decodedToken.uid,
+      "name": null,
+      "email": decodedToken.email ?? null,
+      "phone": decodedToken.phone_number ?? null,
+      "image": decodedToken.picture ?? null,
+    };
+
+    const usersDocumentRef = await userCollectionRef.where("id", "==", decodedToken.uid).get();
+    if (usersDocumentRef.empty) {
+      await userCollectionRef.add(payload);
+    } else {
+      const documentSnapshot = usersDocumentRef.docs[0];
+      documentSnapshot.ref.update(payload);
+    }
+
+    const accessToken = await generateAccessToken(payload, expiresInMins);
+    const refreshToken = await generateRefreshToken(payload, maxTokenExpireTime);
+
+    return {
+      ...payload,
+      accessToken,
+      refreshToken,
     };
   } catch (e) {
     throw getFirebaseAuthError(e);
