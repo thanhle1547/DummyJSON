@@ -6,6 +6,7 @@ const cors = require('cors');
 const applyRateLimit = require('../utils/applyRateLimit');
 const cleanRequest = require('./cleanRequest');
 const delayResponse = require('./delayResponse');
+const { isDev } = require('../utils/util');
 
 function injectMiddleWares(app) {
   // enable compression.
@@ -35,7 +36,14 @@ function injectMiddleWares(app) {
   // it also helps enforce secure HTTPS connections to your server,
   // download options for vulnerable browsers,
   // and a host of other vulnerabilities.
-  app.use(helmet());
+  app.use(
+    isDev
+    ? helmet({
+        crossOriginEmbedderPolicy: false,
+        // crossOriginOpenerPolicy: { policy: "same-origin-allow-popups" },
+      })
+    : helmet()
+  );
 
   app.use(express.json({ limit: '300kb' })); // for parsing application/json
   app.use(express.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded

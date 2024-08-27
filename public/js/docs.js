@@ -181,3 +181,21 @@ function selectNavItem(hash) {
     .querySelector('.parent-menu-item')
     .classList.add('active');
 }
+
+function selectSingleNav(path) {
+  if (!path) return;
+
+  const selectorText = `.docs-nav a[href="${path}"].parent-menu-item`;
+
+  const selector = document.querySelector(selectorText);
+
+  if (!selector) return;
+
+  const element = selector;
+
+  document
+    .querySelectorAll('.child-menu a')
+    .forEach(a => a.classList.remove('active'));
+
+  element.classList.add('active');
+}

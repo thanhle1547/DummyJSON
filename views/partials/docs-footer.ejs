@@ -12,4 +12,9 @@
 
 <script src="https://assets.dummyjson.com/public/js/prism.min.js" async defer></script>
 <script src="https://assets.dummyjson.com/public/js/common.min.js" defer></script>
-<script src="https://assets.dummyjson.com/public/js/docs.min.js"></script>
+
+<% if (typeof(localTestFirebaseApiKey) !== "undefined") { %>
+  <script src="http://localhost:<%= localhostPort %>/public/js/docs.js"></script>
+<% } else { %>
+  <script src="https://assets.dummyjson.com/public/js/docs.min.js"></script>
+<% } %>

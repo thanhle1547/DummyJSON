@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<!-- header -->
+<%- include('./partials/docs-head') %>
+
+<style>
+  .copy-btn-container {
+    position: absolute;
+    top: 24px;
+    right: 2px;
+  }
+  .copy-btn {
+    padding: 0;
+    height: 36px;
+  }
+  .copy-btn::after {
+    width: 110%;
+    height: 36px;
+    left: -7px;
+    top: -8px;
+  }
+  .copy-btn:hover::after {
+    transform: translate(6px, 6px);
+  }
+  .copy-btn:hover {
+    box-shadow: 0px 0px 0px 0px #000000;
+  }
+  .copy-btn > * {
+    margin: 8px;
+    display: block;
+  }
+</style>
+
+<style>
+  .hidden {
+    display: none;
+  }
+
+  #user-info {
+    border: 1px solid #CCC;
+    clear: both;
+    margin: 0 auto 20px;
+    max-width: 400px;
+    padding: 10px;
+    text-align: left;
+  }
+
+  #photo-container {
+    float: left;
+    height: 60px;
+    margin-right: 10px;
+    width: 60px;
+  }
+
+  #photo {
+    height: 60px;
+    margin: 0;
+    width: 60px;
+  }
+
+  @media (max-width: 300px) {
+    #photo-container,
+    #photo {
+      height: 40px;
+      width: 40px;
+    }
+  }
+</style>
+
+<body>
+  <!-- header -->
+  <%- include('./partials/header') %>
+
+  <!-- side-nav -->
+  <%- include('./partials/docs-side-nav') %>
+
+  <section>
+    <div class="content">
+      <div id="loader">Loading...</div>
+      <div id="firebaseui-auth-container"></div>
+      <div id="user-signed-in" class="hidden">
+        <div id="user-info">
+          <div id="photo-container">
+            <img id="photo">
+          </div>
+          <div id="name"></div>
+          <div id="email"></div>
+          <div id="phone"></div>
+          <div id="is-new-user"></div>
+          <div class="clearfix"></div>
+          <button id="sign-out">Sign out</button>
+        </div>
+      </div>
+
+      <div class="resource">
+        <div>
+          <a href="#social-login" class="res-title">Test login by social</a>
+          <div class="copy-btn-container">
+            <button aria-label="Copy" class="btn copy-btn" onclick="copy('#social-login-code')">
+              <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16">
+                <path
+                  d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 0 1 0 1.5h-1.5a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-1.5a.75.75 0 0 1 1.5 0v1.5A1.75 1.75 0 0 1 9.25 16h-7.5A1.75 1.75 0 0 1 0 14.25Z">
+                </path>
+                <path
+                  d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0 1 14.25 11h-7.5A1.75 1.75 0 0 1 5 9.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z">
+                </path>
+              </svg>
+            </button>
+          </div>
+        </div>
+        <pre><code id="social-login-code" class="language-js">
+          fetch('http://localhost:<%= localhostPort %>/auth/login-social/&lt;YOUR-REGISTERED-ID&gt;', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              token: '&lt;firebase-id-token&gt;',
+              expiresInMins: 1, // optional, defaults to 60
+            })
+          })
+          .then(res => res.json())
+          .then(console.log);
+        </code></pre>
+      </div>
+
+      <div class="resource">
+        <div>
+          <a href="#auth-refesh-social-login" class="res-title">Test refresh auth session (login by social)</a>
+          <div class="copy-btn-container">
+            <button aria-label="Copy" class="btn copy-btn" onclick="copy('#auth-refesh-social-login-code')">
+              <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16">
+                <path
+                  d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 0 1 0 1.5h-1.5a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-1.5a.75.75 0 0 1 1.5 0v1.5A1.75 1.75 0 0 1 9.25 16h-7.5A1.75 1.75 0 0 1 0 14.25Z">
+                </path>
+                <path
+                  d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0 1 14.25 11h-7.5A1.75 1.75 0 0 1 5 9.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z">
+                </path>
+              </svg>
+            </button>
+          </div>
+        </div>
+        <pre><code id="auth-refesh-social-login-code" class="language-js">
+          fetch('http://localhost:<%= localhostPort %>/auth/refresh/&lt;YOUR-REGISTERED-ID&gt;', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              refreshToken: '&lt;user-refresh-token&gt;',
+              expiresInMins: 1, // optional, defaults to 60
+            })
+          })
+          .then(res => res.json())
+          .then(console.log);
+        </code></pre>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    function copy(data) {
+      const localTestFirebaseId = '<%= localTestFirebaseId %>';
+
+      const codeBlock = document.querySelector(data);
+
+      var code = codeBlock.textContent;
+      if (localTestFirebaseId !== 'undefined') {
+        code = code.replace('<YOUR-REGISTERED-ID>', localTestFirebaseId);
+      }
+      if (currentUserIdToken !== undefined) {
+        code = code.replace('<firebase-id-token>', currentUserIdToken);
+      }
+      if (userRefreshToken !== undefined) {
+        code = code.replace('<user-refresh-token>', userRefreshToken);
+      }
+
+      navigator.clipboard.writeText(code);
+    }
+
+    const socialLoginUrl = 'http://localhost:<%= localhostPort %>/auth/login-social/<%= localTestFirebaseId %>';
+    var userRefreshToken;
+    (function(ns, fetch) {
+      if (typeof fetch !== 'function') return;
+
+      ns.fetch = function() {
+        var out = fetch.apply(this, arguments);
+        
+        const url = arguments[0];
+        if (url !== socialLoginUrl) return out;
+
+        return out.then(res => {
+          const cloned = res.clone();
+          cloned.json().then(json => userRefreshToken = json.refreshToken);
+
+          return res;
+        });
+
+        return out;
+      }
+
+    }(window, window.fetch))
+    </script>
+
+  <!-- footer -->
+  <%- include('./partials/docs-footer') %>
+
+  <script>
+    selectSingleNav('/local/login-test');
+  </script>
+</body>
+</html>

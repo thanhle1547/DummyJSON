@@ -33,7 +33,11 @@
 
   <link rel="canonical" href="https://dummyjson.com/docs/<%= page ? page.toLowerCase() : ''%>" />
 
-  <link rel="stylesheet" href="https://assets.dummyjson.com/public/css/docs.css" />
+  <% if (typeof(localTestFirebaseApiKey) !== "undefined") { %>
+    <link rel="stylesheet" href="http://localhost:<%= localhostPort %>/public/css/docs.css" />
+  <% } else { %>
+    <link rel="stylesheet" href="https://assets.dummyjson.com/public/css/docs.css" />
+  <% } %>
   <link rel="stylesheet" href="https://assets.dummyjson.com/public/css/prism.css" />
 
   <!-- JSON-LD structured data for rich snippets -->
@@ -80,6 +84,131 @@
     gtag('js', new Date());
 
     gtag('config', '<%= googleTagId %>');
+  </script>
+  <% } %>
+
+  <% if (typeof(localTestFirebaseApiKey) !== "undefined") { %>
+  <script src="https://www.gstatic.com/firebasejs/10.0.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.0.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/ui/6.1.0/firebase-ui-auth.js"></script>
+  <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/6.1.0/firebase-ui-auth.css" />
+  <script>
+    var currentUserIdToken;
+  </script>
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-app.js";
+    import { getAuth } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-auth.js";
+
+    // Your web app's Firebase configuration
+    // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+    const firebaseConfig = {
+      apiKey: "<%= localTestFirebaseApiKey %>",
+      authDomain: "<%= localTestFirebaseAuthDomain %>",
+      databaseURL: "<%= localTestFirebaseDatabaseURL %>",
+      projectId: "<%= localTestFirebaseProjectId %>",
+      storageBucket: "<%= localTestFirebaseStorageBucket %>",
+      messagingSenderId: "<%= localTestFirebaseMessagingSenderId %>",
+      appId: "<%= localTestFirebaseAppId %>",
+      measurementId: "<%= localTestFirebaseMeasurementId %>",
+    };
+  
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    // FirebaseUI config.
+    var uiConfig = {
+      signInOptions: [
+        // Leave the lines as is for the providers you want to offer your users.
+        firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+        firebase.auth.FacebookAuthProvider.PROVIDER_ID,
+        firebase.auth.EmailAuthProvider.PROVIDER_ID,
+        firebase.auth.PhoneAuthProvider.PROVIDER_ID,
+        firebaseui.auth.AnonymousAuthProvider.PROVIDER_ID
+      ],
+      callbacks: {
+        signInSuccessWithAuthResult: function(authResult, redirectUrl) {
+          const user = authResult.user;
+          const credential = authResult.credential;
+          const isNewUser = authResult.additionalUserInfo.isNewUser;
+          const providerId = authResult.additionalUserInfo.providerId;
+          const operationType = authResult.operationType;
+
+          /*
+          console.log(user);
+          console.log(credential);
+          console.log(isNewUser);
+          console.log(providerId);
+          console.log(operationType);
+
+          console.log(credential.idToken);
+          */
+
+          document.getElementById('user-signed-in').classList.remove('hidden');
+          document.getElementById('name').textContent = user.displayName;
+          document.getElementById('email').textContent = user.email;
+          document.getElementById('phone').textContent = user.phoneNumber;
+          const photoElement = document.getElementById('photo');
+          if (user.photoURL) {
+            var photoURL = user.photoURL;
+            // Append size to the photo URL for Google hosted images to avoid requesting
+            // the image with its original resolution (using more bandwidth than needed)
+            // when it is going to be presented in smaller size.
+            if ((photoURL.indexOf('googleusercontent.com') != -1) ||
+                (photoURL.indexOf('ggpht.com') != -1)) {
+              photoURL = photoURL + '?sz=' + photoElement.clientHeight;
+            }
+            photoElement.src = photoURL;
+            photoElement.style.display = 'block';
+          } else {
+            photoElement.style.display = 'none';
+          }
+
+          auth.currentUser
+            .getIdToken()
+            .then(result => currentUserIdToken = result)
+            .then(result => console.log(result));
+
+          // Return type determines whether we continue the redirect
+          // automatically or whether we leave that to developer to handle.
+          return false;
+        },
+        signInFailure: function(error) {
+          // Some unrecoverable error occurred during sign-in.
+          // Return a promise when error handling is completed and FirebaseUI
+          // will reset, clearing any UI. This commonly occurs for error code
+          // 'firebaseui/anonymous-upgrade-merge-conflict' when merge conflict
+          // occurs. Check below for more details on this.
+
+          // For merge conflicts, the error.code will be
+          // 'firebaseui/anonymous-upgrade-merge-conflict'.
+          if (error.code != 'firebaseui/anonymous-upgrade-merge-conflict') {
+            return Promise.resolve();
+          }
+
+          // return handleUIError(error);
+        },
+        uiShown: function() {
+          // The widget is rendered.
+          // Hide the loader.
+          document.getElementById('loader').style.display = 'none';
+        }
+      },
+      credentialHelper: firebaseui.auth.CredentialHelper.NONE,
+      // Will use popup for IDP Providers sign-in flow instead of the default, redirect.
+      signInFlow: 'popup',
+    };
+
+    // Initialize the FirebaseUI Widget using Firebase.
+    var ui = new firebaseui.auth.AuthUI(auth);
+    // The start method will wait until the DOM is loaded.
+    ui.start('#firebaseui-auth-container', uiConfig);
+
+    document.getElementById('sign-out').addEventListener('click', function() {
+      auth.signOut();
+      document.getElementById('user-signed-in').classList.add('hidden');
+      ui.start('#firebaseui-auth-container', uiConfig);
+    });
   </script>
   <% } %>
 </head>

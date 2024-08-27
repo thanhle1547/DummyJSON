@@ -124,6 +124,9 @@ html {
           &:hover {
             color: $primary-color-dark;
           }
+          &.active {
+            color: $primary-color-dark;
+          }
         }
       }
 
