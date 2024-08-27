@@ -1,5 +1,10 @@
 const router = require('express').Router();
-const { loginByUsernamePassword, loginSocial, getNewRefreshToken } = require('../controllers/auth');
+const {
+  loginByUsernamePassword,
+  loginSocial,
+  getNewRefreshToken,
+  getNewRefreshTokenForFirebaseUser,
+} = require('../controllers/auth');
 const authUser = require('../middleware/auth');
 const APIError = require('../utils/error');
 
@@ -43,6 +48,23 @@ router.get('/me', authUser, (req, res) => {
 router.post('/refresh', async (req, res, next) => {
   try {
     const tokens = await getNewRefreshToken(req.body);
+
+    res.send(tokens);
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.get('/refresh/', async (req, res, next) => {
+  next(new APIError('App name required', 401));
+});
+
+// get new refresh token
+router.post('/refresh/:id', async (req, res, next) => {
+  const { id } = req.params;
+
+  try {
+    const tokens = await getNewRefreshTokenForFirebaseUser({ appName: id, ...req.body });
 
     res.send(tokens);
   } catch (error) {

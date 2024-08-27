@@ -146,4 +146,60 @@ controller.loginSocial = async data => {
   }
 }
 
+// get new refresh token
+controller.getNewRefreshTokenForFirebaseUser = async data => {
+  const { refreshToken, expiresInMins = 60 } = data;
+
+  if (!isValidNumberInRange(expiresInMins, 1, maxTokenExpireTime)) {
+    throw new APIError(`maximum token expire time can be ${maxTokenExpireTime} minutes`);
+  }
+
+  if (!refreshToken) {
+    throw new APIError(`Refresh token required`, 401);
+  }
+
+  let decodedToken;
+  let userId;
+  try {
+    decodedToken = await verifyRefreshToken(refreshToken);
+    userId = decodedToken.id;
+  } catch (error) {
+    throw new APIError(`Invalid refresh token`, 403);
+  }
+
+  let userCollectionRef;
+  try {
+    userCollectionRef = getUserCollectionRef(data);
+  } catch (e) {
+    throw getFirebaseAuthError(e);
+  }
+
+  let user;
+
+  const usersDocumentRef = await userCollectionRef.where("id", "==", userId).get();
+  if (usersDocumentRef.empty) {
+    throw new APIError(`Invalid refresh token`, 403);
+  } else {
+    const documentSnapshot = usersDocumentRef.docs[0];
+    user = documentSnapshot.data();
+  }
+
+  if (!user) {
+    throw new APIError(`Invalid credentials`, 400);
+  }
+
+  const payload = {
+    "id": user.id ?? null,
+    "name": user.name ?? null,
+    "email": user.email ?? null,
+    "phone": user.phone ?? null,
+    "image": user.image ?? null,
+  };
+
+  const newAccessToken = await generateAccessToken(payload);
+  const newRefreshToken = await generateRefreshToken(payload, maxTokenExpireTime);
+
+  return { token: newAccessToken, refreshToken: newRefreshToken };
+};
+
 module.exports = controller;
