@@ -59,11 +59,11 @@
       <div class="resource" id="social-login">
         <a href="#social-login" class="res-title">Login by social and get token</a>
         <pre><code class="language-js">
-          fetch('https://dummyjson.com/auth/login-social/<YOUR-REGISTERED-ID>', {
+          fetch('https://dummyjson.com/auth/login-social/&lt;YOUR-REGISTERED-ID&gt;', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
-              token: '<firebase-id-token>',
+              token: '/* FIREBASE_ID_TOKEN_HERE */',
               expiresInMins: 30, // optional, defaults to 60
             })
           })
