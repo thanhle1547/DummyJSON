@@ -7,11 +7,6 @@ const {
   GOOGLE_PUBLISHER_ID,
   PORT = 8888,
 } = process.env;
-const commonVariables = {
-  googleTagId: GOOGLE_TAG_ID,
-  googlePublisherId: GOOGLE_PUBLISHER_ID,
-  localhostPort: PORT,
-};
 
 const {
   LOCAL_TEST_FIREBASE_ID,
@@ -24,8 +19,15 @@ const {
   LOCAL_TEST_FIREBASE_APP_ID,
   LOCAL_TEST_FIREBASE_MEASUREMENT_ID,
 } = process.env;
-const localTestVariables = {
+
+const commonVariables = {
+  googleTagId: GOOGLE_TAG_ID,
+  googlePublisherId: GOOGLE_PUBLISHER_ID,
+  localhostPort: PORT,
   localTestFirebaseId: LOCAL_TEST_FIREBASE_ID,
+};
+
+const localTestVariables = {
   localTestFirebaseApiKey: LOCAL_TEST_FIREBASE_API_KEY,
   localTestFirebaseAuthDomain: LOCAL_TEST_FIREBASE_AUTH_DOMAIN,
   localTestFirebaseDatabaseURL: LOCAL_TEST_FIREBASE_DATABASE_URL,
@@ -78,7 +80,6 @@ router.get('/docs/:resource', (req, res, next) => {
 
   res.render(`docs-${resource}`, {
     ...commonVariables,
-    ...localTestVariables,
     page: capitalizedResource,
     description: `REST Endpoints filled with ${capitalizedResource} JSON data, DummyJSON provides a fake REST API of JSON data for development, testing, and prototyping. Quickly get realistic data for your front-end projects.`,
   });
