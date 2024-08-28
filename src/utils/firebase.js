@@ -46,6 +46,17 @@ firebase.getFirebaseAuthError = e => {
     return new APIError(response.error.message, response.error.code);
   }
 
+  const wrongFirebaseText = 'Firebase ID token has incorrect "aud" (audience) claim. Expected';
+  if (message.startsWith(wrongFirebaseText)) {
+    return new APIError('Wrong Firebase', 500);
+  }
+
+  const details = e.details;
+  const cloudFirestoreDisabledText = 'Cloud Firestore API has not been used in project ';
+  if (details.startsWith(cloudFirestoreDisabledText)) {
+    return new APIError('Cloud Firestore has not been used or it is disabled', 500);
+  }
+
   return e;
 }
 
