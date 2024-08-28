@@ -124,6 +124,34 @@
 
       <div class="resource">
         <div>
+          <a href="#auth-me-social-login" class="res-title">Test get current auth user</a>
+          <div class="copy-btn-container">
+            <button aria-label="Copy" class="btn copy-btn" onclick="copy('#auth-me-social-login-code')">
+              <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16">
+                <path
+                  d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 0 1 0 1.5h-1.5a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-1.5a.75.75 0 0 1 1.5 0v1.5A1.75 1.75 0 0 1 9.25 16h-7.5A1.75 1.75 0 0 1 0 14.25Z">
+                </path>
+                <path
+                  d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0 1 14.25 11h-7.5A1.75 1.75 0 0 1 5 9.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z">
+                </path>
+              </svg>
+            </button>
+          </div>
+        </div>
+        <pre><code id="auth-me-social-login-code" class="language-js">
+          fetch('http://localhost:<%= localhostPort %>/auth/me/&lt;YOUR-REGISTERED-ID&gt;', {
+            method: 'GET',
+            headers: {
+              'Authorization': 'Bearer &lt;user-access-token&gt;', 
+            },
+          })
+          .then(res => res.json())
+          .then(console.log);
+        </code></pre>
+      </div>
+
+      <div class="resource">
+        <div>
           <a href="#auth-refesh-social-login" class="res-title">Test refresh auth session (login by social)</a>
           <div class="copy-btn-container">
             <button aria-label="Copy" class="btn copy-btn" onclick="copy('#auth-refesh-social-login-code')">
@@ -167,6 +195,9 @@
       if (currentUserIdToken !== undefined) {
         code = code.replace('<firebase-id-token>', currentUserIdToken);
       }
+      if (userAccessToken !== undefined) {
+        code = code.replace('<user-access-token>', userAccessToken);
+      }
       if (userRefreshToken !== undefined) {
         code = code.replace('<user-refresh-token>', userRefreshToken);
       }
@@ -175,7 +206,7 @@
     }
 
     const socialLoginUrl = 'http://localhost:<%= localhostPort %>/auth/login-social/<%= localTestFirebaseId %>';
-    var userRefreshToken;
+    var userAccessToken, userRefreshToken;
     (function(ns, fetch) {
       if (typeof fetch !== 'function') return;
 
@@ -187,7 +218,10 @@
 
         return out.then(res => {
           const cloned = res.clone();
-          cloned.json().then(json => userRefreshToken = json.refreshToken);
+          cloned.json().then(json => {
+            userAccessToken = json.accessToken;
+            userRefreshToken = json.refreshToken;
+          });
 
           return res;
         });

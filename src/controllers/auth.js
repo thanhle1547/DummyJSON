@@ -4,7 +4,7 @@ const {
   generateRefreshToken,
   verifyAccessToken,
   verifyRefreshToken,
-  isAccessTokenEmpty
+  isAccessTokenEmpty,
 } = require('../utils/jwt');
 const {
   dataInMemory: frozenData,
@@ -174,6 +174,46 @@ controller.loginSocial = async data => {
     throw getFirebaseAuthError(e);
   }
 }
+
+controller.getUserInfoOnFirebase = async data => {
+  const { token } = data;
+
+  try {
+    if (!token) throw new APIError('Authentication Problem', 403);
+
+    if (isAccessTokenEmpty(token)) {
+      throw new APIError(`Invalid token`, 400);
+    }
+
+    const decoded = await verifyAccessToken(token);
+
+    const userId = decoded.id;
+
+    if (!userId) {
+      throw new APIError(`Invalid credentials`, 400);
+    }
+
+    const userCollectionRef = getUserCollectionRef(data);
+
+    let user;
+
+    const usersDocumentRef = await userCollectionRef.where("id", "==", userId).get();
+    if (usersDocumentRef.empty) {
+      throw new APIError(`Invalid token`, 400);
+    } else {
+      const documentSnapshot = usersDocumentRef.docs[0];
+      user = documentSnapshot.data();
+    }
+
+    if (!user) {
+      throw new APIError(`Invalid credentials`, 400);
+    }
+
+    return user;
+  } catch (e) {
+    throw getFirebaseAuthError(e);
+  }
+};
 
 // get new refresh token
 controller.getNewRefreshTokenForFirebaseUser = async data => {

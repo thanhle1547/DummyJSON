@@ -53,8 +53,13 @@ firebase.getFirebaseAuthError = e => {
 
   const details = e.details;
   const cloudFirestoreDisabledText = 'Cloud Firestore API has not been used in project ';
-  if (details.startsWith(cloudFirestoreDisabledText)) {
+  if (details !== undefined && details.startsWith(cloudFirestoreDisabledText)) {
     return new APIError('Cloud Firestore has not been used or it is disabled', 500);
+  }
+
+  const invalidIdTokenText = 'Firebase ID token has no "kid" claim';
+  if (message.startsWith(invalidIdTokenText)) {
+    return new APIError(`Invalid token`, 400);
   }
 
   return e;
