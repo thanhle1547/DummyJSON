@@ -1,5 +1,11 @@
 const APIError = require('../utils/error');
-const { generateAccessToken, generateRefreshToken, verifyRefreshToken } = require('../utils/jwt');
+const {
+  generateAccessToken,
+  generateRefreshToken,
+  verifyAccessToken,
+  verifyRefreshToken,
+  isAccessTokenEmpty
+} = require('../utils/jwt');
 const {
   dataInMemory: frozenData,
   getUserPayload,
@@ -47,6 +53,29 @@ controller.loginByUsernamePassword = async data => {
     };
   } catch (err) {
     throw new APIError(err.message, 400);
+  }
+};
+
+controller.getUserInfo = async data => {
+  const { token } = data;
+
+  try {
+    if (!token) throw new APIError('Authentication Problem', 403);
+
+    if (isAccessTokenEmpty(token)) {
+      throw new APIError(`Invalid token`, 400);
+    }
+
+    const decoded = await verifyAccessToken(token);
+    const user = findUserWithUsernameAndId(decoded);
+
+    if (!user) {
+      throw new APIError(`Invalid token`, 400);
+    }
+
+    return user;
+  } catch (e) {
+    throw e;
   }
 };
 

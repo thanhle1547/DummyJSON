@@ -6,6 +6,11 @@ const util = {};
 
 util.generateAccessToken = generateToken;
 
+util.isAccessTokenEmpty = Authorization => {
+  const token = Authorization.replace(/Bearer\s*/g, '');
+  return token.trim().length === 0;
+};
+
 util.verifyAccessToken = Authorization => {
   const token = Authorization.replace('Bearer ', '');
   return verifyToken(token);

@@ -4,8 +4,8 @@ const {
   loginSocial,
   getNewRefreshToken,
   getNewRefreshTokenForFirebaseUser,
+  getUserInfo,
 } = require('../controllers/auth');
-const authUser = require('../middleware/auth');
 const APIError = require('../utils/error');
 
 // login user
@@ -40,8 +40,16 @@ router.post('/login-social/:id', async (req, res, next) => {
 });
 
 // get current authenticated user
-router.get('/me', authUser, (req, res) => {
-  res.send(req.user);
+router.get('/me', async (req, res, next) => {
+  const token = req.header('Authorization');
+
+  try {
+    const payload = await getUserInfo({ token });
+
+    res.send(payload);
+  } catch (error) {
+    next(error);
+  }
 });
 
 // get new refresh token
