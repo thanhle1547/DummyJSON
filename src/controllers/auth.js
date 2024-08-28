@@ -13,7 +13,7 @@ const {
   findUserWithUsernameAndId,
 } = require('../utils/util');
 const { thirtyDaysInMints: maxTokenExpireTime } = require('../constants');
-const { getAdminAuth, getUserCollectionRef, getFirebaseAuthError } = require('../utils/firebase');
+const { getAdminAuth, getUserCollectionRef } = require('../utils/firebase');
 
 const controller = {};
 
@@ -113,106 +113,94 @@ controller.getNewRefreshToken = async data => {
 };
 
 controller.getSingleFirebaseUsers = async data => {
-  try {
-    const auth = getAdminAuth(data);
+  const auth = getAdminAuth(data);
 
-    const result = await auth.listUsers(1);
+  const result = await auth.listUsers(1);
 
-    const users = result.users;
+  const users = result.users;
 
-    if (users.length === 0) return null;
+  if (users.length === 0) return null;
 
-    const user = users[0];
+  const user = users[0];
 
-    return {
-      "id": user.uid,
-      "name": user.displayName,
-      "email": user.email,
-      "phone": user.phoneNumber,
-      "image": user.photoURL,
-    };
-  } catch (e) {
-    throw getFirebaseAuthError(e);
-  }
+  return {
+    "id": user.uid,
+    "name": user.displayName,
+    "email": user.email,
+    "phone": user.phoneNumber,
+    "image": user.photoURL,
+  };
 }
 
 controller.loginSocial = async data => {
-  try {
-    const auth = getAdminAuth(data);
+  const auth = getAdminAuth(data);
 
-    const { token, expiresInMins = 60 } = data
-  
-    const decodedToken = await auth.verifyIdToken(token);
+  const { token, expiresInMins = 60 } = data
 
-    const userCollectionRef = getUserCollectionRef(data);
+  const decodedToken = await auth.verifyIdToken(token);
 
-    const payload = {
-      "id": decodedToken.uid,
-      "name": null,
-      "email": decodedToken.email ?? null,
-      "phone": decodedToken.phone_number ?? null,
-      "image": decodedToken.picture ?? null,
-    };
+  const userCollectionRef = getUserCollectionRef(data);
 
-    const usersDocumentRef = await userCollectionRef.where("id", "==", decodedToken.uid).get();
-    if (usersDocumentRef.empty) {
-      await userCollectionRef.add(payload);
-    } else {
-      const documentSnapshot = usersDocumentRef.docs[0];
-      documentSnapshot.ref.update(payload);
-    }
+  const payload = {
+    "id": decodedToken.uid,
+    "name": null,
+    "email": decodedToken.email ?? null,
+    "phone": decodedToken.phone_number ?? null,
+    "image": decodedToken.picture ?? null,
+  };
 
-    const accessToken = await generateAccessToken(payload, expiresInMins);
-    const refreshToken = await generateRefreshToken(payload, maxTokenExpireTime);
-
-    return {
-      ...payload,
-      accessToken,
-      refreshToken,
-    };
-  } catch (e) {
-    throw getFirebaseAuthError(e);
+  const usersDocumentRef = await userCollectionRef.where("id", "==", decodedToken.uid).get();
+  if (usersDocumentRef.empty) {
+    await userCollectionRef.add(payload);
+  } else {
+    const documentSnapshot = usersDocumentRef.docs[0];
+    documentSnapshot.ref.update(payload);
   }
+
+  const accessToken = await generateAccessToken(payload, expiresInMins);
+  const refreshToken = await generateRefreshToken(payload, maxTokenExpireTime);
+
+  return {
+    ...payload,
+    accessToken,
+    refreshToken,
+  };
 }
 
 controller.getUserInfoOnFirebase = async data => {
   const { token } = data;
 
-  try {
-    if (!token) throw new APIError('Authentication Problem', 403);
+  if (!token) throw new APIError('Authentication Problem', 403);
 
-    if (isAccessTokenEmpty(token)) {
-      throw new APIError(`Invalid token`, 400);
-    }
-
-    const decoded = await verifyAccessToken(token);
-
-    const userId = decoded.id;
-
-    if (!userId) {
-      throw new APIError(`Invalid credentials`, 400);
-    }
-
-    const userCollectionRef = getUserCollectionRef(data);
-
-    let user;
-
-    const usersDocumentRef = await userCollectionRef.where("id", "==", userId).get();
-    if (usersDocumentRef.empty) {
-      throw new APIError(`Invalid token`, 400);
-    } else {
-      const documentSnapshot = usersDocumentRef.docs[0];
-      user = documentSnapshot.data();
-    }
-
-    if (!user) {
-      throw new APIError(`Invalid credentials`, 400);
-    }
-
-    return user;
-  } catch (e) {
-    throw getFirebaseAuthError(e);
+  if (isAccessTokenEmpty(token)) {
+    throw new APIError(`Invalid token`, 400);
   }
+
+  const decoded = await verifyAccessToken(token);
+
+  const userId = decoded.id;
+
+  if (!userId) {
+    throw new APIError(`Invalid credentials`, 400);
+  }
+
+  const userCollectionRef = getUserCollectionRef(data);
+
+  let user;
+
+  const usersDocumentRef = await userCollectionRef.where("id", "==", userId).get();
+  if (usersDocumentRef.empty) {
+    throw new APIError(`Invalid token`, 400);
+  } else {
+    const documentSnapshot = usersDocumentRef.docs[0];
+    user = documentSnapshot.data();
+  }
+
+  if (!user) {
+    throw new APIError(`Invalid credentials`, 400);
+  }
+
+  return user;
 };
 
 // get new refresh token
