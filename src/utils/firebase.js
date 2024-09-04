@@ -30,4 +30,9 @@ firebase.getUserCollectionRef = data => {
   return firestore.collection('user');
 }
 
+firebase.getAccountCollectionRef = data => {
+  const firestore = getAdminFirestore(data);
+  return firestore.collection('account');
+}
+
 module.exports = firebase;

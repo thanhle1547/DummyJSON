@@ -103,6 +103,11 @@ utils.validateEnvVar = () => {
   }
 };
 
+const emailRegex = RegExp(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,})$/);
+utils.validateEmail = email => {
+  return emailRegex.test(String(email).toLowerCase());
+};
+
 utils.trueTypeOf = obj => {
   return Object.prototype.toString
     .call(obj)
@@ -223,10 +228,30 @@ utils.capitalizeWords = str => {
     .join(' ');
 };
 
-utils.findUserWithUsernameAndId = ({ username, id }) => {
+utils.findUserWithUsername = (username) => {
+  const effectiveUsername = username.toLowerCase();
   const user = utils.dataInMemory.users.find(u => {
-    const validUsername = u.username.toLowerCase() === username.toLowerCase();
-    const validId = id.toString() === u.id.toString();
+    return u.username.toLowerCase() === effectiveUsername;
+  });
+
+  return user;
+};
+
+utils.findUserWithEmail = (email) => {
+  const effectiveEmail = email.toLowerCase();
+  const user = utils.dataInMemory.users.find(u => {
+    return u.email.toLowerCase() === effectiveEmail;
+  });
+
+  return user;
+};
+
+utils.findUserWithUsernameAndId = ({ username, id }) => {
+  const effectiveUsername = username.toLowerCase();
+  const effectiveId = id.toString();
+  const user = utils.dataInMemory.users.find(u => {
+    const validUsername = u.username.toLowerCase() === effectiveUsername;
+    const validId = u.id.toString() === effectiveId;
 
     return validUsername && validId;
   });

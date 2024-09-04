@@ -11,9 +11,17 @@ const {
   getUserPayload,
   isValidNumberInRange,
   findUserWithUsernameAndId,
+  findUserWithUsername,
+  findUserWithEmail,
+  validateEmail,
 } = require('../utils/util');
 const { thirtyDaysInMints: maxTokenExpireTime } = require('../constants');
-const { getAdminAuth, getUserCollectionRef } = require('../utils/firebase');
+const {
+  getAdminAuth,
+  getUserCollectionRef,
+  getAccountCollectionRef,
+} = require('../utils/firebase');
+const { Filter } = require('firebase-admin/firestore');
 
 const controller = {};
 
@@ -257,6 +265,124 @@ controller.getNewRefreshTokenForFirebaseUser = async data => {
   const newRefreshToken = await generateRefreshToken(payload, maxTokenExpireTime);
 
   return { token: newAccessToken, refreshToken: newRefreshToken };
+};
+
+controller.register = async data => {
+  const { username, password, email, expiresInMins = 60 } = data;
+
+  if (!username || !password || !email) {
+    throw new APIError(`username, password and email are required`, 400);
+  }
+
+  if (!validateEmail(email)) {
+    throw new APIError(`Invalid email`, 400);
+  }
+
+  const auth = getAdminAuth(data);
+
+  const accountCollectionRef = getAccountCollectionRef(data);
+  const userCollectionRef = getUserCollectionRef(data);
+
+  const accountsDocumentRef = await accountCollectionRef.where(
+    Filter.or(
+      Filter.where("username", "==", username),
+      Filter.where("email", "==", email)
+    )
+  ).get();
+
+  const users = frozenData.users.find(u => {
+    const validUsername = u.username.toLowerCase() === username.toLowerCase();
+    const validEmail = u.email === email;
+
+    return validUsername || validEmail;
+  });
+
+  const accountPayload = {
+    "username": username,
+    "email": email ?? null,
+    "password": password,
+  };
+  const userPayload = {
+    "name": null,
+    "email": email ?? null,
+    "phone": null,
+    "image": null,
+  };
+
+  if (accountsDocumentRef.empty && (!users || users.length === 0)) {
+    const user = await auth.createUser({
+      email: email,
+      password: password,
+    });
+
+    accountPayload.id = user.uid;
+    userPayload.id = user.uid;
+
+    await accountCollectionRef.add(accountPayload);
+    await userCollectionRef.add(userPayload);
+  } else {
+    throw new APIError(`Invalid credentials`, 400);
+  }
+
+  const accessToken = await generateAccessToken(userPayload, expiresInMins);
+  const refreshToken = await generateRefreshToken(userPayload, maxTokenExpireTime);
+
+  return {
+    ...userPayload,
+    accessToken,
+    refreshToken,
+  };
+};
+
+controller.isUsernameExisted = async data => {
+  const { username } = data;
+
+  if (!username) {
+    throw new APIError(`username required`, 400);
+  }
+
+  const accountCollectionRef = getAccountCollectionRef(data);
+
+  const accountsDocumentRef = await accountCollectionRef.where("username", "==", username).get();
+  const users = findUserWithUsername(username);
+
+  if (accountsDocumentRef.empty && (!users || users.length === 0)) {
+    return false;
+  }
+
+  return true;
+};
+
+controller.isEmailExisted = async data => {
+  const { email } = data;
+
+  if (!email) {
+    throw new APIError(`email required`, 400);
+  }
+
+  if (!validateEmail(email)) {
+    throw new APIError(`Invalid email`, 400);
+  }
+
+  const auth = getAdminAuth(data);
+
+  try {
+    const authUser = await auth.getUserByEmail(email);
+    
+    return true;
+  } catch (error) {
+    // No opt.
+  }
+
+  const accountCollectionRef = getAccountCollectionRef(data);
+  const accountsDocumentRef = await accountCollectionRef.where("email", "==", email).get();
+  const users = findUserWithEmail(email);
+
+  if (accountsDocumentRef.empty && (!users || users?.length === 0)) {
+    return false;
+  }
+
+  return true;
 };
 
 module.exports = controller;

@@ -6,6 +6,9 @@ const {
   getNewRefreshTokenForFirebaseUser,
   getUserInfo,
   getUserInfoOnFirebase,
+  register,
+  isUsernameExisted,
+  isEmailExisted,
 } = require('../controllers/auth');
 const APIError = require('../utils/error');
 
@@ -90,6 +93,50 @@ router.post('/refresh/:id', async (req, res, next) => {
     const tokens = await getNewRefreshTokenForFirebaseUser({ appName: id, ...req.body });
 
     res.send(tokens);
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.post('/register/:id', async (req, res, next) => {
+  const { id } = req.params;
+
+  try {
+    const tokens = await register({ appName: id, ...req.body });
+
+    res.send(tokens);
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.post('/check-username-exist/:id', async (req, res, next) => {
+  const { id } = req.params;
+
+  try {
+    const result = await isUsernameExisted({ appName: id, ...req.body });
+
+    res.status(200).send({
+      status: 'ok',
+      method: req.method,
+      result: result,
+    });
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.post('/check-email-exist/:id', async (req, res, next) => {
+  const { id } = req.params;
+
+  try {
+    const result = await isEmailExisted({ appName: id, ...req.body });
+
+    res.status(200).send({
+      status: 'ok',
+      method: req.method,
+      result: result,
+    });
   } catch (error) {
     next(error);
   }
