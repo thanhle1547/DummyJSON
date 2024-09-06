@@ -118,7 +118,6 @@ router.post('/check-username-exist/:id', async (req, res, next) => {
 
     res.status(200).send({
       status: 'ok',
-      method: req.method,
       result: result,
     });
   } catch (error) {
@@ -134,7 +133,6 @@ router.post('/check-email-exist/:id', async (req, res, next) => {
 
     res.status(200).send({
       status: 'ok',
-      method: req.method,
       result: result,
     });
   } catch (error) {
