@@ -170,7 +170,7 @@ controller.loginSocial = async data => {
 
   return {
     ...payload,
-    accessToken,
+    token: accessToken,
     refreshToken,
   };
 }
@@ -329,7 +329,7 @@ controller.register = async data => {
 
   return {
     ...userPayload,
-    accessToken,
+    token: accessToken,
     refreshToken,
   };
 };
