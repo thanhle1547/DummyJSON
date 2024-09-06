@@ -197,6 +197,86 @@
           }
         </code></pre>
       </div>
+
+      <div class="resource" id="register">
+        <a href="#register" class="res-title">Register</a>
+        <pre><code class="language-js">
+          fetch('https://dummyjson.com/auth/register/&lt;YOUR-REGISTERED-ID&gt;', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              username: 'emilys',
+              password: 'emilyspass',
+              email: 'emily.johnson@x.dummyjson.com'
+              expiresInMins: 30, // optional, defaults to 60
+            })
+          })
+          .then(res => res.json())
+          .then(console.log);
+        </code></pre>
+
+        <button class="show-output btn">Show Output</button>
+
+        <pre class="output"><code class="language-json">
+          {
+            "id": "EmilysUniqueId",
+            "name": null,
+            "email": "emily.johnson@x.dummyjson.com",
+            "phone": null,
+            "image": null,
+            "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwidXNlcm5hbWUiOiJtaWNoYWVsdyIsImVtYWlsIjoibWljaGFlbC53aWxsaWFtc0B4LmR1bW15anNvbi5jb20iLCJmaXJzdE5hbWUiOiJNaWNoYWVsIiwibGFzdE5hbWUiOiJXaWxsaWFtcyIsImdlbmRlciI6Im1hbGUiLCJpbWFnZSI6Imh0dHBzOi8vZHVtbXlqc29uLmNvbS9pY29uL21pY2hhZWx3LzEyOCIsImlhdCI6MTcxNzYxMTc0MCwiZXhwIjoxNzE3NjE1MzQwfQ.eQnhQSnS4o0sXZWARh2HsWrEr6XfDT4ngh0ejiykfH8",
+            "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwidXNlcm5hbWUiOiJtaWNoYWVsdyIsImVtYWlsIjoibWljaGFlbC53aWxsaWFtc0B4LmR1bW15anNvbi5jb20iLCJmaXJzdE5hbWUiOiJNaWNoYWVsIiwibGFzdE5hbWUiOiJXaWxsaWFtcyIsImdlbmRlciI6Im1hbGUiLCJpbWFnZSI6Imh0dHBzOi8vZHVtbXlqc29uLmNvbS9pY29uL21pY2hhZWx3LzEyOCIsImlhdCI6MTcxNzYxMTc0MCwiZXhwIjoxNzIwMjAzNzQwfQ.YsStJdmdUjKOUlbXdqze0nEScCM_RJw9rnuy0RdSn88"
+          }
+        </code></pre>
+      </div>
+
+      <div class="resource" id="check-username-exist">
+        <a href="#check-username-exist" class="res-title">Check username exist</a>
+        <pre><code class="language-js">
+          fetch('https://dummyjson.com/auth/check-username-exist/&lt;YOUR-REGISTERED-ID&gt;', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              username: 'emilys',
+            })
+          })
+          .then(res => res.json())
+          .then(console.log);
+        </code></pre>
+
+        <button class="show-output btn">Show Output</button>
+
+        <pre class="output"><code class="language-json">
+          {
+            "status": "200",
+            "result": true
+          }
+        </code></pre>
+      </div>
+
+      <div class="resource" id="check-email-exist">
+        <a href="#check-email-exist" class="res-title">Check email exist</a>
+        <pre><code class="language-js">
+          fetch('https://dummyjson.com/auth/check-email-exist/&lt;YOUR-REGISTERED-ID&gt;', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              email: 'emily.johnson@x.dummyjson.com'
+            })
+          })
+          .then(res => res.json())
+          .then(console.log);
+        </code></pre>
+
+        <button class="show-output btn">Show Output</button>
+
+        <pre class="output"><code class="language-json">
+          {
+            "status": "200",
+            "result": true
+          }
+        </code></pre>
+      </div>
     </div>
   </section>
 
