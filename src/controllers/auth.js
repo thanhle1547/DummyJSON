@@ -64,6 +64,75 @@ controller.loginByUsernamePassword = async data => {
   }
 };
 
+// login user by username and password
+controller.loginByUsernamePasswordOnFirebase = async data => {
+  const { username, password, expiresInMins = 60 } = data;
+
+  if (!username || !password) {
+    throw new APIError(`Username and password required`, 400);
+  }
+
+  if (!isValidNumberInRange(expiresInMins, 1, maxTokenExpireTime)) {
+    throw new APIError(`maximum token expire time can be ${maxTokenExpireTime} minutes`);
+  }
+
+  const accountCollectionRef = getAccountCollectionRef(data);
+  const userCollectionRef = getUserCollectionRef(data);
+
+  const accountsDocumentRef = await accountCollectionRef.where("username", "==", username).get();
+
+  if (accountsDocumentRef.empty) {
+    throw new APIError(`Invalid credentials`, 400);
+  }
+
+  const documentSnapshot = accountsDocumentRef.docs[0];
+  const account = documentSnapshot.data();
+  const accountId = account.id;
+
+  if (!accountId) {
+    throw new APIError(`Invalid credentials`, 400);
+  }
+
+  if (account.username != username || account.password != password) {
+    throw new APIError(`Invalid credentials`, 400);
+  }
+
+  let user;
+
+  const usersDocumentRef = await userCollectionRef.where("id", "==", accountId).get();
+  if (usersDocumentRef.empty) {
+    throw new APIError(`Invalid credentials`, 400);
+  } else {
+    const documentSnapshot = usersDocumentRef.docs[0];
+    user = documentSnapshot.data();
+  }
+
+  if (!user) {
+    throw new APIError(`Invalid credentials`, 400);
+  }
+
+  const payload = {
+    "id": user.id ?? null,
+    "name": user.name ?? null,
+    "email": user.email ?? null,
+    "phone": user.phone ?? null,
+    "image": user.image ?? null,
+  };
+
+  try {
+    const token = await generateAccessToken(payload, expiresInMins);
+    const refreshToken = await generateRefreshToken(payload, maxTokenExpireTime);
+
+    return {
+      ...payload,
+      token,
+      refreshToken,
+    };
+  } catch (err) {
+    throw new APIError(err.message, 400);
+  }
+};
+
 controller.getUserInfo = async data => {
   const { token } = data;
 

@@ -9,6 +9,7 @@ const {
   register,
   isUsernameExisted,
   isEmailExisted,
+  loginByUsernamePasswordOnFirebase,
 } = require('../controllers/auth');
 const APIError = require('../utils/error');
 
@@ -36,6 +37,18 @@ router.post('/login-social/:id', async (req, res, next) => {
 
   try {
     const payload = await loginSocial({ appName: id, ...req.body });
+
+    res.send(payload);
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.post('/login-on-firebase/:id', async (req, res, next) => {
+  const { id } = req.params;
+
+  try {
+    const payload = await loginByUsernamePasswordOnFirebase({ appName: id, ...req.body });
 
     res.send(payload);
   } catch (error) {
