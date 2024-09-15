@@ -11,6 +11,7 @@ const {
   isEmailExisted,
   loginByUsernamePasswordOnFirebase,
 } = require('../controllers/auth');
+const { verifyOtp } = require('../controllers/otp');
 const APIError = require('../utils/error');
 
 // login user
@@ -115,9 +116,9 @@ router.post('/register/:id', async (req, res, next) => {
   const { id } = req.params;
 
   try {
-    const tokens = await register({ appName: id, ...req.body });
+    const payload = await register({ appName: id, ...req.body });
 
-    res.send(tokens);
+    res.send(payload);
   } catch (error) {
     next(error);
   }
@@ -148,6 +149,18 @@ router.post('/check-email-exist/:id', async (req, res, next) => {
       status: 'ok',
       result: result,
     });
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.post('/verify-otp/:id', async (req, res, next) => {
+  const { id } = req.params;
+
+  try {
+    const payload = await verifyOtp({ appName: id, ...req.body });
+
+    res.send(payload);
   } catch (error) {
     next(error);
   }

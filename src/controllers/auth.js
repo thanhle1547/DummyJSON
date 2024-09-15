@@ -22,6 +22,7 @@ const {
   getAccountCollectionRef,
 } = require('../utils/firebase');
 const { Filter } = require('firebase-admin/firestore');
+const { generateOtp } = require('./otp');
 
 const controller = {};
 
@@ -66,7 +67,7 @@ controller.loginByUsernamePassword = async data => {
 
 // login user by username and password
 controller.loginByUsernamePasswordOnFirebase = async data => {
-  const { username, password, expiresInMins = 60 } = data;
+  const { username, password, verification, expiresInMins = 60 } = data;
 
   if (!username || !password) {
     throw new APIError(`Username and password required`, 400);
@@ -109,6 +110,28 @@ controller.loginByUsernamePasswordOnFirebase = async data => {
 
   if (!user) {
     throw new APIError(`Invalid credentials`, 400);
+  }
+
+  const isAccountVerified = account.isVerified;
+  const isAccountNeedVerification = isAccountVerified !== undefined;
+
+  if (isAccountNeedVerification === true) {
+    let didOtpGenerated = false;
+    await generateOtp({
+      verification,
+      userId: user.id,
+      appName: data.appName,
+      usedTo: 'login',
+      expiresInMins,
+      onGenerated: () => didOtpGenerated = true,
+    });
+
+    if (didOtpGenerated === true) {
+      return {
+        status: 'ok',
+        result: true,
+      };
+    }
   }
 
   const payload = {
@@ -337,7 +360,7 @@ controller.getNewRefreshTokenForFirebaseUser = async data => {
 };
 
 controller.register = async data => {
-  const { username, password, email, expiresInMins = 60 } = data;
+  const { appName, username, password, email, verification, expiresInMins = 60 } = data;
 
   if (!username || !password || !email) {
     throw new APIError(`username, password and email are required`, 400);
@@ -378,6 +401,7 @@ controller.register = async data => {
     "image": null,
   };
 
+  let didOtpGenerated = false;
   if (accountsDocumentRef.empty && (!users || users.length === 0)) {
     const user = await auth.createUser({
       email: email,
@@ -387,10 +411,47 @@ controller.register = async data => {
     accountPayload.id = user.uid;
     userPayload.id = user.uid;
 
+    await generateOtp({
+      verification,
+      userId: user.uid,
+      appName: appName,
+      usedTo: 'register',
+      onGenerated: () => {
+        accountPayload.isVerified = false;
+        didOtpGenerated = true;
+      },
+    });
+
     await accountCollectionRef.add(accountPayload);
     await userCollectionRef.add(userPayload);
   } else {
-    throw new APIError(`Invalid credentials`, 400);
+    const accountDocumentSnapshot = accountsDocumentRef.docs[0];
+    const account = accountDocumentSnapshot?.data();
+    const isAccountVerified = account?.isVerified;
+    const isAccountNeedVerification = isAccountVerified !== undefined;
+    const accountId = account?.id;
+
+    if (isAccountNeedVerification === true && isAccountVerified === false && accountId) {
+      await generateOtp({
+        verification,
+        // account id is user id, omit checking user is exists
+        userId: accountId,
+        appName: appName,
+        usedTo: 'register',
+        onGenerated: () => {
+          didOtpGenerated = true;
+        },
+      });  
+    } else {
+      throw new APIError(`Invalid credentials`, 400);
+    }
+  }
+
+  if (didOtpGenerated === true) {
+    return {
+      status: 'ok',
+      result: true,
+    };
   }
 
   const accessToken = await generateAccessToken(userPayload, expiresInMins);

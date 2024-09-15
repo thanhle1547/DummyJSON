@@ -13,7 +13,7 @@
 <script src="https://assets.dummyjson.com/public/js/prism.min.js" async defer></script>
 <script src="https://assets.dummyjson.com/public/js/common.min.js" defer></script>
 
-<% if (typeof(localTestFirebaseApiKey) !== "undefined") { %>
+<% if (typeof(localTestFirebaseApiKey) !== "undefined" && typeof isLocal !== 'undefined' && isLocal === true) { %>
   <script src="http://localhost:<%= localhostPort %>/public/js/docs.js"></script>
 <% } else { %>
   <script src="https://assets.dummyjson.com/public/js/docs.min.js"></script>

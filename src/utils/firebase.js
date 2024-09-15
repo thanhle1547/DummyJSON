@@ -35,4 +35,9 @@ firebase.getAccountCollectionRef = data => {
   return firestore.collection('account');
 }
 
+firebase.getOtpCollectionRef = data => {
+  const firestore = getAdminFirestore(data);
+  return firestore.collection('otp');
+}
+
 module.exports = firebase;

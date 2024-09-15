@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const path = require('path');
-const { capitalize } = require('../utils/util');
+const { capitalize, isDev } = require('../utils/util');
 
 const {
   GOOGLE_TAG_ID,
@@ -78,8 +78,13 @@ router.get('/docs/:resource', (req, res, next) => {
 
   const capitalizedResource = capitalize(resource);
 
+  let variables = commonVariables;
+  if (isDev) {
+    variables = Object.assign({}, variables, localTestVariables);
+  }
+
   res.render(`docs-${resource}`, {
-    ...commonVariables,
+    ...variables,
     page: capitalizedResource,
     description: `REST Endpoints filled with ${capitalizedResource} JSON data, DummyJSON provides a fake REST API of JSON data for development, testing, and prototyping. Quickly get realistic data for your front-end projects.`,
   });
@@ -104,6 +109,7 @@ router.get('/local/:resource', (req, res, next) => {
   res.render(`local-${resource}`, {
     ...commonVariables,
     ...localTestVariables,
+    isLocal: true,
     page: capitalizedResource,
     description: `REST Endpoints filled with ${capitalizedResource} JSON data, DummyJSON provides a fake REST API of JSON data for development, testing, and prototyping. Quickly get realistic data for your front-end projects.`,
   });

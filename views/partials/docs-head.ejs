@@ -36,7 +36,7 @@
   <% if (typeof(localTestFirebaseApiKey) !== "undefined") { %>
     <link rel="stylesheet" href="http://localhost:<%= localhostPort %>/public/css/docs.css" />
   <% } else { %>
-    <link rel="stylesheet" href="https://assets.dummyjson.com/public/css/docs.css" />
+    <link rel="stylesheet" href="https://dummyjson-sm8j.onrender.com/public/css/docs.css" />
   <% } %>
   <link rel="stylesheet" href="https://assets.dummyjson.com/public/css/prism.css" />
 
@@ -87,7 +87,7 @@
   </script>
   <% } %>
 
-  <% if (typeof(localTestFirebaseApiKey) !== "undefined") { %>
+  <% if (typeof(localTestFirebaseApiKey) !== "undefined" && typeof isLocal !== 'undefined' && isLocal === true) { %>
   <script src="https://www.gstatic.com/firebasejs/10.0.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.0.0/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/ui/6.1.0/firebase-ui-auth.js"></script>
