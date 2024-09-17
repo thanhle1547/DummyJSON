@@ -1,7 +1,12 @@
 const { Timestamp, FieldValue } = require("firebase-admin/firestore");
 const Randomstring = require("randomstring");
-const { getOtpCollectionRef, getAccountCollectionRef, getUserCollectionRef } = require("../utils/firebase");
 const { fiveMints: maxOtpExpireTime } = require("../constants");
+const {
+  getOtpCollectionRef,
+  getAccountCollectionRef,
+  getUserCollectionRef,
+  getOrEqualityFilter,
+} = require("../utils/firebase");
 const APIError = require("../utils/error");
 const { thirtyDaysInMints: maxTokenExpireTime } = require('../constants');
 const { generateAccessToken, generateRefreshToken } = require("../utils/jwt");
@@ -87,11 +92,22 @@ controller.generateOtp = async options => {
 };
 
 controller.verifyOtp = async data => {
-  const { username, enteredOtp, expiresInMins = 60 } = data;
+  const { username, email, enteredOtp, expiresInMins = 60 } = data;
+
+  if (!username && !email) {
+    throw new APIError(`Neither username nor email are provided`, 400);
+  }
+
+  if (email && !validateEmail(email)) {
+    throw new APIError(`Invalid email`, 400);
+  }
 
   const accountCollectionRef = getAccountCollectionRef(data);
-
-  const accountsDocumentRef = await accountCollectionRef.where("username", "==", username).get();
+  const accountsDocumentRef = await accountCollectionRef.where(
+    getOrEqualityFilter({
+      username, email
+    }),
+  ).get();
 
   if (accountsDocumentRef.empty) {
     throw new APIError(`Invalid credentials`, 400);

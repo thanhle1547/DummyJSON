@@ -387,7 +387,11 @@
       <div class="resource" id="verify-otp">
         <a href="#verify-otp" class="res-title">Verify OTP</a>
         <p class="res-tip">
-          To resend otp, recall <a href="#auth-login-on-firebase">login api</a> or <a href="#register">register api</a>.
+          To resend otp, recall <a href="#auth-login-on-firebase">login api</a>
+          or <a href="#register">register api</a>.
+        </p>
+        <p class="res-tip">
+          Either `username` or `email` param must exist to identity the user.
         </p>
         <pre><code class="language-js">
           fetch('https://dummyjson.com/auth/verify-otp/&lt;YOUR-REGISTERED-ID&gt;', {
