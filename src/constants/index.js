@@ -17,6 +17,8 @@ constants.thirtyDaysInMints = 30 * 24 * 60;
 
 constants.fiveMints = 5;
 
+constants.oneHour = 60;
+
 try {
     constants.firebaseConfigFiles = fs
         .readdirSync(firebaseConfigDir, { withFileTypes: true })

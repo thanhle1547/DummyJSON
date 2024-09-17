@@ -1,12 +1,12 @@
 const { Timestamp, FieldValue } = require("firebase-admin/firestore");
 const Randomstring = require("randomstring");
-const { fiveMints: maxOtpExpireTime } = require("../constants");
 const {
   getOtpCollectionRef,
   getAccountCollectionRef,
   getUserCollectionRef,
   getOrEqualityFilter,
 } = require("../utils/firebase");
+const { fiveMints: maxOtpExpireTime, oneHour: passwordResetExpireTime } = require("../constants");
 const APIError = require("../utils/error");
 const { thirtyDaysInMints: maxTokenExpireTime } = require('../constants');
 const { generateAccessToken, generateRefreshToken } = require("../utils/jwt");
@@ -196,6 +196,19 @@ controller.verifyOtp = async data => {
 
   if (!user) {
     throw new APIError(`Invalid credentials`, 400);
+  }
+
+  if (otp.usedTo === 'reset password') {
+    await accountDocumentRef.update({
+      passwordResetExpireTime: Timestamp.fromDate(
+        new Date(Date.now() + (passwordResetExpireTime * 60000))
+      ),
+    });
+
+    return {
+      status: 'ok',
+      result: true,
+    };
   }
 
   const payload = {

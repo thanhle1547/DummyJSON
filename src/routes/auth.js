@@ -10,6 +10,8 @@ const {
   isUsernameExisted,
   isEmailExisted,
   loginByUsernamePasswordOnFirebase,
+  forgotPassword,
+  resetPassword,
 } = require('../controllers/auth');
 const { verifyOtp } = require('../controllers/otp');
 const APIError = require('../utils/error');
@@ -159,6 +161,30 @@ router.post('/verify-otp/:id', async (req, res, next) => {
 
   try {
     const payload = await verifyOtp({ appName: id, ...req.body });
+
+    res.send(payload);
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.post('/forgot-password/:id', async (req, res, next) => {
+  const { id } = req.params;
+
+  try {
+    const payload = await forgotPassword({ appName: id, ...req.body });
+
+    res.send(payload);
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.post('/reset-password/:id', async (req, res, next) => {
+  const { id } = req.params;
+
+  try {
+    const payload = await resetPassword({ appName: id, ...req.body });
 
     res.send(payload);
   } catch (error) {

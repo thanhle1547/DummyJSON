@@ -20,8 +20,9 @@ const {
   getAdminAuth,
   getUserCollectionRef,
   getAccountCollectionRef,
+  getOrEqualityFilter,
 } = require('../utils/firebase');
-const { Filter } = require('firebase-admin/firestore');
+const { Filter, Timestamp, FieldValue } = require('firebase-admin/firestore');
 const { generateOtp } = require('./otp');
 
 const controller = {};
@@ -513,6 +514,106 @@ controller.isEmailExisted = async data => {
   }
 
   return true;
+};
+
+controller.forgotPassword = async data => {
+  const { appName, username, email, verification } = data;
+
+  if (!username && !email) {
+    throw new APIError(`Neither username nor email are provided`, 400);
+  }
+
+  if (email && !validateEmail(email)) {
+    throw new APIError(`Invalid email`, 400);
+  }
+
+  const accountCollectionRef = getAccountCollectionRef(data);
+  const accountsDocumentRef = await accountCollectionRef.where(
+    getOrEqualityFilter({
+      username, email
+    }),
+  ).get();
+
+  if (accountsDocumentRef.empty) {
+    throw new APIError(`Invalid credentials`, 400);
+  }
+
+  const documentSnapshot = accountsDocumentRef.docs[0];
+  const account = documentSnapshot.data();
+  const accountId = account.id;
+
+  let didOtpGenerated = false;
+
+  await generateOtp({
+    verification,
+    userId: accountId,
+    appName: appName,
+    usedTo: 'reset password',
+    onGenerated: () => {
+      didOtpGenerated = true;
+    },
+  });
+
+  if (didOtpGenerated === false) {
+    throw new APIError(`Invalid verification`, 400);
+  }
+
+  return {
+    status: 'ok',
+    result: true,
+  };
+};
+
+controller.resetPassword = async data => {
+  const { username, email, password } = data;
+
+  if (!username && !email) {
+    throw new APIError(`Neither username nor email are provided`, 400);
+  }
+
+  if (email && !validateEmail(email)) {
+    throw new APIError(`Invalid email`, 400);
+  }
+
+  const accountCollectionRef = getAccountCollectionRef(data);
+  const accountsDocumentRef = await accountCollectionRef.where(
+    getOrEqualityFilter({
+      username, email
+    }),
+  ).get();
+
+  if (accountsDocumentRef.empty) {
+    throw new APIError(`Invalid credentials`, 400);
+  }
+
+  const accountDocumentSnapshot = accountsDocumentRef.docs[0];
+  const accountDocumentRef = accountDocumentSnapshot.ref;
+  const account = accountDocumentSnapshot.data();
+  const passwordResetExpireTime = account.passwordResetExpireTime;
+
+  if (!passwordResetExpireTime) {
+    throw new APIError("Invalid request", 400);
+  }
+
+  const currentTime = Timestamp.now();
+
+  if (currentTime > passwordResetExpireTime) {
+    await accountDocumentRef.update({
+      "passwordResetExpireTime": FieldValue.delete(),
+    });
+
+    throw new APIError("Request to reset password has expired. Please try again later.", 429);
+  }
+
+  await accountDocumentRef.update({
+    "password": password,
+    "passwordResetExpireTime": FieldValue.delete(),
+  });
+
+  return {
+    status: 'ok',
+    result: true,
+  };
 };
 
 module.exports = controller;

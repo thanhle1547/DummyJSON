@@ -421,6 +421,117 @@
           }
         </code></pre>
       </div>
+
+      <div class="resource" id="forgot-password">
+        <a href="#forgot-password" class="res-title">Forgot password</a>
+        <div class="res-tip">
+          Used to request the password reset, a verification code (OTP) is generated for identity verification.
+          To identity the user, either `username` or `email` param must exist.
+        </div>
+        <div class="res-tip">
+          The possible values of `verification` can be:
+          <ul>
+            <li>4 digit OTP</li>
+            <li>6 digit OTP</li>
+          </ul>
+        </div>
+        <pre><code class="language-js">
+          fetch('https://dummyjson.com/auth/forgot-password/&lt;YOUR-REGISTERED-ID&gt;', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              username: 'emilys',
+              verification: '4 digit OTP',
+            })
+          })
+          .then(res => res.json())
+          .then(console.log);
+        </code></pre>
+        <div class="res-tip">
+          Example of using `email` param.
+        </div>
+        <pre><code class="language-js">
+          fetch('https://dummyjson.com/auth/forgot-password/&lt;YOUR-REGISTERED-ID&gt;', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              email: 'emily.johnson@x.dummyjson.com',
+              verification: '4 digit OTP',
+            })
+          })
+          .then(res => res.json())
+          .then(console.log);
+        </code></pre>
+
+        <button class="show-output btn">Show Output</button>
+
+        <pre class="output"><code class="language-json">
+          {
+            "status": "ok",
+            "result": true
+          }
+        </code></pre>
+
+        <div class="res-tip">
+          After the api response with status `ok`. Calling <a href="#confirm-forgot-password">verify otp api</a>
+          with the entered OTP along with the user's identification information (such as email or username).
+          If the OTP verification is successful, the response should be:
+        </div>
+        <pre><code class="language-json">
+          {
+            "status": "ok",
+            "result": true
+          }
+        </code></pre>
+        <div class="res-tip" id="confirm-forgot-password">
+          Example of calling <a href="#verify-otp">verify otp api</a>.
+        </div>
+        <pre><code class="language-js">
+          fetch('https://dummyjson.com/auth/verify-otp/&lt;YOUR-REGISTERED-ID&gt;', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              username: 'emilys',
+              enteredOtp: '1234',
+            })
+          })
+          .then(res => res.json())
+          .then(console.log);
+        </code></pre>
+      </div>
+
+      <div class="resource" id="reset-password">
+        <a href="#reset-password" class="res-title">Reset password</a>
+        <div class="res-tip">
+          User is allowed to reset their password only when OTP verified successful.
+        </div>
+        <div class="res-tip">
+          To initiate the password reset process, view <a href="#forgot-password">forgot password api</a>.
+        </div>
+        <div class="res-tip">
+          To identity the user, either `username` or `email` param must exist.
+        </div>
+        <pre><code class="language-js">
+          fetch('https://dummyjson.com/auth/reset-password/&lt;YOUR-REGISTERED-ID&gt;', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              username: 'emilys',
+              password: 'emilyspass_2',
+            })
+          })
+          .then(res => res.json())
+          .then(console.log);
+        </code></pre>
+        <button class="show-output btn">Show Output</button>
+
+        <pre class="output"><code class="language-json">
+          {
+            "status": "ok",
+            "result": true
+          }
+        </code></pre>
+      </div>
     </div>
   </section>
 
