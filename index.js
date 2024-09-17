@@ -26,6 +26,7 @@ async function setupApp() {
 
   // serving static files
   app.use('/public', isDev ? express.static('public') : redirectFn);
+  app.use('/public-fork', express.static('public'));
 
   // routes
   app.use('/', routes);
