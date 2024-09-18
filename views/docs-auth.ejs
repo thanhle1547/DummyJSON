@@ -532,6 +532,33 @@
           }
         </code></pre>
       </div>
+
+      <div class="resource" id="change-password">
+        <a href="#change-password" class="res-title">Change password</a>
+        <pre><code class="language-js">
+          fetch('https://dummyjson.com/auth/change-password/&lt;YOUR-REGISTERED-ID&gt;', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': 'Bearer /* YOUR_TOKEN_HERE */',
+            },
+            body: JSON.stringify({
+              oldPassword: 'emilyspass',
+              newPassword: 'emilyspass_2',
+            })
+          })
+          .then(res => res.json())
+          .then(console.log);
+        </code></pre>
+        <button class="show-output btn">Show Output</button>
+
+        <pre class="output"><code class="language-json">
+          {
+            "status": "ok",
+            "result": true
+          }
+        </code></pre>
+      </div>
     </div>
   </section>
 

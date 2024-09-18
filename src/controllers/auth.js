@@ -610,4 +610,47 @@ controller.resetPassword = async data => {
   };
 };
 
+controller.changePassword = async data => {
+  const { token, oldPassword, newPassword } = data;
+
+  if (!token) throw new APIError('Authentication Problem', 403);
+
+  if (isAccessTokenEmpty(token)) {
+    throw new APIError(`Invalid token`, 400);
+  }
+
+  const decoded = await verifyAccessToken(token);
+
+  const userId = decoded.id;
+
+  if (!userId) {
+    throw new APIError(`Invalid credentials`, 400);
+  }
+
+  const accountCollectionRef = getAccountCollectionRef(data);
+  const accountsQueryRes = await accountCollectionRef.where("id", "==", userId).get();
+
+  if (accountsQueryRes.empty) {
+    throw new APIError(`Invalid credentials`, 400);
+  }
+
+  const accountDocumentSnapshot = accountsQueryRes.docs[0];
+  const accountDocumentRef = accountDocumentSnapshot.ref;
+  const account = accountDocumentSnapshot.data();
+  const currentPassword = account.password;
+
+  if (currentPassword !== oldPassword) {
+    throw new APIError("Invalid oldPassword", 400);
+  }
+
+  await accountDocumentRef.update({
+    "password": newPassword,
+  });
+
+  return {
+    status: 'ok',
+    result: true,
+  };
+};
+
 module.exports = controller;
