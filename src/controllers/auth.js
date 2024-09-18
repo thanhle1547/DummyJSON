@@ -81,13 +81,13 @@ controller.loginByUsernamePasswordOnFirebase = async data => {
   const accountCollectionRef = getAccountCollectionRef(data);
   const userCollectionRef = getUserCollectionRef(data);
 
-  const accountsDocumentRef = await accountCollectionRef.where("username", "==", username).get();
+  const accountsQueryRes = await accountCollectionRef.where("username", "==", username).get();
 
-  if (accountsDocumentRef.empty) {
+  if (accountsQueryRes.empty) {
     throw new APIError(`Invalid credentials`, 400);
   }
 
-  const accountDocumentSnapshot = accountsDocumentRef.docs[0];
+  const accountDocumentSnapshot = accountsQueryRes.docs[0];
   const account = accountDocumentSnapshot.data();
   const accountId = account.id;
 
@@ -99,12 +99,12 @@ controller.loginByUsernamePasswordOnFirebase = async data => {
     throw new APIError(`Invalid credentials`, 400);
   }
 
-  const usersDocumentRef = await userCollectionRef.where("id", "==", accountId).get();
-  if (usersDocumentRef.empty) {
+  const usersQueryRes = await userCollectionRef.where("id", "==", accountId).get();
+  if (usersQueryRes.empty) {
     throw new APIError(`Invalid credentials`, 400);
   }
 
-  const userDocumentSnapshot = usersDocumentRef.docs[0];
+  const userDocumentSnapshot = usersQueryRes.docs[0];
   const user = userDocumentSnapshot.data();
 
   if (!user) {
@@ -248,11 +248,11 @@ controller.loginSocial = async data => {
     "image": decodedToken.picture ?? null,
   };
 
-  const usersDocumentRef = await userCollectionRef.where("id", "==", decodedToken.uid).get();
-  if (usersDocumentRef.empty) {
+  const usersQueryRes = await userCollectionRef.where("id", "==", decodedToken.uid).get();
+  if (usersQueryRes.empty) {
     await userCollectionRef.add(payload);
   } else {
-    const documentSnapshot = usersDocumentRef.docs[0];
+    const documentSnapshot = usersQueryRes.docs[0];
     documentSnapshot.ref.update(payload);
   }
 
@@ -285,12 +285,12 @@ controller.getUserInfoOnFirebase = async data => {
 
   const userCollectionRef = getUserCollectionRef(data);
 
-  const usersDocumentRef = await userCollectionRef.where("id", "==", userId).get();
-  if (usersDocumentRef.empty) {
+  const usersQueryRes = await userCollectionRef.where("id", "==", userId).get();
+  if (usersQueryRes.empty) {
     throw new APIError(`Invalid token`, 400);
   }
 
-  const userDocumentSnapshot = usersDocumentRef.docs[0];
+  const userDocumentSnapshot = usersQueryRes.docs[0];
   const user = userDocumentSnapshot.data();
 
   if (!user) {
@@ -328,12 +328,12 @@ controller.getNewRefreshTokenForFirebaseUser = async data => {
     throw getFirebaseAuthError(e);
   }
 
-  const usersDocumentRef = await userCollectionRef.where("id", "==", userId).get();
-  if (usersDocumentRef.empty) {
+  const usersQueryRes = await userCollectionRef.where("id", "==", userId).get();
+  if (usersQueryRes.empty) {
     throw new APIError(`Invalid refresh token`, 403);
   }
 
-  const userDocumentSnapshot = usersDocumentRef.docs[0];
+  const userDocumentSnapshot = usersQueryRes.docs[0];
   const user = userDocumentSnapshot.data();
 
   if (!user) {
@@ -370,7 +370,7 @@ controller.register = async data => {
   const accountCollectionRef = getAccountCollectionRef(data);
   const userCollectionRef = getUserCollectionRef(data);
 
-  const accountsDocumentRef = await accountCollectionRef.where(
+  const accountsQueryRes = await accountCollectionRef.where(
     Filter.or(
       Filter.where("username", "==", username),
       Filter.where("email", "==", email)
@@ -397,7 +397,7 @@ controller.register = async data => {
   };
 
   let didOtpGenerated = false;
-  if (accountsDocumentRef.empty && (!users || users.length === 0)) {
+  if (accountsQueryRes.empty && (!users || users.length === 0)) {
     const user = await auth.createUser({
       email: email,
       password: password,
@@ -420,7 +420,7 @@ controller.register = async data => {
     await accountCollectionRef.add(accountPayload);
     await userCollectionRef.add(userPayload);
   } else {
-    const accountDocumentSnapshot = accountsDocumentRef.docs[0];
+    const accountDocumentSnapshot = accountsQueryRes.docs[0];
     const account = accountDocumentSnapshot?.data();
     const isAccountVerified = account?.isVerified;
     const isAccountNeedVerification = isAccountVerified !== undefined;
@@ -468,10 +468,10 @@ controller.isUsernameExisted = async data => {
 
   const accountCollectionRef = getAccountCollectionRef(data);
 
-  const accountsDocumentRef = await accountCollectionRef.where("username", "==", username).get();
+  const accountsQueryRes = await accountCollectionRef.where("username", "==", username).get();
   const users = findUserWithUsername(username);
 
-  if (accountsDocumentRef.empty && (!users || users.length === 0)) {
+  if (accountsQueryRes.empty && (!users || users.length === 0)) {
     return false;
   }
 
@@ -500,10 +500,10 @@ controller.isEmailExisted = async data => {
   }
 
   const accountCollectionRef = getAccountCollectionRef(data);
-  const accountsDocumentRef = await accountCollectionRef.where("email", "==", email).get();
+  const accountsQueryRes = await accountCollectionRef.where("email", "==", email).get();
   const users = findUserWithEmail(email);
 
-  if (accountsDocumentRef.empty && (!users || users?.length === 0)) {
+  if (accountsQueryRes.empty && (!users || users?.length === 0)) {
     return false;
   }
 
@@ -522,17 +522,17 @@ controller.forgotPassword = async data => {
   }
 
   const accountCollectionRef = getAccountCollectionRef(data);
-  const accountsDocumentRef = await accountCollectionRef.where(
+  const accountsQueryRes = await accountCollectionRef.where(
     getOrEqualityFilter({
       username, email
     }),
   ).get();
 
-  if (accountsDocumentRef.empty) {
+  if (accountsQueryRes.empty) {
     throw new APIError(`Invalid credentials`, 400);
   }
 
-  const documentSnapshot = accountsDocumentRef.docs[0];
+  const documentSnapshot = accountsQueryRes.docs[0];
   const account = documentSnapshot.data();
   const accountId = account.id;
 
@@ -570,17 +570,17 @@ controller.resetPassword = async data => {
   }
 
   const accountCollectionRef = getAccountCollectionRef(data);
-  const accountsDocumentRef = await accountCollectionRef.where(
+  const accountsQueryRes = await accountCollectionRef.where(
     getOrEqualityFilter({
       username, email
     }),
   ).get();
 
-  if (accountsDocumentRef.empty) {
+  if (accountsQueryRes.empty) {
     throw new APIError(`Invalid credentials`, 400);
   }
 
-  const accountDocumentSnapshot = accountsDocumentRef.docs[0];
+  const accountDocumentSnapshot = accountsQueryRes.docs[0];
   const accountDocumentRef = accountDocumentSnapshot.ref;
   const account = accountDocumentSnapshot.data();
   const passwordResetExpireTime = account.passwordResetExpireTime;

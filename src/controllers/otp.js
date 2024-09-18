@@ -43,9 +43,9 @@ controller.generateOtp = async options => {
   let otpDocumentRef;
   let attemptCount = 1;
 
-  const otpsDocumentRef = await otpCollectionRef.where("userId", "==", userId).get();
-  if (!otpsDocumentRef.empty) {
-    const documentSnapshot = otpsDocumentRef.docs[0];
+  const otpsQueryRes = await otpCollectionRef.where("userId", "==", userId).get();
+  if (!otpsQueryRes.empty) {
+    const documentSnapshot = otpsQueryRes.docs[0];
     otpDocumentRef = documentSnapshot.ref;
 
     const otp = documentSnapshot.data();
@@ -103,17 +103,17 @@ controller.verifyOtp = async data => {
   }
 
   const accountCollectionRef = getAccountCollectionRef(data);
-  const accountsDocumentRef = await accountCollectionRef.where(
+  const accountsQueryRes = await accountCollectionRef.where(
     getOrEqualityFilter({
       username, email
     }),
   ).get();
 
-  if (accountsDocumentRef.empty) {
+  if (accountsQueryRes.empty) {
     throw new APIError(`Invalid credentials`, 400);
   }
 
-  const accountDocumentSnapshot = accountsDocumentRef.docs[0];
+  const accountDocumentSnapshot = accountsQueryRes.docs[0];
   const accountDocumentRef = accountDocumentSnapshot.ref;
   const account = accountDocumentSnapshot.data();
   const accountId = account.id;
@@ -130,12 +130,12 @@ controller.verifyOtp = async data => {
 
   const otpCollectionRef = getOtpCollectionRef(data);
 
-  const otpsDocumentRef = await otpCollectionRef.where("userId", "==", accountId).get();
-  if (otpsDocumentRef.empty) {
+  const otpsQueryRes = await otpCollectionRef.where("userId", "==", accountId).get();
+  if (otpsQueryRes.empty) {
     throw new APIError("Invalid request", 400);
   }
 
-  const otpDocumentSnapshot = otpsDocumentRef.docs[0];
+  const otpDocumentSnapshot = otpsQueryRes.docs[0];
   const otpDocumentRef = otpDocumentSnapshot.ref;
   const otp = otpDocumentSnapshot.data();
 
@@ -184,12 +184,12 @@ controller.verifyOtp = async data => {
 
   const userCollectionRef = getUserCollectionRef(data);
 
-  const usersDocumentRef = await userCollectionRef.where("id", "==", accountId).get();
-  if (usersDocumentRef.empty) {
+  const usersQueryRes = await userCollectionRef.where("id", "==", accountId).get();
+  if (usersQueryRes.empty) {
     throw new APIError(`Invalid credentials`, 400);
   }
 
-  const documentSnapshot = usersDocumentRef.docs[0];
+  const documentSnapshot = usersQueryRes.docs[0];
   const user = documentSnapshot.data();
 
   if (!user) {
