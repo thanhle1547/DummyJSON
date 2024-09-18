@@ -87,8 +87,8 @@ controller.loginByUsernamePasswordOnFirebase = async data => {
     throw new APIError(`Invalid credentials`, 400);
   }
 
-  const documentSnapshot = accountsDocumentRef.docs[0];
-  const account = documentSnapshot.data();
+  const accountDocumentSnapshot = accountsDocumentRef.docs[0];
+  const account = accountDocumentSnapshot.data();
   const accountId = account.id;
 
   if (!accountId) {
@@ -99,15 +99,13 @@ controller.loginByUsernamePasswordOnFirebase = async data => {
     throw new APIError(`Invalid credentials`, 400);
   }
 
-  let user;
-
   const usersDocumentRef = await userCollectionRef.where("id", "==", accountId).get();
   if (usersDocumentRef.empty) {
     throw new APIError(`Invalid credentials`, 400);
-  } else {
-    const documentSnapshot = usersDocumentRef.docs[0];
-    user = documentSnapshot.data();
   }
+
+  const userDocumentSnapshot = usersDocumentRef.docs[0];
+  const user = userDocumentSnapshot.data();
 
   if (!user) {
     throw new APIError(`Invalid credentials`, 400);
@@ -287,15 +285,13 @@ controller.getUserInfoOnFirebase = async data => {
 
   const userCollectionRef = getUserCollectionRef(data);
 
-  let user;
-
   const usersDocumentRef = await userCollectionRef.where("id", "==", userId).get();
   if (usersDocumentRef.empty) {
     throw new APIError(`Invalid token`, 400);
-  } else {
-    const documentSnapshot = usersDocumentRef.docs[0];
-    user = documentSnapshot.data();
   }
+
+  const userDocumentSnapshot = usersDocumentRef.docs[0];
+  const user = userDocumentSnapshot.data();
 
   if (!user) {
     throw new APIError(`Invalid credentials`, 400);
@@ -332,15 +328,13 @@ controller.getNewRefreshTokenForFirebaseUser = async data => {
     throw getFirebaseAuthError(e);
   }
 
-  let user;
-
   const usersDocumentRef = await userCollectionRef.where("id", "==", userId).get();
   if (usersDocumentRef.empty) {
     throw new APIError(`Invalid refresh token`, 403);
-  } else {
-    const documentSnapshot = usersDocumentRef.docs[0];
-    user = documentSnapshot.data();
   }
+
+  const userDocumentSnapshot = usersDocumentRef.docs[0];
+  const user = userDocumentSnapshot.data();
 
   if (!user) {
     throw new APIError(`Invalid credentials`, 400);

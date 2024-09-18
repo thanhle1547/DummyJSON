@@ -184,15 +184,13 @@ controller.verifyOtp = async data => {
 
   const userCollectionRef = getUserCollectionRef(data);
 
-  let user;
-
   const usersDocumentRef = await userCollectionRef.where("id", "==", accountId).get();
   if (usersDocumentRef.empty) {
     throw new APIError(`Invalid credentials`, 400);
-  } else {
-    const documentSnapshot = usersDocumentRef.docs[0];
-    user = documentSnapshot.data();
   }
+
+  const documentSnapshot = usersDocumentRef.docs[0];
+  const user = documentSnapshot.data();
 
   if (!user) {
     throw new APIError(`Invalid credentials`, 400);
