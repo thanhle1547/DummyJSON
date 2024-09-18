@@ -56,8 +56,8 @@
         </code></pre>
       </div>
 
-      <div class="resource" id="social-login">
-        <a href="#social-login" class="res-title">Login by social and get token</a>
+      <div class="resource" id="auth-social-login">
+        <a href="#auth-social-login" class="res-title">Login by social and get token</a>
         <pre><code class="language-js">
           fetch('https://dummyjson.com/auth/login-social/&lt;YOUR-REGISTERED-ID&gt;', {
             method: 'POST',
@@ -266,8 +266,8 @@
         </code></pre>
       </div>
 
-      <div class="resource" id="register">
-        <a href="#register" class="res-title">Register</a>
+      <div class="resource" id="auth-register">
+        <a href="#auth-register" class="res-title">Register</a>
         <div>
           <pre><code class="language-js">
             fetch('https://dummyjson.com/auth/register/&lt;YOUR-REGISTERED-ID&gt;', {
@@ -336,8 +336,8 @@
         </div>
       </div>
 
-      <div class="resource" id="check-username-exist">
-        <a href="#check-username-exist" class="res-title">Check username exist</a>
+      <div class="resource" id="auth-check-username-exist">
+        <a href="#auth-check-username-exist" class="res-title">Check username exist</a>
         <pre><code class="language-js">
           fetch('https://dummyjson.com/auth/check-username-exist/&lt;YOUR-REGISTERED-ID&gt;', {
             method: 'POST',
@@ -360,8 +360,8 @@
         </code></pre>
       </div>
 
-      <div class="resource" id="check-email-exist">
-        <a href="#check-email-exist" class="res-title">Check email exist</a>
+      <div class="resource" id="auth-check-email-exist">
+        <a href="#auth-check-email-exist" class="res-title">Check email exist</a>
         <pre><code class="language-js">
           fetch('https://dummyjson.com/auth/check-email-exist/&lt;YOUR-REGISTERED-ID&gt;', {
             method: 'POST',
@@ -384,8 +384,8 @@
         </code></pre>
       </div>
 
-      <div class="resource" id="verify-otp">
-        <a href="#verify-otp" class="res-title">Verify OTP</a>
+      <div class="resource" id="auth-verify-otp">
+        <a href="#auth-verify-otp" class="res-title">Verify OTP</a>
         <p class="res-tip">
           To resend otp, recall <a href="#auth-login-on-firebase">login api</a>
           or <a href="#register">register api</a>.
@@ -422,8 +422,8 @@
         </code></pre>
       </div>
 
-      <div class="resource" id="forgot-password">
-        <a href="#forgot-password" class="res-title">Forgot password</a>
+      <div class="resource" id="auth-forgot-password">
+        <a href="#auth-forgot-password" class="res-title">Forgot password</a>
         <div class="res-tip">
           Used to request the password reset, a verification code (OTP) is generated for identity verification.
           To identity the user, either `username` or `email` param must exist.
@@ -500,8 +500,8 @@
         </code></pre>
       </div>
 
-      <div class="resource" id="reset-password">
-        <a href="#reset-password" class="res-title">Reset password</a>
+      <div class="resource" id="auth-reset-password">
+        <a href="#auth-reset-password" class="res-title">Reset password</a>
         <div class="res-tip">
           User is allowed to reset their password only when OTP verified successful.
         </div>
@@ -533,8 +533,8 @@
         </code></pre>
       </div>
 
-      <div class="resource" id="change-password">
-        <a href="#change-password" class="res-title">Change password</a>
+      <div class="resource" id="auth-change-password">
+        <a href="#auth-change-password" class="res-title">Change password</a>
         <pre><code class="language-js">
           fetch('https://dummyjson.com/auth/change-password/&lt;YOUR-REGISTERED-ID&gt;', {
             method: 'POST',
