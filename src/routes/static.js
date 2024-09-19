@@ -49,6 +49,7 @@ const availableResources = [
   'quotes',
   'recipes',
   'auth',
+  'awf', // Auth with Firebase
   'http',
 ];
 

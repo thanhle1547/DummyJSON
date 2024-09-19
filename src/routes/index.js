@@ -6,6 +6,7 @@ router.use('/', forceHTTPS, require('./static'));
 
 // static resource routes
 router.use('/auth', require('./auth'));
+router.use('/auth', require('./auth_w_firebase'));
 router.use(['/cart', '/carts'], require('./cart'));
 router.use(['/comment', '/comments'], require('./comment'));
 router.use(['/post', '/posts'], require('./post'));

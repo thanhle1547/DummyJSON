@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en">
+<!-- header -->
+<%- include('./partials/docs-head') %>
+
+<body>
+  <!-- header -->
+  <%- include('./partials/header') %>
+
+  <!-- side-nav -->
+  <%- include('./partials/docs-side-nav') %>
+
+  <section>
+    <div class="content">
+      <h1 class="docs-title">
+        <img src="https://assets.dummyjson.com/public/img/icons/lock.svg" class="icon" alt="svg icon" /> Auth with Firebase - Docs
+      </h1>
+      <p class="display-para">
+        The <strong>auth</strong> endpoint provides details about the user authentication and authorization and refresh tokens.
+      </p>
+
+      <div class="resource" id="awf-social-login">
+        <a href="#awf-social-login" class="res-title">Login by social and get token</a>
+        <pre><code class="language-js">
+          fetch('https://dummyjson.com/auth/login-social/&lt;YOUR-REGISTERED-ID&gt;', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              token: '/* FIREBASE_ID_TOKEN_HERE */',
+              expiresInMins: 30, // optional, defaults to 60
+            })
+          })
+          .then(res => res.json())
+          .then(console.log);
+        </code></pre>
+
+        <button class="show-output btn">Show Output</button>
+
+        <pre class="output"><code class="language-json">
+          {
+            "id": 1,
+            "name": null,
+            "email": "emily.johnson@x.dummyjson.com",
+            "phone": "+81 965-431-3024",
+            "image": "https://dummyjson.com/icon/emilys/128",
+            "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwidXNlcm5hbWUiOiJtaWNoYWVsdyIsImVtYWlsIjoibWljaGFlbC53aWxsaWFtc0B4LmR1bW15anNvbi5jb20iLCJmaXJzdE5hbWUiOiJNaWNoYWVsIiwibGFzdE5hbWUiOiJXaWxsaWFtcyIsImdlbmRlciI6Im1hbGUiLCJpbWFnZSI6Imh0dHBzOi8vZHVtbXlqc29uLmNvbS9pY29uL21pY2hhZWx3LzEyOCIsImlhdCI6MTcxNzYxMTc0MCwiZXhwIjoxNzE3NjE1MzQwfQ.eQnhQSnS4o0sXZWARh2HsWrEr6XfDT4ngh0ejiykfH8",
+            "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwidXNlcm5hbWUiOiJtaWNoYWVsdyIsImVtYWlsIjoibWljaGFlbC53aWxsaWFtc0B4LmR1bW15anNvbi5jb20iLCJmaXJzdE5hbWUiOiJNaWNoYWVsIiwibGFzdE5hbWUiOiJXaWxsaWFtcyIsImdlbmRlciI6Im1hbGUiLCJpbWFnZSI6Imh0dHBzOi8vZHVtbXlqc29uLmNvbS9pY29uL21pY2hhZWx3LzEyOCIsImlhdCI6MTcxNzYxMTc0MCwiZXhwIjoxNzIwMjAzNzQwfQ.YsStJdmdUjKOUlbXdqze0nEScCM_RJw9rnuy0RdSn88"
+          }
+        </code></pre>
+      </div>
+
+      <div class="resource" id="awf-login-on-firebase">
+        <a href="#awf-login-on-firebase" class="res-title">Login user on firebase and get token</a>
+        <div>
+          <pre><code class="language-js">
+            fetch('https://dummyjson.com/auth/login-on-firebase/&lt;YOUR-REGISTERED-ID&gt;', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                username: 'emilys',
+                password: 'emilyspass',
+                expiresInMins: 30, // optional, defaults to 60
+              })
+            })
+            .then(res => res.json())
+            .then(console.log);
+          </code></pre>
+  
+          <button class="show-output btn">Show Output</button>
+  
+          <pre class="output"><code class="language-json">
+            {
+              "id": 1,
+              "name": null,
+              "email": "emily.johnson@x.dummyjson.com",
+              "phone": "+81 965-431-3024",
+              "image": "https://dummyjson.com/icon/emilys/128",
+              "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwidXNlcm5hbWUiOiJtaWNoYWVsdyIsImVtYWlsIjoibWljaGFlbC53aWxsaWFtc0B4LmR1bW15anNvbi5jb20iLCJmaXJzdE5hbWUiOiJNaWNoYWVsIiwibGFzdE5hbWUiOiJXaWxsaWFtcyIsImdlbmRlciI6Im1hbGUiLCJpbWFnZSI6Imh0dHBzOi8vZHVtbXlqc29uLmNvbS9pY29uL21pY2hhZWx3LzEyOCIsImlhdCI6MTcxNzYxMTc0MCwiZXhwIjoxNzE3NjE1MzQwfQ.eQnhQSnS4o0sXZWARh2HsWrEr6XfDT4ngh0ejiykfH8",
+              "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwidXNlcm5hbWUiOiJtaWNoYWVsdyIsImVtYWlsIjoibWljaGFlbC53aWxsaWFtc0B4LmR1bW15anNvbi5jb20iLCJmaXJzdE5hbWUiOiJNaWNoYWVsIiwibGFzdE5hbWUiOiJXaWxsaWFtcyIsImdlbmRlciI6Im1hbGUiLCJpbWFnZSI6Imh0dHBzOi8vZHVtbXlqc29uLmNvbS9pY29uL21pY2hhZWx3LzEyOCIsImlhdCI6MTcxNzYxMTc0MCwiZXhwIjoxNzIwMjAzNzQwfQ.YsStJdmdUjKOUlbXdqze0nEScCM_RJw9rnuy0RdSn88"
+            }
+          </code></pre>
+        </div>
+
+        <div>
+          <div class="res-tip">
+            In the scenario where a verification code (OTP) is required. You can pass `verification` param to enable OTP verification flow. The `expiresInMins` param is omitted.
+          </div>
+          <div class="res-tip">
+            The possible values of `verification` can be:
+            <ul>
+              <li>4 digit OTP</li>
+              <li>6 digit OTP</li>
+            </ul>
+          </div>
+          <pre><code class="language-js">
+            fetch('https://dummyjson.com/auth/login-on-firebase/&lt;YOUR-REGISTERED-ID&gt;', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                username: 'emilys',
+                password: 'emilyspass',
+                verification: '4 digit OTP',
+              })
+            })
+            .then(res => res.json())
+            .then(console.log);
+          </code></pre>
+  
+          <button class="show-output btn">Show Output</button>
+  
+          <pre class="output"><code class="language-json">
+            {
+              "status": "ok",
+              "result": true
+            }
+          </code></pre>
+        </div>
+      </div>
+
+      <div class="resource" id="awf-me-social-login">
+        <a href="#awf-me-social-login" class="res-title">Get current auth user (login by social)</a>
+        <pre><code class="language-js">
+          /* providing token in bearer */
+          fetch('https://dummyjson.com/auth/me/&lt;YOUR-REGISTERED-ID&gt;', {
+            method: 'GET',
+            headers: {
+              'Authorization': 'Bearer /* YOUR_TOKEN_HERE */', 
+            }, 
+          })
+          .then(res => res.json())
+          .then(console.log);
+        </code></pre>
+
+        <button class="show-output btn">Show Output</button>
+
+        <pre class="output"><code class="language-json">
+          {
+            "id": 1,
+            "name": null,
+            "email": "emily.johnson@x.dummyjson.com",
+            "phone": "+81 965-431-3024",
+            "image": "https://dummyjson.com/icon/emilys/128",
+          }
+        </code></pre>
+      </div>
+
+      <div class="resource" id="awf-refesh-social-login">
+        <a href="#awf-refesh-social-login" class="res-title">Refresh auth session (login by social)</a>
+        <pre><code class="language-js">
+          fetch('https://dummyjson.com/auth/refresh/&lt;YOUR-REGISTERED-ID&gt;', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              refreshToken: '/* YOUR_REFRESH_TOKEN_HERE */',
+              expiresInMins: 30, // optional, defaults to 60
+            })
+          })
+          .then(res => res.json())
+          .then(console.log);
+        </code></pre>
+
+        <button class="show-output btn">Show Output</button>
+
+        <pre class="output"><code class="language-json">
+          {
+            "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwidXNlcm5hbWUiOiJtaWNoYWVsdyIsImVtYWlsIjoibWljaGFlbC53aWxsaWFtc0B4LmR1bW15anNvbi5jb20iLCJmaXJzdE5hbWUiOiJNaWNoYWVsIiwibGFzdE5hbWUiOiJXaWxsaWFtcyIsImdlbmRlciI6Im1hbGUiLCJpbWFnZSI6Imh0dHBzOi8vZHVtbXlqc29uLmNvbS9pY29uL21pY2hhZWx3LzEyOCIsImlhdCI6MTcxNzYxMzQ0OSwiZXhwIjoxNzE3NjE3MDQ5fQ.iI75FqR7VRSQ0uxZUryH_7ee-TghM_hrxSFuzwJO63I",
+            "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwidXNlcm5hbWUiOiJtaWNoYWVsdyIsImVtYWlsIjoibWljaGFlbC53aWxsaWFtc0B4LmR1bW15anNvbi5jb20iLCJmaXJzdE5hbWUiOiJNaWNoYWVsIiwibGFzdE5hbWUiOiJXaWxsaWFtcyIsImdlbmRlciI6Im1hbGUiLCJpbWFnZSI6Imh0dHBzOi8vZHVtbXlqc29uLmNvbS9pY29uL21pY2hhZWx3LzEyOCIsImlhdCI6MTcxNzYxMzQ0OSwiZXhwIjoxNzIwMjA1NDQ5fQ.G9zS9jdoWLjHwEr9sQM6nPaQPi0PJSCMt9oO8xTAdAY"
+          }
+        </code></pre>
+      </div>
+
+      <div class="resource" id="awf-register">
+        <a href="#awf-register" class="res-title">Register</a>
+        <div>
+          <pre><code class="language-js">
+            fetch('https://dummyjson.com/auth/register/&lt;YOUR-REGISTERED-ID&gt;', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                username: 'emilys',
+                password: 'emilyspass',
+                email: 'emily.johnson@x.dummyjson.com',
+                expiresInMins: 30, // optional, defaults to 60
+              })
+            })
+            .then(res => res.json())
+            .then(console.log);
+          </code></pre>
+
+          <button class="show-output btn">Show Output</button>
+
+          <pre class="output"><code class="language-json">
+            {
+              "id": "EmilysUniqueId",
+              "name": null,
+              "email": "emily.johnson@x.dummyjson.com",
+              "phone": null,
+              "image": null,
+              "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwidXNlcm5hbWUiOiJtaWNoYWVsdyIsImVtYWlsIjoibWljaGFlbC53aWxsaWFtc0B4LmR1bW15anNvbi5jb20iLCJmaXJzdE5hbWUiOiJNaWNoYWVsIiwibGFzdE5hbWUiOiJXaWxsaWFtcyIsImdlbmRlciI6Im1hbGUiLCJpbWFnZSI6Imh0dHBzOi8vZHVtbXlqc29uLmNvbS9pY29uL21pY2hhZWx3LzEyOCIsImlhdCI6MTcxNzYxMTc0MCwiZXhwIjoxNzE3NjE1MzQwfQ.eQnhQSnS4o0sXZWARh2HsWrEr6XfDT4ngh0ejiykfH8",
+              "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwidXNlcm5hbWUiOiJtaWNoYWVsdyIsImVtYWlsIjoibWljaGFlbC53aWxsaWFtc0B4LmR1bW15anNvbi5jb20iLCJmaXJzdE5hbWUiOiJNaWNoYWVsIiwibGFzdE5hbWUiOiJXaWxsaWFtcyIsImdlbmRlciI6Im1hbGUiLCJpbWFnZSI6Imh0dHBzOi8vZHVtbXlqc29uLmNvbS9pY29uL21pY2hhZWx3LzEyOCIsImlhdCI6MTcxNzYxMTc0MCwiZXhwIjoxNzIwMjAzNzQwfQ.YsStJdmdUjKOUlbXdqze0nEScCM_RJw9rnuy0RdSn88"
+            }
+          </code></pre>
+        </div>
+
+        <div>
+          <div class="res-tip">
+            In the scenario where a verification code (OTP) is required. You can pass `verification` param to enable OTP verification flow. The `expiresInMins` param is omitted.
+          </div>
+          <div class="res-tip">
+            The possible values of `verification` can be:
+            <ul>
+              <li>4 digit OTP</li>
+              <li>6 digit OTP</li>
+            </ul>
+          </div>
+          <pre><code class="language-js">
+            fetch('https://dummyjson.com/auth/register/&lt;YOUR-REGISTERED-ID&gt;', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                username: 'emilys',
+                password: 'emilyspass',
+                email: 'emily.johnson@x.dummyjson.com',
+                verification: '4 digit OTP',
+              })
+            })
+            .then(res => res.json())
+            .then(console.log);
+          </code></pre>
+  
+          <button class="show-output btn">Show Output</button>
+  
+          <pre class="output"><code class="language-json">
+            {
+              "status": "ok",
+              "result": true
+            }
+          </code></pre>
+        </div>
+      </div>
+
+      <div class="resource" id="awf-check-username-exist">
+        <a href="#awf-check-username-exist" class="res-title">Check username exist</a>
+        <pre><code class="language-js">
+          fetch('https://dummyjson.com/auth/check-username-exist/&lt;YOUR-REGISTERED-ID&gt;', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              username: 'emilys',
+            })
+          })
+          .then(res => res.json())
+          .then(console.log);
+        </code></pre>
+
+        <button class="show-output btn">Show Output</button>
+
+        <pre class="output"><code class="language-json">
+          {
+            "status": "200",
+            "result": true
+          }
+        </code></pre>
+      </div>
+
+      <div class="resource" id="awf-check-email-exist">
+        <a href="#awf-check-email-exist" class="res-title">Check email exist</a>
+        <pre><code class="language-js">
+          fetch('https://dummyjson.com/auth/check-email-exist/&lt;YOUR-REGISTERED-ID&gt;', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              email: 'emily.johnson@x.dummyjson.com'
+            })
+          })
+          .then(res => res.json())
+          .then(console.log);
+        </code></pre>
+
+        <button class="show-output btn">Show Output</button>
+
+        <pre class="output"><code class="language-json">
+          {
+            "status": "200",
+            "result": true
+          }
+        </code></pre>
+      </div>
+
+      <div class="resource" id="awf-verify-otp">
+        <a href="#awf-verify-otp" class="res-title">Verify OTP</a>
+        <p class="res-tip">
+          To resend otp, recall <a href="#auth-login-on-firebase">login api</a>
+          or <a href="#register">register api</a>.
+        </p>
+        <p class="res-tip">
+          Either `username` or `email` param must exist to identity the user.
+        </p>
+        <pre><code class="language-js">
+          fetch('https://dummyjson.com/auth/verify-otp/&lt;YOUR-REGISTERED-ID&gt;', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              username: 'emilys',
+              enteredOtp: '1234',
+              expiresInMins: 30, // optional, defaults to 60
+            })
+          })
+          .then(res => res.json())
+          .then(console.log);
+        </code></pre>
+
+        <button class="show-output btn">Show Output</button>
+
+        <pre class="output"><code class="language-json">
+          {
+            "id": 1,
+            "name": null,
+            "email": "emily.johnson@x.dummyjson.com",
+            "phone": "+81 965-431-3024",
+            "image": "https://dummyjson.com/icon/emilys/128",
+            "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwidXNlcm5hbWUiOiJtaWNoYWVsdyIsImVtYWlsIjoibWljaGFlbC53aWxsaWFtc0B4LmR1bW15anNvbi5jb20iLCJmaXJzdE5hbWUiOiJNaWNoYWVsIiwibGFzdE5hbWUiOiJXaWxsaWFtcyIsImdlbmRlciI6Im1hbGUiLCJpbWFnZSI6Imh0dHBzOi8vZHVtbXlqc29uLmNvbS9pY29uL21pY2hhZWx3LzEyOCIsImlhdCI6MTcxNzYxMTc0MCwiZXhwIjoxNzE3NjE1MzQwfQ.eQnhQSnS4o0sXZWARh2HsWrEr6XfDT4ngh0ejiykfH8",
+            "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwidXNlcm5hbWUiOiJtaWNoYWVsdyIsImVtYWlsIjoibWljaGFlbC53aWxsaWFtc0B4LmR1bW15anNvbi5jb20iLCJmaXJzdE5hbWUiOiJNaWNoYWVsIiwibGFzdE5hbWUiOiJXaWxsaWFtcyIsImdlbmRlciI6Im1hbGUiLCJpbWFnZSI6Imh0dHBzOi8vZHVtbXlqc29uLmNvbS9pY29uL21pY2hhZWx3LzEyOCIsImlhdCI6MTcxNzYxMTc0MCwiZXhwIjoxNzIwMjAzNzQwfQ.YsStJdmdUjKOUlbXdqze0nEScCM_RJw9rnuy0RdSn88"
+          }
+        </code></pre>
+      </div>
+
+      <div class="resource" id="awf-forgot-password">
+        <a href="#awf-forgot-password" class="res-title">Forgot password</a>
+        <div class="res-tip">
+          Used to request the password reset, a verification code (OTP) is generated for identity verification.
+          To identity the user, either `username` or `email` param must exist.
+        </div>
+        <div class="res-tip">
+          The possible values of `verification` can be:
+          <ul>
+            <li>4 digit OTP</li>
+            <li>6 digit OTP</li>
+          </ul>
+        </div>
+        <pre><code class="language-js">
+          fetch('https://dummyjson.com/auth/forgot-password/&lt;YOUR-REGISTERED-ID&gt;', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              username: 'emilys',
+              verification: '4 digit OTP',
+            })
+          })
+          .then(res => res.json())
+          .then(console.log);
+        </code></pre>
+        <div class="res-tip">
+          Example of using `email` param.
+        </div>
+        <pre><code class="language-js">
+          fetch('https://dummyjson.com/auth/forgot-password/&lt;YOUR-REGISTERED-ID&gt;', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              email: 'emily.johnson@x.dummyjson.com',
+              verification: '4 digit OTP',
+            })
+          })
+          .then(res => res.json())
+          .then(console.log);
+        </code></pre>
+
+        <button class="show-output btn">Show Output</button>
+
+        <pre class="output"><code class="language-json">
+          {
+            "status": "ok",
+            "result": true
+          }
+        </code></pre>
+
+        <div class="res-tip">
+          After the api response with status `ok`. Calling <a href="#confirm-forgot-password">verify otp api</a>
+          with the entered OTP along with the user's identification information (such as email or username).
+          If the OTP verification is successful, the response should be:
+        </div>
+        <pre><code class="language-json">
+          {
+            "status": "ok",
+            "result": true
+          }
+        </code></pre>
+        <div class="res-tip" id="confirm-forgot-password">
+          Example of calling <a href="#verify-otp">verify otp api</a>.
+        </div>
+        <pre><code class="language-js">
+          fetch('https://dummyjson.com/auth/verify-otp/&lt;YOUR-REGISTERED-ID&gt;', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              username: 'emilys',
+              enteredOtp: '1234',
+            })
+          })
+          .then(res => res.json())
+          .then(console.log);
+        </code></pre>
+      </div>
+
+      <div class="resource" id="awf-reset-password">
+        <a href="#awf-reset-password" class="res-title">Reset password</a>
+        <div class="res-tip">
+          User is allowed to reset their password only when OTP verified successful.
+        </div>
+        <div class="res-tip">
+          To initiate the password reset process, view <a href="#forgot-password">forgot password api</a>.
+        </div>
+        <div class="res-tip">
+          To identity the user, either `username` or `email` param must exist.
+        </div>
+        <pre><code class="language-js">
+          fetch('https://dummyjson.com/auth/reset-password/&lt;YOUR-REGISTERED-ID&gt;', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              username: 'emilys',
+              password: 'emilyspass_2',
+            })
+          })
+          .then(res => res.json())
+          .then(console.log);
+        </code></pre>
+        <button class="show-output btn">Show Output</button>
+
+        <pre class="output"><code class="language-json">
+          {
+            "status": "ok",
+            "result": true
+          }
+        </code></pre>
+      </div>
+
+      <div class="resource" id="awf-change-password">
+        <a href="#awf-change-password" class="res-title">Change password</a>
+        <pre><code class="language-js">
+          fetch('https://dummyjson.com/auth/change-password/&lt;YOUR-REGISTERED-ID&gt;', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': 'Bearer /* YOUR_TOKEN_HERE */',
+            },
+            body: JSON.stringify({
+              oldPassword: 'emilyspass',
+              newPassword: 'emilyspass_2',
+            })
+          })
+          .then(res => res.json())
+          .then(console.log);
+        </code></pre>
+        <button class="show-output btn">Show Output</button>
+
+        <pre class="output"><code class="language-json">
+          {
+            "status": "ok",
+            "result": true
+          }
+        </code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- footer -->
+  <%- include('./partials/docs-footer') %>
+
+  <script>
+    selectNavItem(window.location.hash || '#awf-social-login');
+  </script>
+</body>
+
+</html>
