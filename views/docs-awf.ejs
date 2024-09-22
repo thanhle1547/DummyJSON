@@ -292,8 +292,8 @@
       <div class="resource" id="awf-verify-otp">
         <a href="#awf-verify-otp" class="res-title">Verify OTP</a>
         <p class="res-tip">
-          To resend otp, recall <a href="#auth-login-on-firebase">login api</a>
-          or <a href="#register">register api</a>.
+          To resend otp, recall <a href="#awf-social-login">login api</a>
+          or <a href="#awf-register">register api</a>.
         </p>
         <p class="res-tip">
           Either `username` or `email` param must exist to identity the user.
@@ -389,7 +389,7 @@
           }
         </code></pre>
         <div class="res-tip" id="confirm-forgot-password">
-          Example of calling <a href="#verify-otp">verify otp api</a>.
+          Example of calling <a href="#awf-verify-otp">verify otp api</a>.
         </div>
         <pre><code class="language-js">
           fetch('https://dummyjson.com/auth/verify-otp/&lt;YOUR-REGISTERED-ID&gt;', {
@@ -411,7 +411,7 @@
           User is allowed to reset their password only when OTP verified successful.
         </div>
         <div class="res-tip">
-          To initiate the password reset process, view <a href="#forgot-password">forgot password api</a>.
+          To initiate the password reset process, view <a href="#awf-forgot-password">forgot password api</a>.
         </div>
         <div class="res-tip">
           To identity the user, either `username` or `email` param must exist.
