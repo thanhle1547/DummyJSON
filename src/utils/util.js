@@ -26,7 +26,12 @@ utils.isDev = process.env.NODE_ENV !== 'production';
 utils.loadDataInMemory = async () => {
   const baseDir = './database';
 
-  const productsPath = path.join(baseDir, 'products.json');
+  const productsDir = path.join(baseDir, 'products');
+  const apparelProductsDir = path.join(productsDir, 'apparel');
+
+  const productsPath = path.join(productsDir, 'products.json');
+  const apparelProductsPath = path.join(apparelProductsDir, 'apparel.json');
+
   const cartsPath = path.join(baseDir, 'carts.json');
   const usersPath = path.join(baseDir, 'users.json');
   const quotesPath = path.join(baseDir, 'quotes.json');
@@ -37,6 +42,8 @@ utils.loadDataInMemory = async () => {
 
   const paths = [
     fs.readFile(productsPath, 'utf-8'),
+    fs.readFile(apparelProductsPath, 'utf-8'),
+
     fs.readFile(cartsPath, 'utf-8'),
     fs.readFile(usersPath, 'utf-8'),
     fs.readFile(quotesPath, 'utf-8'),
@@ -46,12 +53,26 @@ utils.loadDataInMemory = async () => {
     fs.readFile(recipesPath, 'utf-8'),
   ];
 
-  const [productsStr, cartsStr, usersStr, quotesStr, todosStr, postsStr, commentsStr, recipesStr] = await Promise.all(
-    paths,
-  );
+  const [
+    productsStr,
+    apparelProductsStr,
+    cartsStr,
+    usersStr,
+    quotesStr,
+    todosStr,
+    postsStr,
+    commentsStr,
+    recipesStr,
+  ] = await Promise.all(paths);
 
   const productsArr = JSON.parse(productsStr);
-  const categoryList = [...new Set(productsArr.map(p => p.category))];
+  const apparelProductsArr = JSON.parse(apparelProductsStr);
+  const categoryList = [
+    ...new Set([
+        ...new Set(productsArr.map(p => p.category)),
+        ...new Set(apparelProductsArr.map(p => p.category)),
+    ]),
+  ];
   const categories = utils.getSluggedData(categoryList, 'products', 'category');
   const cartsArr = JSON.parse(cartsStr);
   const usersArr = JSON.parse(usersStr);
@@ -63,7 +84,10 @@ utils.loadDataInMemory = async () => {
   const tags = utils.getSluggedData(tagList, 'posts', 'tag');
   const commentsArr = JSON.parse(commentsStr);
 
-  data.products = productsArr;
+  data.products = [
+    ...productsArr,
+    ...apparelProductsArr,
+  ];
   data.categoryList = categoryList;
   data.categories = categories;
   data.carts = cartsArr;
@@ -79,11 +103,11 @@ utils.loadDataInMemory = async () => {
   utils.deepFreeze(data);
 };
 
-utils.getObjectSubset = function(obj, keys) {
+utils.getObjectSubset = function (obj, keys) {
   return Object.assign({}, ...keys.map(key => ({ [key]: obj[key] })));
 };
 
-utils.getMultiObjectSubset = function(arr, keys) {
+utils.getMultiObjectSubset = function (arr, keys) {
   return arr.map(p => utils.getObjectSubset(p, keys));
 };
 
@@ -115,7 +139,7 @@ utils.trueTypeOf = obj => {
     .toLowerCase();
 };
 
-utils.deepFreeze = function(obj) {
+utils.deepFreeze = function (obj) {
   Object.freeze(obj);
 
   if (obj === undefined) {

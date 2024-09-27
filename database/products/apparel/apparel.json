@@ -1,0 +1,663 @@
+[
+  {
+    "id": 1601034753736,
+    "title": "Men's Summer Set",
+    "description": "Summer Men 2 piece Suits Short Sleeve Tops + Long Pants Solid Color Polo Lapel Collar Button Elastic Waist Trousers Tracksuit",
+    "category": "men-apparel",
+    "price": 7.50,
+    "discountPercentage": 0,
+    "rating": 4.2,
+    "stock": 5,
+    "sold": 513,
+    "tags": [
+      "apparel",
+      "Casual",
+      "Men’s Polo Sets"
+    ],
+    "brand": "OU Fashion",
+    "sku": 105029224421,
+    "warrantyInformation": "1 month warranty",
+    "shippingInformation": "Ships in 1 month",
+    "availabilityStatus": "Low Stock",
+    "reviews": [
+      {
+        "rating": 5,
+        "comment": "the service and quality was good, the items where shipped on time as agreed. i would recommend the outfit",
+        "date": "2024-08-01T08:56:21.618Z",
+        "reviewerName": "A***u"
+      },
+      {
+        "rating": 5,
+        "comment": "Love the quality of this fabric",
+        "date": "2024-01-22T08:56:21.618Z",
+        "reviewerName": "m***i"
+      },
+      {
+        "rating": 5,
+        "comment": "supplier went out of her way to help me with sizes which I choose wrongly, great team",
+        "date": "2024-03-25T08:56:21.618Z",
+        "reviewerName": "I***o"
+      }
+    ],
+    "returnPolicy": "30 days return policy",
+    "minimumOrderQuantity": 1,
+    "maximumOrderQuantity": 50,
+    "meta": {
+      "createdAt": "2024-05-23T08:56:21.618Z",
+      "updatedAt": "2024-05-23T08:56:21.618Z",
+      "original": "https://www.alibaba.com/product-detail/Summer-Men-2-piece-Suits-Short_1601034753736.html?spm=a27aq.29030638.3529342530.1.54297f2dhxSFTc",
+      "fields": {
+        "sku": "sku.firstSkuId",
+        "options": "sku.skuAttrs",
+        "variants": "sku.skuInfoMap"
+      }
+    },
+    "images": [
+      "https://s.alicdn.com/@sc04/kf/H2d7236d1bcd04feca23a75ab7b112a2aQ.jpg",
+      "https://s.alicdn.com/@sc04/kf/H7b84defdccba46528dacd8a9ec4b348a2.jpg",
+      "https://s.alicdn.com/@sc04/kf/H5dc9b3bd113445cc8a4138d669fe32d5i.jpg",
+      "https://s.alicdn.com/@sc04/kf/H8d13c06a6b5d429685a0b3c33d47469cr.jpg",
+      "https://s.alicdn.com/@sc04/kf/Hb46cf07ce9e04730981bc6c4994b57811.jpg",
+      "https://s.alicdn.com/@sc04/kf/H13cfaa7ebaeb4b3599dd02af35542a5d4.jpg"
+    ],
+    "options": [
+      {
+        "name": "Size",
+        "type": "size",
+        "values": [
+          {
+            "id": 3,
+            "name": "M"
+          },
+          {
+            "id": 4,
+            "name": "L"
+          },
+          {
+            "id": 5,
+            "name": "XL"
+          },
+          {
+            "id": 6,
+            "name": "2XL"
+          },
+          {
+            "id": 7,
+            "name": "3XL"
+          },
+          {
+            "id": 8,
+            "name": "4XL"
+          }
+        ]
+      },
+      {
+        "name": "Color",
+        "type": "color",
+        "values": [
+          {
+            "id": 9,
+            "name": "Black",
+            "colorCode": "#000000"
+          },
+          {
+            "id": 10,
+            "name": "White",
+            "colorCode": "#ffffff"
+          }
+        ]
+      }
+    ],
+    "variants": [
+      {
+        "id": 105029224428,
+        "option_ids": [
+          9,
+          4
+        ],
+        "price": 7.50,
+        "discountPercentage": 0,
+        "sku": "191288010:3327837;191288664:28316;"
+      },
+      {
+        "id": 105029224424,
+        "option_ids": [
+          10,
+          6
+        ],
+        "price": 7.50,
+        "discountPercentage": 0,
+        "sku": "191288010:3331185;191288664:461058311;"
+      },
+      {
+        "id": 105029224427,
+        "option_ids": [
+          9,
+          3
+        ],
+        "price": 7.50,
+        "discountPercentage": 0,
+        "sku": "191288010:3327837;191288664:28315;"
+      },
+      {
+        "id": 105029224430,
+        "option_ids": [
+          9,
+          6
+        ],
+        "price": 7.50,
+        "discountPercentage": 0,
+        "sku": "191288010:3327837;191288664:461058311;"
+      },
+      {
+        "id": 105029224431,
+        "option_ids": [
+          9,
+          7
+        ],
+        "price": 7.50,
+        "discountPercentage": 0,
+        "sku": "191288010:3327837;191288664:111888051;"
+      },
+      {
+        "id": 105029224425,
+        "option_ids": [
+          10,
+          7
+        ],
+        "price": 7.50,
+        "discountPercentage": 0,
+        "sku": "191288010:3331185;191288664:111888051;"
+      },
+      {
+        "id": 105029224422,
+        "option_ids": [
+          10,
+          4
+        ],
+        "price": 7.50,
+        "discountPercentage": 0,
+        "sku": "191288010:3331185;191288664:28316;"
+      },
+      {
+        "id": 105029224423,
+        "option_ids": [
+          10,
+          5
+        ],
+        "price": 7.50,
+        "discountPercentage": 0,
+        "sku": "191288010:3331185;191288664:28317;"
+      },
+      {
+        "id": 105029224421,
+        "option_ids": [
+          10,
+          3
+        ],
+        "price": 7.50,
+        "discountPercentage": 0,
+        "sku": "191288010:3331185;191288664:28315;"
+      },
+      {
+        "id": 105029224426,
+        "option_ids": [
+          10,
+          8
+        ],
+        "price": 7.50,
+        "discountPercentage": 0,
+        "sku": "191288010:3331185;191288664:104559763;"
+      },
+      {
+        "id": 105029224429,
+        "option_ids": [
+          9,
+          5
+        ],
+        "price": 7.50,
+        "discountPercentage": 0,
+        "sku": "191288010:3327837;191288664:28317;"
+      },
+      {
+        "id": 105029224432,
+        "option_ids": [
+          9,
+          8
+        ],
+        "price": 7.50,
+        "discountPercentage": 0,
+        "sku": "191288010:3327837;191288664:104559763;"
+      }
+    ],
+    "thumbnail": "https://s.alicdn.com/@sc04/kf/H2d7236d1bcd04feca23a75ab7b112a2aQ.jpg_250x250xz.jpg"
+  },
+  {
+    "id": 1601034753736,
+    "title": "Men's Short Sleeve Polo Shirt",
+    "description": "Custom Summer New Men's Hollow Short-sleeved Polo Shirt Ice Silk Breathable Business Fashion T-Shirt Male Clothes",
+    "category": "men-apparel",
+    "price": 6.10,
+    "discountPercentage": 10,
+    "rating": 5.0,
+    "stock": 5,
+    "sold": 44,
+    "tags": [
+      "apparel",
+      "Vintage"
+    ],
+    "brand": "Guangzhou Ruixin Clothing",
+    "sku": 105196065752,
+    "warrantyInformation": "1 month warranty",
+    "shippingInformation": "Ships in 1 month",
+    "availabilityStatus": "Low Stock",
+    "reviews": [
+      {
+        "rating": 5,
+        "comment": "I'm really happy, I received my order",
+        "date": "2024-01-16T08:56:21.618Z",
+        "reviewerName": "D***e"
+      },
+      {
+        "rating": 5,
+        "comment": "it's great, we really liked it, it was like ice. will keep cool even in summer",
+        "date": "2024-03-20T08:56:21.618Z",
+        "reviewerName": "T***e"
+      },
+      {
+        "rating": 5,
+        "comment": "very good. I like it",
+        "date": "2024-01-04T08:56:21.618Z",
+        "reviewerName": "B***s"
+      }
+    ],
+    "returnPolicy": "30 days return policy",
+    "minimumOrderQuantity": 1,
+    "maximumOrderQuantity": 1,
+    "meta": {
+      "createdAt": "2024-05-23T08:56:21.618Z",
+      "updatedAt": "2024-05-23T08:56:21.618Z",
+      "original": "https://www.alibaba.com/product-detail/Custom-Summer-New-Men-s-Hollow_1601078545896.html?spm=a27aq.29030638.3529342530.37.54297f2dhxSFTc",
+      "fields": {
+        "sku": "sku.firstSkuId",
+        "options": "sku.skuAttrs",
+        "variants": "sku.skuInfoMap"
+      }
+    },
+    "images": [
+      "https://s.alicdn.com/@sc04/kf/H12d736c2eb4545a4a62b8314e1fd103c5.jpeg",
+      "https://s.alicdn.com/@sc04/kf/H02b0b59f7d8f4d07aaf39e2d77a1a4d9L.jpeg",
+      "https://s.alicdn.com/@sc04/kf/H56ded29882a94aafa7e1c530047f796b8.jpeg",
+      "https://s.alicdn.com/@sc04/kf/H1a0d87d549064538afff0f68b8c7fae8H.jpg",
+      "https://s.alicdn.com/@sc04/kf/H5ee99e0a40d6494a9852e690ed6e6bbfb.jpg",
+      "https://s.alicdn.com/@sc04/kf/H115b76446a654820ae661b8dcc5cf243m.jpeg"
+    ],
+    "options": [
+      {
+        "name": "Size",
+        "type": "size",
+        "values": [
+          {
+            "id": 3,
+            "name": "M"
+          },
+          {
+            "id": 4,
+            "name": "L"
+          },
+          {
+            "id": 5,
+            "name": "XL"
+          },
+          {
+            "id": 6,
+            "name": "2XL"
+          },
+          {
+            "id": 7,
+            "name": "3XL"
+          }
+        ]
+      },
+      {
+        "name": "Color",
+        "type": "color",
+        "values": [
+          {
+            "id": 9,
+            "name": "Black",
+            "colorCode": "#000000"
+          },
+          {
+            "id": 10,
+            "name": "White",
+            "colorCode": "#ffffff"
+          },
+          {
+            "id": 11,
+            "name": "Gray",
+            "colorCode": "#52575a"
+          },
+          {
+            "id": 12,
+            "name": "Khaki",
+            "colorCode": "#8e8876"
+          },
+          {
+            "id": 13,
+            "name": "Dark green",
+            "colorCode": "#545f60"
+          },
+          {
+            "id": 14,
+            "name": "Blue",
+            "colorCode": "#546d8c"
+          }
+        ]
+      }
+    ],
+    "variants": [
+      {
+        "id": 105196065761,
+        "option_ids": [
+          13,
+          4
+        ],
+        "price": 6.10,
+        "discountPercentage": 10,
+        "sku": "191288010:-4;191286172:28316;"
+      },
+      {
+        "id": 105196065765,
+        "option_ids": [
+          12,
+          5
+        ],
+        "price": 6.10,
+        "discountPercentage": 10,
+        "sku": "191288010:-2;191286172:28317;"
+      },
+      {
+        "id": 105196065764,
+        "option_ids": [
+          11,
+          5
+        ],
+        "price": 6.10,
+        "discountPercentage": 10,
+        "sku": "191288010:-1;191286172:28317;"
+      },
+      {
+        "id": 105196065752,
+        "option_ids": [
+          11,
+          3
+        ],
+        "price": 6.10,
+        "discountPercentage": 10,
+        "sku": "191288010:-1;191286172:28315;"
+      },
+      {
+        "id": 105196065773,
+        "option_ids": [
+          13,
+          6
+        ],
+        "price": 6.10,
+        "discountPercentage": 10,
+        "sku": "191288010:-4;191286172:461058311;"
+      },
+      {
+        "id": 105196065762,
+        "option_ids": [
+          14,
+          4
+        ],
+        "price": 6.10,
+        "discountPercentage": 10,
+        "sku": "191288010:-5;191286172:28316;"
+      },
+      {
+        "id": 105196065779,
+        "option_ids": [
+          13,
+          7
+        ],
+        "price": 6.10,
+        "discountPercentage": 10,
+        "sku": "191288010:-4;191286172:111888051;"
+      },
+      {
+        "id": 105196065766,
+        "option_ids": [
+          10,
+          5
+        ],
+        "price": 6.10,
+        "discountPercentage": 10,
+        "sku": "191288010:-3;191286172:28317;"
+      },
+      {
+        "id": 105196065759,
+        "option_ids": [
+          12,
+          4
+        ],
+        "price": 6.10,
+        "discountPercentage": 10,
+        "sku": "191288010:-2;191286172:28316;"
+      },
+      {
+        "id": 105196065776,
+        "option_ids": [
+          11,
+          7
+        ],
+        "price": 6.10,
+        "discountPercentage": 10,
+        "sku": "191288010:-1;191286172:111888051;"
+      },
+      {
+        "id": 105196065781,
+        "option_ids": [
+          9,
+          7
+        ],
+        "price": 6.10,
+        "discountPercentage": 10,
+        "sku": "191288010:-6;191286172:111888051;"
+      },
+      {
+        "id": 105196065770,
+        "option_ids": [
+          11,
+          6
+        ],
+        "price": 6.10,
+        "discountPercentage": 10,
+        "sku": "191288010:-1;191286172:461058311;"
+      },
+      {
+        "id": 105196065763,
+        "option_ids": [
+          9,
+          4
+        ],
+        "price": 6.10,
+        "discountPercentage": 10,
+        "sku": "191288010:-6;191286172:28316;"
+      },
+      {
+        "id": 105196065755,
+        "option_ids": [
+          13,
+          3
+        ],
+        "price": 6.10,
+        "discountPercentage": 10,
+        "sku": "191288010:-4;191286172:28315;"
+      },
+      {
+        "id": 105196065767,
+        "option_ids": [
+          13,
+          5
+        ],
+        "price": 6.10,
+        "discountPercentage": 10,
+        "sku": "191288010:-4;191286172:28317;"
+      },
+      {
+        "id": 105196065772,
+        "option_ids": [
+          10,
+          6
+        ],
+        "price": 6.10,
+        "discountPercentage": 10,
+        "sku": "191288010:-3;191286172:461058311;"
+      },
+      {
+        "id": 105196065780,
+        "option_ids": [
+          14,
+          7
+        ],
+        "price": 6.10,
+        "discountPercentage": 10,
+        "sku": "191288010:-5;191286172:111888051;"
+      },
+      {
+        "id": 105196065758,
+        "option_ids": [
+          11,
+          4
+        ],
+        "price": 6.10,
+        "discountPercentage": 10,
+        "sku": "191288010:-1;191286172:28316;"
+      },
+      {
+        "id": 105196065775,
+        "option_ids": [
+          9,
+          6
+        ],
+        "price": 6.10,
+        "discountPercentage": 10,
+        "sku": "191288010:-6;191286172:461058311;"
+      },
+      {
+        "id": 105196065778,
+        "option_ids": [
+          10,
+          7
+        ],
+        "price": 6.10,
+        "discountPercentage": 10,
+        "sku": "191288010:-3;191286172:111888051;"
+      },
+      {
+        "id": 105196065754,
+        "option_ids": [
+          10,
+          3
+        ],
+        "price": 6.10,
+        "discountPercentage": 10,
+        "sku": "191288010:-3;191286172:28315;"
+      },
+      {
+        "id": 105196065768,
+        "option_ids": [
+          14,
+          5
+        ],
+        "price": 6.10,
+        "discountPercentage": 10,
+        "sku": "191288010:-5;191286172:28317;"
+      },
+      {
+        "id": 105196065756,
+        "option_ids": [
+          14,
+          3
+        ],
+        "price": 6.10,
+        "discountPercentage": 10,
+        "sku": "191288010:-5;191286172:28315;"
+      },
+      {
+        "id": 105196065774,
+        "option_ids": [
+          14,
+          6
+        ],
+        "price": 6.10,
+        "discountPercentage": 10,
+        "sku": "191288010:-5;191286172:461058311;"
+      },
+      {
+        "id": 105196065760,
+        "option_ids": [
+          10,
+          4
+        ],
+        "price": 6.10,
+        "discountPercentage": 10,
+        "sku": "191288010:-3;191286172:28316;"
+      },
+      {
+        "id": 105196065777,
+        "option_ids": [
+          12,
+          7
+        ],
+        "price": 6.10,
+        "discountPercentage": 10,
+        "sku": "191288010:-2;191286172:111888051;"
+      },
+      {
+        "id": 105196065769,
+        "option_ids": [
+          9,
+          5
+        ],
+        "price": 6.10,
+        "discountPercentage": 10,
+        "sku": "191288010:-6;191286172:28317;"
+      },
+      {
+        "id": 105196065753,
+        "option_ids": [
+          12,
+          3
+        ],
+        "price": 6.10,
+        "discountPercentage": 10,
+        "sku": "191288010:-2;191286172:28315;"
+      },
+      {
+        "id": 105196065757,
+        "option_ids": [
+          9,
+          3
+        ],
+        "price": 6.10,
+        "discountPercentage": 10,
+        "sku": "191288010:-6;191286172:28315;"
+      },
+      {
+        "id": 105196065771,
+        "option_ids": [
+          12,
+          6
+        ],
+        "price": 6.10,
+        "discountPercentage": 10,
+        "sku": "191288010:-2;191286172:461058311;"
+      }
+    ],
+    "thumbnail": "https://s.alicdn.com/@sc04/kf/H12d736c2eb4545a4a62b8314e1fd103c5.jpeg_250x250xz.jpg"
+  }
+]

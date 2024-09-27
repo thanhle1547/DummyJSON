@@ -98,3 +98,4 @@ firebase.json
 src/constants/secrets/*
 !firebase-credentials.example.json
 
+resource
