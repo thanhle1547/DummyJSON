@@ -517,11 +517,11 @@ controller.changePassword = async data => {
   const { token, oldPassword, newPassword } = data;
 
   if (!oldPassword) {
-    throw new APIError(`oldPassword required`, 400);
+    throw new APIError("oldPassword required", 400);
   }
 
   if (!newPassword) {
-    throw new APIError(`newPassword required`, 400);
+    throw new APIError("newPassword required", 400);
   }
 
   if (!token) throw new APIError('Authentication Problem', 403);
@@ -551,7 +551,7 @@ controller.changePassword = async data => {
   const currentPassword = account.password;
 
   if (currentPassword !== oldPassword) {
-    throw new APIError(`Invalid oldPassword [${currentPassword}] [${oldPassword}]`, 400);
+    throw new APIError("Invalid oldPassword", 400);
   }
 
   await accountDocumentRef.update({
