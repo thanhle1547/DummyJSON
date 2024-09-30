@@ -516,6 +516,14 @@ controller.resetPassword = async data => {
 controller.changePassword = async data => {
   const { token, oldPassword, newPassword } = data;
 
+  if (!oldPassword) {
+    throw new APIError(`oldPassword required`, 400);
+  }
+
+  if (!newPassword) {
+    throw new APIError(`newPassword required`, 400);
+  }
+
   if (!token) throw new APIError('Authentication Problem', 403);
 
   if (isAccessTokenEmpty(token)) {
