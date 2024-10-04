@@ -62,6 +62,27 @@
     ],
     "options": [
       {
+        "name": "Color",
+        "type": "color",
+        "values": [
+          {
+            "id": 9,
+            "name": "Black",
+            "colorCode": "#000000"
+          },
+          {
+            "id": 10,
+            "name": "White",
+            "colorCode": "#ffffff"
+          },
+          {
+            "id": 11,
+            "name": "Light gray",
+            "colorCode": "#f2faff"
+          }
+        ]
+      },
+      {
         "name": "Size",
         "type": "size",
         "values": [
@@ -88,27 +109,6 @@
           {
             "id": 8,
             "name": "4XL"
-          }
-        ]
-      },
-      {
-        "name": "Color",
-        "type": "color",
-        "values": [
-          {
-            "id": 9,
-            "name": "Black",
-            "colorCode": "#000000"
-          },
-          {
-            "id": 10,
-            "name": "White",
-            "colorCode": "#ffffff"
-          },
-          {
-            "id": 11,
-            "name": "Light gray",
-            "colorCode": "#f2faff"
           }
         ]
       }
@@ -150,8 +150,8 @@
       {
         "id": 105029224430,
         "option_ids": [
-          9,
-          6
+          6,
+          9
         ],
         "stock": 4,
         "price": 7.50,
@@ -227,8 +227,8 @@
       {
         "id": 105029224429,
         "option_ids": [
-          9,
-          5
+          5,
+          9
         ],
         "stock": 0,
         "price": 7.50,
@@ -377,9 +377,13 @@
       {
         "id": 105196065761,
         "option_ids": [
-          13,
-          4
+          4,
+          13
         ],
+        "options": {
+          "color_id": 13,
+          "size_id": 4
+        },
         "stock": 0,
         "price": 6.10,
         "discountPercentage": 10,
@@ -391,6 +395,10 @@
           12,
           5
         ],
+        "options": {
+          "color_id": 12,
+          "size_id": 5
+        },
         "stock": 0,
         "price": 6.10,
         "discountPercentage": 10,
@@ -402,6 +410,10 @@
           11,
           5
         ],
+        "options": {
+          "color_id": 11,
+          "size_id": 5
+        },
         "stock": 10,
         "price": 6.10,
         "discountPercentage": 10,
@@ -413,6 +425,10 @@
           11,
           3
         ],
+        "options": {
+          "color_id": 11,
+          "size_id": 3
+        },
         "stock": 10,
         "price": 6.10,
         "discountPercentage": 10,
@@ -421,9 +437,13 @@
       {
         "id": 105196065773,
         "option_ids": [
-          13,
-          6
+          6,
+          13
         ],
+        "options": {
+          "color_id": 13,
+          "size_id": 6
+        },
         "stock": 1,
         "price": 6.10,
         "discountPercentage": 10,
@@ -435,6 +455,10 @@
           14,
           4
         ],
+        "options": {
+          "color_id": 14,
+          "size_id": 4
+        },
         "stock": 10,
         "price": 6.10,
         "discountPercentage": 10,
@@ -446,6 +470,10 @@
           13,
           7
         ],
+        "options": {
+          "color_id": 13,
+          "size_id": 7
+        },
         "stock": 9,
         "price": 6.10,
         "discountPercentage": 10,
@@ -457,6 +485,10 @@
           10,
           5
         ],
+        "options": {
+          "color_id": 10,
+          "size_id": 5
+        },
         "stock": 1,
         "price": 6.10,
         "discountPercentage": 10,
@@ -468,6 +500,10 @@
           12,
           4
         ],
+        "options": {
+          "color_id": 12,
+          "size_id": 4
+        },
         "stock": 0,
         "price": 6.10,
         "discountPercentage": 10,
@@ -479,6 +515,10 @@
           11,
           7
         ],
+        "options": {
+          "color_id": 11,
+          "size_id": 7
+        },
         "stock": 1,
         "price": 6.10,
         "discountPercentage": 10,
@@ -490,6 +530,10 @@
           9,
           7
         ],
+        "options": {
+          "color_id": 9,
+          "size_id": 7
+        },
         "stock": 0,
         "price": 6.10,
         "discountPercentage": 10,
@@ -501,6 +545,10 @@
           11,
           6
         ],
+        "options": {
+          "color_id": 11,
+          "size_id": 6
+        },
         "stock": 2,
         "price": 6.10,
         "discountPercentage": 10,
@@ -512,6 +560,10 @@
           9,
           4
         ],
+        "options": {
+          "color_id": 9,
+          "size_id": 4
+        },
         "stock": 5,
         "price": 6.10,
         "discountPercentage": 10,
@@ -523,6 +575,10 @@
           13,
           3
         ],
+        "options": {
+          "color_id": 13,
+          "size_id": 3
+        },
         "stock": 9,
         "price": 6.10,
         "discountPercentage": 10,
@@ -534,6 +590,10 @@
           13,
           5
         ],
+        "options": {
+          "color_id": 13,
+          "size_id": 5
+        },
         "stock": 1,
         "price": 6.10,
         "discountPercentage": 10,
@@ -545,6 +605,10 @@
           10,
           6
         ],
+        "options": {
+          "color_id": 10,
+          "size_id": 6
+        },
         "stock": 10,
         "price": 6.10,
         "discountPercentage": 10,
@@ -556,6 +620,10 @@
           14,
           7
         ],
+        "options": {
+          "color_id": 14,
+          "size_id": 7
+        },
         "stock": 15,
         "price": 6.10,
         "discountPercentage": 10,
@@ -567,6 +635,10 @@
           11,
           4
         ],
+        "options": {
+          "color_id": 11,
+          "size_id": 4
+        },
         "stock": 5,
         "price": 6.10,
         "discountPercentage": 10,
@@ -578,6 +650,10 @@
           9,
           6
         ],
+        "options": {
+          "color_id": 9,
+          "size_id": 6
+        },
         "stock": 22,
         "price": 6.10,
         "discountPercentage": 10,
@@ -589,6 +665,10 @@
           10,
           7
         ],
+        "options": {
+          "color_id": 10,
+          "size_id": 7
+        },
         "price": 6.10,
         "discountPercentage": 10,
         "sku": "191288010:-3;191286172:111888051;"
@@ -599,6 +679,10 @@
           10,
           3
         ],
+        "options": {
+          "color_id": 10,
+          "size_id": 3
+        },
         "stock": 8,
         "price": 6.10,
         "discountPercentage": 10,
@@ -610,6 +694,10 @@
           14,
           5
         ],
+        "options": {
+          "color_id": 14,
+          "size_id": 5
+        },
         "stock": 10,
         "price": 6.10,
         "discountPercentage": 10,
@@ -621,6 +709,10 @@
           14,
           3
         ],
+        "options": {
+          "color_id": 14,
+          "size_id": 3
+        },
         "stock": 10,
         "price": 6.10,
         "discountPercentage": 10,
@@ -632,6 +724,10 @@
           14,
           6
         ],
+        "options": {
+          "color_id": 14,
+          "size_id": 6
+        },
         "stock": 10,
         "price": 6.10,
         "discountPercentage": 10,
@@ -643,6 +739,10 @@
           10,
           4
         ],
+        "options": {
+          "color_id": 10,
+          "size_id": 4
+        },
         "stock": 10,
         "price": 6.10,
         "discountPercentage": 10,
@@ -654,6 +754,10 @@
           12,
           7
         ],
+        "options": {
+          "color_id": 12,
+          "size_id": 7
+        },
         "stock": 0,
         "price": 6.10,
         "discountPercentage": 10,
@@ -665,6 +769,10 @@
           9,
           5
         ],
+        "options": {
+          "color_id": 9,
+          "size_id": 5
+        },
         "stock": 9,
         "price": 6.10,
         "discountPercentage": 10,
@@ -676,6 +784,10 @@
           12,
           3
         ],
+        "options": {
+          "color_id": 12,
+          "size_id": 3
+        },
         "stock": 0,
         "price": 6.10,
         "discountPercentage": 10,
@@ -687,6 +799,10 @@
           9,
           3
         ],
+        "options": {
+          "color_id": 9,
+          "size_id": 3
+        },
         "stock": 1,
         "price": 6.10,
         "discountPercentage": 10,
@@ -698,6 +814,10 @@
           12,
           6
         ],
+        "options": {
+          "color_id": 12,
+          "size_id": 6
+        },
         "stock": 0,
         "price": 6.10,
         "discountPercentage": 10,
