@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<!-- header -->
+<%- include('./partials/docs-head') %>
+
+<body>
+  <!-- header -->
+  <%- include('./partials/header') %>
+
+  <!-- side-nav -->
+  <%- include('./partials/docs-side-nav') %>
+
+  <section>
+    <div class="content">
+      <h1 class="docs-title">
+        <img src="https://assets.dummyjson.com/public/img/icons/cart.svg" class="icon" alt="svg icon" /> Carts with Firebase - Docs
+      </h1>
+      <p class="display-para">
+        The <strong>cart</strong> endpoint useful for prototyping e-commerce functionalities such as cart management and checkout processes.
+      </p>
+
+      <div class="resource" id="crwf-items">
+        <a href="#crwf-items" class="res-title">Get cart items</a>
+        <pre><code class="language-js">
+          fetch('https://dummyjson.com/cart/firebase/items/&lt;YOUR-REGISTERED-ID&gt;', {
+            method: 'POST',
+            headers: {
+              'Authorization': 'Bearer /* YOUR_TOKEN_HERE */', 
+            },
+          })
+          .then(res => res.json())
+          .then(console.log);
+        </code></pre>
+
+        <button class="show-output btn">Show Output</button>
+
+        <pre class="output"><code class="language-json">
+          {
+            "products": [
+              {
+                "id": 1,
+                "variantId": null,
+                "title": "Essence Mascara Lash Princess",
+                "price": 9.99,
+                "stock": 5,
+                "quantity": 1,
+                "total": 9.99,
+                "discountPercentage": 7.17,
+                "discountedPrice": 9.27,
+                "thumbnail": "https://cdn.dummyjson.com/products/images/beauty/Essence%20Mascara%20Lash%20Princess/thumbnail.png"
+              }
+            ],
+            "total": 9.99,
+            "discountedTotal": 9.27,
+            "delivery": {
+              "charge": 0
+            },
+            "totalQuantity": 1,
+            "selectedCount": 0
+          }
+        </code></pre>
+      </div>
+
+      <div class="resource" id="crwf-add-item">
+        <a href="#crwf-add-item" class="res-title">Add item to cart</a>
+        <div>
+          <pre><code class="language-js">
+            fetch('https://dummyjson.com/cart/firebase/add/&lt;YOUR-REGISTERED-ID&gt;', {
+              method: 'POST',
+              headers: {
+                'Authorization': 'Bearer /* YOUR_TOKEN_HERE */', 
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({
+                productId: 1601034753736,
+                productVariantId: 105029224428, // if exist
+                quantity: 1
+              })
+            })
+            .then(res => res.json())
+            .then(console.log);
+          </code></pre>
+  
+          <button class="show-output btn">Show Output</button>
+  
+          <pre class="output"><code class="language-json">
+            {
+              "products": [
+                {
+                  "id": 1,
+                  "variantId": null,
+                  "title": "Essence Mascara Lash Princess",
+                  "price": 9.99,
+                  "stock": 5,
+                  "quantity": 1,
+                  "total": 9.99,
+                  "discountPercentage": 7.17,
+                  "discountedPrice": 9.27,
+                  "thumbnail": "https://cdn.dummyjson.com/products/images/beauty/Essence%20Mascara%20Lash%20Princess/thumbnail.png"
+                },
+                {
+                  "id": 1601034753736,
+                  "variantId": 105029224428,
+                  "title": "Men's Summer Set",
+                  "price": 7.5,
+                  "stock": 20,
+                  "quantity": 1,
+                  "total": 7.5,
+                  "discountPercentage": 0,
+                  "discountedPrice": 7.5,
+                  "thumbnail": "https://s.alicdn.com/@sc04/kf/H2d7236d1bcd04feca23a75ab7b112a2aQ.jpg_250x250xz.jpg"
+                }
+              ],
+              "total": 17.49,
+              "discountedTotal": 16.77,
+              "delivery": {
+                "charge": 0
+              },
+              "totalQuantity": 2,
+              "selectedCount": 0
+            }
+          </code></pre>
+        </div>
+      </div>
+
+      <div class="resource" id="crwf-update-item">
+        <a href="#crwf-update-item" class="res-title">Update cart item</a>
+        <div>
+          <pre><code class="language-js">
+            fetch('https://dummyjson.com/cart/firebase/update/&lt;YOUR-REGISTERED-ID&gt;', {
+              method: 'POST',
+              headers: {
+                'Authorization': 'Bearer /* YOUR_TOKEN_HERE */', 
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({
+                productId: 1601034753736,
+                productVariantId: 105029224428, // if exist
+                quantity: 4
+              })
+            })
+            .then(res => res.json())
+            .then(console.log);
+          </code></pre>
+  
+          <button class="show-output btn">Show Output</button>
+  
+          <pre class="output"><code class="language-json">
+            {
+              "products": [
+                {
+                  "id": 1,
+                  "variantId": null,
+                  "title": "Essence Mascara Lash Princess",
+                  "price": 9.99,
+                  "stock": 5,
+                  "quantity": 1,
+                  "total": 9.99,
+                  "discountPercentage": 7.17,
+                  "discountedPrice": 9.27,
+                  "thumbnail": "https://cdn.dummyjson.com/products/images/beauty/Essence%20Mascara%20Lash%20Princess/thumbnail.png"
+                },
+                {
+                  "id": 1601034753736,
+                  "variantId": 105029224428,
+                  "title": "Men's Summer Set",
+                  "price": 7.5,
+                  "stock": 20,
+                  "quantity": 4,
+                  "total": 30,
+                  "discountPercentage": 0,
+                  "discountedPrice": 30,
+                  "thumbnail": "https://s.alicdn.com/@sc04/kf/H2d7236d1bcd04feca23a75ab7b112a2aQ.jpg_250x250xz.jpg"
+                }
+              ],
+              "total": 39.99,
+              "discountedTotal": 39.27,
+              "delivery": {
+                "charge": 0
+              },
+              "totalQuantity": 5,
+              "selectedCount": 0
+            }
+          </code></pre>
+        </div>
+      </div>
+
+      <div class="resource" id="crwf-remove-item">
+        <a href="#crwf-remove-item" class="res-title">Remove cart item</a>
+        <div>
+          <pre><code class="language-js">
+            fetch('https://dummyjson.com/cart/firebase/remove/&lt;YOUR-REGISTERED-ID&gt;', {
+              method: 'POST',
+              headers: {
+                'Authorization': 'Bearer /* YOUR_TOKEN_HERE */', 
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({
+                productId: 1601034753736,
+                productVariantId: 105029224428, // if exist
+              })
+            })
+            .then(res => res.json())
+            .then(console.log);
+          </code></pre>
+  
+          <button class="show-output btn">Show Output</button>
+  
+          <pre class="output"><code class="language-json">
+            {
+              "products": [
+                {
+                  "id": 1,
+                  "variantId": null,
+                  "title": "Essence Mascara Lash Princess",
+                  "price": 9.99,
+                  "stock": 5,
+                  "quantity": 1,
+                  "total": 9.99,
+                  "discountPercentage": 7.17,
+                  "discountedPrice": 9.27,
+                  "thumbnail": "https://cdn.dummyjson.com/products/images/beauty/Essence%20Mascara%20Lash%20Princess/thumbnail.png"
+                }
+              ],
+              "total": 9.99,
+              "discountedTotal": 9.27,
+              "delivery": {
+                "charge": 0
+              },
+              "totalQuantity": 1,
+              "selectedCount": 0
+            }
+          </code></pre>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- footer -->
+  <%- include('./partials/docs-footer') %>
+
+  <script>
+    selectNavItem(window.location.hash || '#crwf-items');
+  </script>
+</body>
+
+</html>

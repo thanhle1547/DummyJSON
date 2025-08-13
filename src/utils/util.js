@@ -175,6 +175,17 @@ utils.getNestedValue = (obj, keys) => {
   return keys.split('.').reduce((o, k) => (o || {})[k], obj);
 };
 
+// Group objects by property
+utils.groupBy = (arr, keys) => {
+  return arr.reduce((groups, item) => {
+    const compositeKey = keys.map(key => item[key]).join('-');
+    const group = (groups[compositeKey] || []);
+    group.push(item);
+    groups[compositeKey] = group;
+    return groups;
+  }, {});
+}
+
 utils.limitArray = (arr, limit) => {
   return limit === 0 || limit > arr.length ? arr : arr.slice(0, limit);
 };
@@ -232,6 +243,10 @@ utils.isValidNumberInRange = (num, start, end) => {
   const parsedNum = Number(num);
   return !Number.isNaN(parsedNum) && parsedNum >= start && parsedNum <= end;
 };
+
+utils.roundAt2DecimalPlaces = (num) => {
+  return Math.round((num + Number.EPSILON) * 100) / 100;
+}
 
 utils.getRandomFromArray = array => {
   return array[Math.floor(Math.random() * array.length)];

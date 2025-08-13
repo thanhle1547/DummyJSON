@@ -41,6 +41,11 @@ firebase.getOtpCollectionRef = data => {
   return firestore.collection('otp');
 }
 
+firebase.getCartCollectionRef = data => {
+  const firestore = getAdminFirestore(data);
+  return firestore.collection('cart');
+}
+
 /**
  * Used to refine the results of a {@link Query}.
  * @returns {Filter} The created {@link Filter}.

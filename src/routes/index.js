@@ -8,6 +8,7 @@ router.use('/', forceHTTPS, require('./static'));
 router.use('/auth', require('./auth'));
 router.use('/auth', require('./auth_w_firebase'));
 router.use(['/cart', '/carts'], require('./cart'));
+router.use('/cart', require('./cart_w_firebase'));
 router.use(['/comment', '/comments'], require('./comment'));
 router.use(['/post', '/posts'], require('./post'));
 router.use(['/product', '/products'], require('./product'));

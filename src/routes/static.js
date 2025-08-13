@@ -50,6 +50,7 @@ const availableResources = [
   'recipes',
   'auth',
   'awf', // Auth with Firebase
+  'crwf', // Carts with Firebase
   'http',
 ];
 
