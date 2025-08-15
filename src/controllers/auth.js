@@ -11,8 +11,9 @@ const {
   getUserPayload,
   isValidNumberInRange,
   findUserWithUsernameAndId,
+  trueTypeOf,
 } = require('../utils/util');
-const { thirtyDaysInMints: maxTokenExpireTime } = require('../constants');
+const { maxTokenExpireMins } = require('../constants');
 
 const controller = {};
 
@@ -24,8 +25,12 @@ controller.loginByUsernamePassword = async data => {
     throw new APIError(`Username and password required`, 400);
   }
 
-  if (!isValidNumberInRange(expiresInMins, 1, maxTokenExpireTime)) {
-    throw new APIError(`maximum token expire time can be ${maxTokenExpireTime} minutes`);
+  if (trueTypeOf(username) !== 'string') {
+    throw new APIError('Username is not valid', 400);
+  }
+
+  if (expiresInMins && !isValidNumberInRange(expiresInMins, 1, maxTokenExpireMins)) {
+    throw new APIError(`Maximum access token expire time can be ${maxTokenExpireMins} minutes`);
   }
 
   const user = frozenData.users.find(u => {
@@ -39,16 +44,21 @@ controller.loginByUsernamePassword = async data => {
     throw new APIError(`Invalid credentials`, 400);
   }
 
-  const payload = getUserPayload(user);
-
   try {
-    const token = await generateAccessToken(payload, expiresInMins);
-    const refreshToken = await generateRefreshToken(payload, maxTokenExpireTime);
+    const payload = getUserPayload(user);
+
+    const accessToken = await generateAccessToken(payload, expiresInMins);
+    const refreshToken = await generateRefreshToken(payload);
 
     return {
       ...payload,
-      token,
+      accessToken,
       refreshToken,
+      cookieData: {
+        httpOnly: true,
+        secure: true,
+        maxAge: expiresInMins * 60 * 1000, // convert minutes to milliseconds
+      },
     };
   } catch (err) {
     throw new APIError(err.message, 400);
@@ -79,15 +89,13 @@ controller.getUserInfo = async data => {
 };
 
 // get new refresh token
-controller.getNewRefreshToken = async data => {
-  const { refreshToken, expiresInMins = 60 } = data;
-
-  if (!isValidNumberInRange(expiresInMins, 1, maxTokenExpireTime)) {
-    throw new APIError(`maximum token expire time can be ${maxTokenExpireTime} minutes`);
-  }
-
+controller.getNewRefreshToken = async ({ refreshToken, expiresInMins = maxTokenExpireMins }) => {
   if (!refreshToken) {
     throw new APIError(`Refresh token required`, 401);
+  }
+
+  if (!isValidNumberInRange(expiresInMins, 1, maxTokenExpireMins)) {
+    throw new APIError(`Maximum access token expire time can be ${maxTokenExpireMins} minutes`);
   }
 
   let user;
@@ -105,10 +113,10 @@ controller.getNewRefreshToken = async data => {
 
   const payload = getUserPayload(user);
 
-  const newAccessToken = await generateAccessToken(payload);
-  const newRefreshToken = await generateRefreshToken(payload, maxTokenExpireTime);
+  const newAccessToken = await generateAccessToken(payload, expiresInMins);
+  const newRefreshToken = await generateRefreshToken(payload);
 
-  return { token: newAccessToken, refreshToken: newRefreshToken };
+  return { accessToken: newAccessToken, refreshToken: newRefreshToken };
 };
 
 module.exports = controller;

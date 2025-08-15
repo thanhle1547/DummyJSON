@@ -1,5 +1,5 @@
 const fs = require('fs');
-const httpCodes = require('./httpCodes');
+const httpCodes = require('./http-codes');
 const path = require('path');
 
 const firebaseConfigDir = process.env.FB_CONFIG_DIRS;
@@ -7,13 +7,14 @@ const firebaseConfigDir = process.env.FB_CONFIG_DIRS;
 const constants = {};
 
 constants.REQUIRED_ENV_VARIABLES = ['JWT_SECRET'];
-constants.OPTIONAL_ENV_VARIABLES = [];
+constants.OPTIONAL_ENV_VARIABLES = ['LOG_ENABLED'];
 
 constants.requestWhitelist = ['/favicon.ico', '/static', '/public', '/fav.png'];
 
 constants.httpCodes = httpCodes;
 
-constants.thirtyDaysInMints = 30 * 24 * 60;
+// 30 days in minutes
+constants.maxTokenExpireMins = 30 * 24 * 60;
 
 constants.fiveMints = 5;
 

@@ -2,22 +2,33 @@ const express = require('express');
 const compression = require('compression');
 const helmet = require('helmet');
 const cors = require('cors');
-
-const applyRateLimit = require('../utils/applyRateLimit');
-const cleanRequest = require('./cleanRequest');
-const delayResponse = require('./delayResponse');
+const cookieParser = require('cookie-parser');
+const setClientInfo = require('./set-client-info');
+const requestLogger = require('./request-logger');
+const cleanRequest = require('./clean-request');
+const delayResponse = require('./delay-response');
+const rateLimiter = require('./rate-limiter');
+const wwwRedirect = require('./www-redirect');
+const removeHeaders = require('./remove-headers');
 const { isDev } = require('../utils/util');
 
-function injectMiddleWares(app) {
-  // enable compression.
-  app.use(compression());
+// for parsing application/json
+const expressJson = express.json({ limit: '300kb' });
+// for parsing application/x-www-form-urlencoded
+const expressUrlencoded = express.urlencoded({ extended: true, limit: '300kb' });
 
-  // enable CORS.
-  //
-  // To enable Cross-origin resource sharing (CORS)
-  // which is a mechanism that allows restricted resources
-  // from being accessed from external domains.
-  app.use(cors());
+// allow cross-origin resource policy
+const helmetConfig = {
+  crossOriginResourcePolicy: false,
+  // for testing social login and refresh on local
+  crossOriginEmbedderPolicy: false,
+  // crossOriginOpenerPolicy: { policy: "same-origin-allow-popups" },
+};
+
+function injectMiddleWares(app) {
+  app.set('trust proxy', 1);
+  app.use(setClientInfo);
+  app.use(rateLimiter);
 
   // use helmet JS.
   //
@@ -38,20 +49,30 @@ function injectMiddleWares(app) {
   // and a host of other vulnerabilities.
   app.use(
     isDev
-    ? helmet({
-        crossOriginEmbedderPolicy: false,
-        // crossOriginOpenerPolicy: { policy: "same-origin-allow-popups" },
-      })
+    ? helmet(helmetConfig)
     : helmet()
   );
 
-  app.use(express.json({ limit: '300kb' })); // for parsing application/json
-  app.use(express.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
+  // enable CORS.
+  //
+  // To enable Cross-origin resource sharing (CORS)
+  // which is a mechanism that allows restricted resources
+  // from being accessed from external domains.
+  app.use(cors());
 
-  applyRateLimit(app);
+  // enable compression.
+  app.use(compression());
+
+  app.use(cookieParser());
+
+  app.use(expressJson);
+  app.use(expressUrlencoded);
+
+  app.use(requestLogger);
 
   app.use(cleanRequest);
-
+  app.use(wwwRedirect);
+  app.use(removeHeaders);
   app.use(delayResponse);
 }
 

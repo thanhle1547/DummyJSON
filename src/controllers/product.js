@@ -39,10 +39,7 @@ controller.searchProducts = _options => {
   const { limit, skip, select, q: searchQuery, sortBy, order, filterBy } = _options;
 
   let products = frozenData.products.filter(p => {
-    return (
-      p.title.toLowerCase().includes(searchQuery) ||
-      p.description.toLowerCase().includes(searchQuery)
-    );
+    return p.title.toLowerCase().includes(searchQuery) || p.description.toLowerCase().includes(searchQuery);
   });
 
   products = filterArray(products, filterBy);
@@ -120,6 +117,70 @@ controller.getProductsByCategoryName = ({ categoryName = '', ..._options }) => {
   const result = { products, total, skip, limit: products.length };
 
   return result;
+};
+
+// add new product
+controller.addNewProduct = ({ ...data }) => {
+  const { title, price, discountPercentage, stock, rating, images, thumbnail, description, brand, category } = data;
+
+  const newProduct = {
+    id: frozenData.products.length + 1,
+    title,
+    price,
+    discountPercentage,
+    stock,
+    rating,
+    images,
+    thumbnail,
+    description,
+    brand,
+    category,
+  };
+
+  return newProduct;
+};
+
+// update product by id
+controller.updateProductById = ({ id, ...data }) => {
+  const { title, price, discountPercentage, stock, rating, images, thumbnail, description, brand, category } = data;
+
+  const productFrozen = frozenData.products.find(p => p.id.toString() === id);
+
+  if (!productFrozen) {
+    throw new APIError(`Product with id '${id}' not found`, 404);
+  }
+
+  const updatedProduct = {
+    id: +id, // converting id to number
+    title: title || productFrozen.title,
+    price: price || productFrozen.price,
+    discountPercentage: discountPercentage || productFrozen.discountPercentage,
+    stock: stock || productFrozen.stock,
+    rating: rating || productFrozen.rating,
+    images: images || productFrozen.images,
+    thumbnail: thumbnail || productFrozen.thumbnail,
+    description: description || productFrozen.description,
+    brand: brand || productFrozen.brand,
+    category: category || productFrozen.category,
+  };
+
+  return updatedProduct;
+};
+
+// delete product by id
+controller.deleteProductById = ({ id }) => {
+  const productFrozen = frozenData.products.find(p => p.id.toString() === id);
+
+  if (!productFrozen) {
+    throw new APIError(`Product with id '${id}' not found`, 404);
+  }
+
+  const { ...product } = productFrozen;
+
+  product.isDeleted = true;
+  product.deletedOn = new Date().toISOString();
+
+  return product;
 };
 
 module.exports = controller;

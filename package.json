@@ -6,9 +6,7 @@
   "scripts": {
     "start": "node index.js",
     "dev": "env-cmd -f config/dev.env nodemon index.js",
-    "minify-public-js-watch": "node scripts/minify-and-watch-public-js-files.js",
-    "public:use-dev": "node scripts/switch-public-url.js --target \"http://localhost:3000/public\" --source \"https://assets.dummyjson.com/public\"",
-    "public:use-cdn": "node scripts/switch-public-url.js --target \"https://assets.dummyjson.com/public\" --source \"http://localhost:3000/public\""
+    "minify-public-js-watch": "node scripts/minify-and-watch-public-js-files.js"
   },
   "engines": {
     "node": ">=18.0"
@@ -16,16 +14,22 @@
   "license": "MIT",
   "dependencies": {
     "compression": "^1.7.4",
+    "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
     "ejs": "^3.1.6",
     "express": "^4.17.1",
     "express-rate-limit": "^5.4.1",
     "firebase-admin": "^12.3.0",
+    "form-data": "^4.0.0",
     "helmet": "3.21.1",
     "jsonwebtoken": "^8.5.1",
     "multer": "^1.4.5-lts.1",
+    "node-cache": "^5.1.2",
+    "on-finished": "^2.3.0",
+    "on-headers": "^1.0.2",
     "randomstring": "^1.3.0",
-    "uuid": "^10.0.0"
+    "uuid": "^10.0.0",
+    "winston": "^3.14.2"
   },
   "devDependencies": {
     "chokidar": "^3.6.0",

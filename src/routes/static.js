@@ -1,10 +1,9 @@
+const path = require('node:path');
 const router = require('express').Router();
-const path = require('path');
 const { capitalize, isDev } = require('../utils/util');
 
 const {
   GOOGLE_TAG_ID,
-  GOOGLE_PUBLISHER_ID,
   PORT = 8888,
 } = process.env;
 
@@ -22,9 +21,9 @@ const {
 
 const commonVariables = {
   googleTagId: GOOGLE_TAG_ID,
-  googlePublisherId: GOOGLE_PUBLISHER_ID,
   localhostPort: PORT,
   localTestFirebaseId: LOCAL_TEST_FIREBASE_ID,
+  canonical: 'https://dummyjson.com',
 };
 
 const localTestVariables = {
@@ -59,14 +58,15 @@ const availableLocalResources = [
 ];
 
 router.get('/', (req, res) => {
-  res.render('index', { ...commonVariables });
+  res.render('index', { ...commonVariables, stats: STATS || '100 million' });
 });
 
 router.get('/docs', (req, res) => {
   res.render('docs', {
     ...commonVariables,
     page: '',
-    description: `DummyJSON provides a fake REST API of JSON data for development, testing, and prototyping. Quickly get realistic data for your front-end projects.`,
+    canonical: `https://dummyjson.com/docs`,
+    description: `DummyJSON provides a free fake REST API with placeholder JSON data for development, testing, and prototyping. Access realistic data quickly for your projects.`,
   });
 });
 
@@ -88,7 +88,8 @@ router.get('/docs/:resource', (req, res, next) => {
   res.render(`docs-${resource}`, {
     ...variables,
     page: capitalizedResource,
-    description: `REST Endpoints filled with ${capitalizedResource} JSON data, DummyJSON provides a fake REST API of JSON data for development, testing, and prototyping. Quickly get realistic data for your front-end projects.`,
+    canonical: `https://dummyjson.com/docs/${resource}`,
+    description: `REST Endpoints filled with ${capitalizedResource} JSON data, DummyJSON provides a free fake REST API with placeholder JSON data for development, testing, and prototyping. Access realistic data quickly for your projects.`,
   });
 });
 

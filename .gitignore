@@ -8,6 +8,9 @@ package-lock.json
 # Output files
 dist
 
+# Cache files
+cache
+
 # Logs
 logs
 *.log
@@ -99,3 +102,6 @@ src/constants/secrets/*
 !firebase-credentials.example.json
 
 resource
+
+# Mac files
+.DS_Store

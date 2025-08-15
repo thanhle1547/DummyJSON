@@ -1,7 +1,8 @@
-const fs = require('fs/promises');
-const path = require('path');
+const fs = require('node:fs/promises');
+const path = require('node:path');
 const { v4 } = require('uuid');
 const { REQUIRED_ENV_VARIABLES, OPTIONAL_ENV_VARIABLES, httpCodes } = require('../constants');
+const { logWarn } = require('../helpers/logger');
 
 const utils = {};
 
@@ -21,7 +22,7 @@ const data = {
 
 utils.dataInMemory = data;
 
-utils.isDev = process.env.NODE_ENV !== 'production';
+utils.isDev = process.env.NODE_ENV === 'development';
 
 utils.loadDataInMemory = async () => {
   const baseDir = './database';
@@ -123,7 +124,7 @@ utils.validateEnvVar = () => {
   const optionalUnsetEnv = OPTIONAL_ENV_VARIABLES.filter(env => !(typeof process.env[env] !== 'undefined'));
 
   if (optionalUnsetEnv.length) {
-    console.warn(`Optional ENV variables are not set: [${optionalUnsetEnv.join(', ')}]`);
+    logWarn(`Optional ENV variables are not set: [${optionalUnsetEnv.join(', ')}]`);
   }
 };
 
@@ -139,7 +140,18 @@ utils.trueTypeOf = obj => {
     .toLowerCase();
 };
 
-utils.deepFreeze = function (obj) {
+utils.isEmpty = value => {
+  const type = utils.trueTypeOf(value);
+
+  if (value === null || value === undefined) return true;
+  if (type === 'string' && value.trim() === '') return true;
+  if (type === 'array' && value.length === 0) return true;
+  if (type === 'object' && Object.keys(value).length === 0) return true;
+
+  return false;
+};
+
+utils.deepFreeze = function(obj) {
   Object.freeze(obj);
 
   if (obj === undefined) {
@@ -172,6 +184,10 @@ utils.deepCopy = obj => {
 };
 
 utils.getNestedValue = (obj, keys) => {
+  if (!keys) {
+    return null;
+  }
+
   return keys.split('.').reduce((o, k) => (o || {})[k], obj);
 };
 
@@ -308,16 +324,26 @@ utils.getUserPayload = user => ({
   image: user.image,
 });
 
-// redirect to domain: https://assets.dummyjson.com/public/WHATEVER
-utils.redirectFn = (req, res) => {
-  console.log('[CDN] [Redirect]', req.url);
-  res.redirect(`https://assets.dummyjson.com/public${req.url}`);
-};
-
 utils.generateRandomId = () => {
   const uuid = v4();
   const parts = uuid.split('-');
   return `${parts[0].slice(0, 4)}-${parts[1]}-${parts[2].slice(0, 4)}-${parts[3]}`;
+};
+
+utils.timeDifference = (startDateMS, endDateMS) => {
+  const difference = endDateMS - startDateMS;
+  const minutes = Math.floor(difference / 1000 / 60);
+  const hours = Math.floor(difference / 1000 / 60 / 60);
+  const days = Math.floor(difference / 1000 / 60 / 60 / 24);
+  const remainingHours = hours % 24;
+  const remainingMinutes = minutes % 60;
+
+  let result = '';
+  if (days > 0) result += `${days} days, `;
+  if (remainingHours > 0) result += `${remainingHours} hours, `;
+  if (remainingMinutes >= 0) result += `${remainingMinutes} minutes`;
+
+  return result;
 };
 
 module.exports = utils;

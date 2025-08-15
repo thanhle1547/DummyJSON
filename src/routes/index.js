@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const forceHTTPS = require('../middleware/forceHTTPS');
+const forceHTTPS = require('../middleware/force-https');
 
 // static page routes
 router.use('/', forceHTTPS, require('./static'));
@@ -19,7 +19,10 @@ router.use(['/user', '/users'], require('./user'));
 router.use(['/http', '/https'], require('./http'));
 router.use(['/test', '/ping', '/health'], require('./test'));
 
-// redrector
+// dynamic resource routes
+router.use('/ip', require('./ip'));
+
+// redirect other routes
 router.use('/', require('./redirect'));
 
 module.exports = router;

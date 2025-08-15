@@ -1,20 +1,28 @@
-<span class="social-links">
-  <a href="https://github.com/Ovi/DummyJSON" target="_blank">
-    <img src="https://assets.dummyjson.com/public/img/icons/github.svg" alt="Github">
-  </a>
-  <a href="https://x.com/DummyJSON" target="_blank">
-    <img src="https://assets.dummyjson.com/public/img/icons/twitter_x.svg" alt="Github">
-  </a>
-  <a href="https://linkedin.com/company/DummyJSON" target="_blank">
-    <img src="https://assets.dummyjson.com/public/img/icons/linkedin.svg" alt="Github">
-  </a>
+<span class="social-links-container">
+  <div>
+    <a href="https://buymeacoffee.com/muhammadovi" class="buy-me-coffee-btn btn primary" target="_blank">
+      Buy me a coffee <img src="/public/img/icons/coffee.svg" alt="Coffee Icon" />
+    </a>
+  </div>
+
+  <div class="social-links-items">
+    <a href="https://github.com/Ovi/DummyJSON" target="_blank">
+      <img src="/public/img/icons/github.svg" alt="Github" />
+    </a>
+    <a href="https://x.com/DummyJSON" target="_blank">
+      <img src="/public/img/icons/twitter_x.svg" alt="Github" />
+    </a>
+    <a href="https://linkedin.com/company/DummyJSON" target="_blank">
+      <img src="/public/img/icons/linkedin.svg" alt="Github" />
+    </a>
+  </div>
 </span>
 
-<script src="https://assets.dummyjson.com/public/js/prism.min.js" async defer></script>
-<script src="https://assets.dummyjson.com/public/js/common.min.js" defer></script>
+<script src="/public/js/prism.min.js" async defer></script>
+<script src="/public/js/common.min.js" defer></script>
 
 <% if (typeof(localTestFirebaseApiKey) !== "undefined" && typeof isLocal !== 'undefined' && isLocal === true) { %>
-  <script src="http://localhost:<%= localhostPort %>/public/js/docs.js"></script>
+  <script src="/public/js/docs.js"></script>
 <% } else { %>
-  <script src="https://assets.dummyjson.com/public/js/docs.min.js"></script>
+  <script src="/public/js/docs.min.js"></script>
 <% } %>

@@ -13,7 +13,7 @@
   <section>
     <div class="content">
       <h1 class="docs-title">
-        <img src="https://assets.dummyjson.com/public/img/icons/home.svg" class="icon" alt="svg icon" /> DummyJSON - Docs
+        <img src="/public/img/icons/home.svg" class="icon" alt="svg icon" /> DummyJSON - Docs
       </h1>
       <p class="display-para">
         DummyJSON can be used with any type of front end project that needs products, carts, users, todos or any dummy
@@ -30,7 +30,7 @@
         <p class="res-desc">See if your internet is working &#128521;</p>
         <pre><code class="language-js">
           // Could be GET or POST/PUT/PATCH/DELETE
-          fetch('//dummyjson.com/test')
+          fetch('https://dummyjson.com/test')
           .then(res => res.json())
           .then(console.log);
 
@@ -68,14 +68,14 @@
 
       <div class="resource" id="intro-auth">
         <a href="#intro-auth" class="res-title">Authorizing Resources</a>
-        <p class="res-desc">All resources can be accessed via an authentication token to test as a logged-in user.</p>
-        <p class="res-tip">Go to auth module and generate an auth token to get data as an authorized user</p>
+        <p class="res-desc">All resources can be accessed via an access token to test as a logged-in user.</p>
+        <p class="res-tip">Go to auth module and generate an auth access token to get data as an authorized user</p>
         <pre><code class="language-js">
-          /* providing token in bearer */
+          /* providing access token in bearer */
           fetch('https://dummyjson.com/auth/RESOURCE', {
             method: 'GET', /* or POST/PUT/PATCH/DELETE */
             headers: {
-              'Authorization': 'Bearer /* YOUR_TOKEN_HERE */', 
+              'Authorization': 'Bearer /* YOUR_ACCESS_TOKEN_HERE */', 
               'Content-Type': 'application/json'
             }, 
           })
@@ -83,10 +83,23 @@
           .then(console.log);
         </code></pre>
       </div>
+
+      <div class="resource" id="intro-ip">
+        <a href="#intro-ip" class="res-title">IP Address</a>
+        <p class="res-desc">Get the IP address of the client</p>
+        <pre><code class="language-js">
+          // GET
+          fetch('https://dummyjson.com/ip')
+          .then(res => res.json())
+          .then(console.log);
+
+          /* { ip: '127.0.0.1', userAgent: 'Mozilla/5.0 ...' } */
+        </code></pre>
+      </div>
     </div>
   </section>
 
-  <script src="https://assets.dummyjson.com/public/js/prism.min.js" async defer></script>
+  <script src="/public/js/prism.min.js" async defer></script>
 
   <!-- footer -->
   <%- include('./partials/docs-footer') %>

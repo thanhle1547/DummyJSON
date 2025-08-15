@@ -1,3 +1,6 @@
+const path = require('node:path');
+const fs = require('node:fs');
+const multer = require('multer');
 const { requestWhitelist } = require('../constants');
 const { isNumber, dataInMemory } = require('../utils/util');
 const APIError = require('../utils/error');
@@ -55,10 +58,49 @@ helpers.verifyPostHandler = id => {
   // see if we can find the post
   const post = dataInMemory.posts.find(u => u.id.toString() === postId);
   if (!post) {
-    throw new APIError(`Post with id '${post}' not found`, 404);
+    throw new APIError(`Post with id '${postId}' not found`, 404);
   }
 
   return post;
+};
+
+helpers.isRequestInWhitelist = req => {
+  const url = req.originalUrl || req.url;
+
+  return requestWhitelist.find(u => url.includes(u));
+};
+
+// Configure multer to use disk storage for temporary file handling
+helpers.multerInstance = multer({
+  storage: multer.diskStorage({
+    destination: (req, file, cb) => {
+      const tmpDir = path.join(__dirname, '../..', 'tmp');
+      if (!fs.existsSync(tmpDir)) fs.mkdirSync(tmpDir);
+      cb(null, tmpDir);
+    },
+    filename: (req, file, cb) => {
+      const uniqueSuffix = `${Date.now()}-${Math.round(Math.random() * 1e9)}`;
+      cb(null, `${uniqueSuffix}-${file.originalname}`);
+    },
+  }),
+  limits: {
+    fileSize: 5 * 1024 * 1024, // 5MB file size limit
+    files: 5, // Allow up to 5 files
+  },
+});
+
+helpers.deleteMulterTemporaryFiles = async files => {
+  if (!files || !files.length) return;
+
+  files.forEach(file => {
+    fs.unlink(file.path, unlinkErr => {
+      if (unlinkErr) {
+        logError(`Error deleting file ${file.path}: ${unlinkErr.message}`, { file, error: unlinkErr });
+      } else {
+        log(`Deleted file: ${file.path}`);
+      }
+    });
+  });
 };
 
 module.exports = helpers;

@@ -1,8 +1,9 @@
 const express = require('express');
+const { log } = require('./src/helpers/logger');
 const injectMiddleWares = require('./src/middleware');
 const errorMiddleware = require('./src/middleware/error');
 const routes = require('./src/routes');
-const { validateEnvVar, loadDataInMemory, isDev, redirectFn } = require('./src/utils/util');
+const { validateEnvVar, loadDataInMemory } = require('./src/utils/util');
 const { version } = require('./package.json');
 
 const { PORT = 8888, NODE_ENV } = process.env;
@@ -25,7 +26,7 @@ async function setupApp() {
   app.set('view engine', 'ejs');
 
   // serving static files
-  app.use('/public', isDev ? express.static('public') : redirectFn);
+  app.use('/public', express.static('public'));
   app.use('/public-fork', express.static('public'));
 
   // routes
@@ -40,6 +41,6 @@ async function setupApp() {
 
   // start listening
   app.listen(PORT, () => {
-    console.info(`[Node][${NODE_ENV}] App v${version} running at http://localhost:${PORT}`);
+    log(`[Node][${NODE_ENV}] App v${version} running at http://localhost:${PORT}`);
   });
 }

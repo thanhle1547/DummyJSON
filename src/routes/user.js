@@ -24,8 +24,12 @@ router.get('/', (req, res) => {
 router.post('/login', async (req, res, next) => {
   try {
     const payload = await loginByUsernamePassword(req.body);
+    const { accessToken, refreshToken, cookieData, ...payloadData } = payload;
 
-    res.send(payload);
+    res.cookie('accessToken', accessToken, cookieData);
+    res.cookie('refreshToken', refreshToken, cookieData);
+
+    res.send({ accessToken, refreshToken, ...payloadData });
   } catch (error) {
     next(error);
   }

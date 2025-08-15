@@ -1,6 +1,6 @@
 highlightTryItJSONCodeBlock();
 handleHomePageResourcesSelector('.resource-selector-el');
-handleSectionScroll();
+handleSectionScrollViaArrowIcons();
 
 function highlightTryItJSONCodeBlock() {
   const el = document.querySelector('.try-yourself .json-code');
@@ -8,44 +8,6 @@ function highlightTryItJSONCodeBlock() {
 
   const htmlMarkup = highlightJSON({ '💬': '🤔' });
   el.innerHTML = htmlMarkup;
-}
-
-function handleSectionScroll() {
-  const sections = document.querySelectorAll('section');
-  if (!sections || sections.length < 2) return;
-
-  sections.forEach(section => {
-    section.addEventListener('wheel', e => {
-      if (section.classList.contains('last-section') && e.deltaY > 0) {
-        return;
-      }
-
-      if (e.target.closest('.json-code')) return;
-
-      e.preventDefault();
-
-      let nextSection = section.nextElementSibling;
-      let prevSection = section.previousElementSibling;
-
-      if (window.innerWidth < 576 || window.innerHeight < 600) {
-        while (nextSection && nextSection.offsetHeight === 0) {
-          nextSection = nextSection.nextElementSibling;
-        }
-
-        while (prevSection && prevSection.offsetHeight === 0) {
-          prevSection = prevSection.previousElementSibling;
-        }
-      }
-
-      const canScroll = e.deltaY > 0 ? nextSection : prevSection;
-      if (!canScroll) return;
-
-      window.scrollTo({
-        top: e.deltaY > 0 ? nextSection.offsetTop : prevSection.offsetTop,
-        behavior: 'smooth',
-      });
-    });
-  });
 }
 
 function handleHomePageResourcesSelector(selector) {
@@ -79,5 +41,28 @@ function handleHomePageResourcesSelector(selector) {
   document.addEventListener('click', function() {
     const expandedEl = document.querySelector(selector);
     if (expandedEl) expandedEl.classList.remove('expanded');
+  });
+}
+
+function handleSectionScrollViaArrowIcons() {
+  const arrowIcons = document.querySelectorAll('.arrow-down');
+
+  arrowIcons.forEach(icon => {
+    icon.addEventListener('click', function() {
+      const section = this.closest('section');
+      if (!section) return;
+
+      let targetSection = section.nextElementSibling;
+
+      // Check if target section is visible (for responsive layouts)
+      if (window.innerWidth < 576 || window.innerHeight < 600) {
+        while (targetSection && targetSection.offsetHeight === 0) {
+          targetSection = targetSection.nextElementSibling;
+        }
+        if (!targetSection) return;
+      }
+
+      targetSection.scrollIntoView({ behavior: 'smooth' });
+    });
   });
 }
