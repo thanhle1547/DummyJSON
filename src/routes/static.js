@@ -58,7 +58,7 @@ const availableLocalResources = [
 ];
 
 router.get('/', (req, res) => {
-  res.render('index', { ...commonVariables, stats: STATS || '100 million' });
+  res.render('index', { ...commonVariables });
 });
 
 router.get('/docs', (req, res) => {
