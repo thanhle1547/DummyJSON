@@ -26,6 +26,7 @@ const cleanRequest = async (req, res, next) => {
     const { limit = 30, skip = 0, q, key, value, delay, sortBy } = query;
     let { select, order } = query;
     let searchQuery = '';
+    let { price } = query;
 
     if (!isNumber(limit)) throw new APIError(`Invalid 'limit' - must be a number`, 400);
     if (!isNumber(skip)) throw new APIError(`Invalid 'skip' - must be a number`, 400);
@@ -74,6 +75,24 @@ const cleanRequest = async (req, res, next) => {
       order = 'asc';
     }
 
+    const filterBy = [];
+
+    if (price) {
+      if (trueTypeOf(price) === 'string') {
+        const range = price.split('-');
+        price = {
+          from: +range[0] || undefined,
+          to: +range[1] || undefined,
+        };
+
+        filterBy.push({
+          property: 'price',
+          condition: 'range',
+          value: price,
+        });
+      }
+    }
+
     options.limit = parseInt(limit, 10);
     options.skip = parseInt(skip, 10);
     options.delay = parseInt(delay, 10);
@@ -83,6 +102,7 @@ const cleanRequest = async (req, res, next) => {
     options.value = value;
     options.sortBy = sortBy;
     options.order = order;
+    options.filterBy = filterBy;
 
     // Multipart handling
     const contentType = (headers['content-type'] || '').toLowerCase();
