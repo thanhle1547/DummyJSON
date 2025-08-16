@@ -94,12 +94,6 @@ router.get('/docs/:resource', (req, res, next) => {
   });
 });
 
-router.get('/custom-response', (req, res) => {
-  res.render('custom-response', {
-    ...commonVariables,
-  });
-});
-
 router.get('/local/:resource', (req, res, next) => {
   const resource = (req.params.resource || '').toLowerCase();
 

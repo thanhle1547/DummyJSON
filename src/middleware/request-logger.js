@@ -6,7 +6,6 @@ const { logger } = require('../helpers/logger');
 const { LOG_ENABLED } = process.env;
 
 let requestCount = 0;
-let customRequestCount = 0;
 
 function requestLogger(req, res, next) {
   if (isRequestInWhitelist(req)) {
@@ -17,9 +16,6 @@ function requestLogger(req, res, next) {
   requestCount += 1;
 
   const requestURL = req.originalUrl || req.url;
-  if (requestURL.startsWith('/c/') || requestURL.startsWith('/custom-response')) {
-    customRequestCount += 1;
-  }
 
   if (!LOG_ENABLED) {
     next();
@@ -125,11 +121,9 @@ function startCountLogger() {
     process.send({
       type: 'request_counts',
       requestCount,
-      customRequestCount,
     });
 
     requestCount = 0;
-    customRequestCount = 0;
   }, 30 * 1000 /* 30 Seconds */);
 }
 
