@@ -58,7 +58,7 @@ const availableLocalResources = [
 ];
 
 router.get('/', (req, res) => {
-  res.render('index', { ...commonVariables });
+  res.render('index', { ...commonVariables, hasBanner: true });
 });
 
 router.get('/docs', (req, res) => {
