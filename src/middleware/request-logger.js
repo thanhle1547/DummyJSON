@@ -5,15 +5,11 @@ const { logger } = require('../helpers/logger');
 
 const { LOG_ENABLED } = process.env;
 
-let requestCount = 0;
-
 function requestLogger(req, res, next) {
   if (isRequestInWhitelist(req)) {
     next();
     return;
   }
-
-  requestCount += 1;
 
   const requestURL = req.originalUrl || req.url;
 
@@ -115,16 +111,3 @@ function getTotalTime(req, res) {
 function isHeadersSent(res) {
   return typeof res.headersSent !== 'boolean' ? Boolean(res._header) : res.headersSent;
 }
-
-function startCountLogger() {
-  setInterval(() => {
-    process.send({
-      type: 'request_counts',
-      requestCount,
-    });
-
-    requestCount = 0;
-  }, 30 * 1000 /* 30 Seconds */);
-}
-
-startCountLogger();
