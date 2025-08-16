@@ -1,4 +1,3 @@
-const cluster = require('node:cluster');
 const onFinished = require('on-finished');
 const onHeaders = require('on-headers');
 const { isRequestInWhitelist } = require('../helpers');
@@ -122,8 +121,6 @@ function isHeadersSent(res) {
 }
 
 function startCountLogger() {
-  if (!cluster.isWorker) return;
-
   setInterval(() => {
     process.send({
       type: 'request_counts',
