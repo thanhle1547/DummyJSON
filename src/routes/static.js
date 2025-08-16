@@ -90,6 +90,7 @@ router.get('/docs/:resource', (req, res, next) => {
     ...variables,
     page: capitalizedResource,
     canonical: `${URL}/docs/${resource}`,
+    baseUrl: URL,
     description: `REST Endpoints filled with ${capitalizedResource} JSON data, DummyJSON provides a free fake REST API with placeholder JSON data for development, testing, and prototyping. Access realistic data quickly for your projects.`,
   });
 });
@@ -107,6 +108,7 @@ router.get('/local/:resource', (req, res, next) => {
   res.render(`local-${resource}`, {
     ...commonVariables,
     ...localTestVariables,
+    baseUrl: URL,
     isLocal: true,
     page: capitalizedResource,
     description: `REST Endpoints filled with ${capitalizedResource} JSON data, DummyJSON provides a fake REST API of JSON data for development, testing, and prototyping. Quickly get realistic data for your front-end projects.`,

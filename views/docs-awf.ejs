@@ -43,7 +43,7 @@
       <div class="resource" id="awf-social-login">
         <a href="#awf-social-login" class="res-title">Login by social and get token</a>
         <pre><code class="language-js">
-          fetch('https://dummyjson.com/auth/login-social/&lt;YOUR-REGISTERED-ID&gt;', {
+          fetch('<%= baseUrl %>/auth/login-social/&lt;YOUR-REGISTERED-ID&gt;', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
@@ -74,7 +74,7 @@
         <a href="#awf-login" class="res-title">Login and get token</a>
         <div>
           <pre><code class="language-js">
-            fetch('https://dummyjson.com/auth/login-on-firebase/&lt;YOUR-REGISTERED-ID&gt;', {
+            fetch('<%= baseUrl %>/auth/login-on-firebase/&lt;YOUR-REGISTERED-ID&gt;', {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify({
@@ -114,7 +114,7 @@
             </ul>
           </div>
           <pre><code class="language-js">
-            fetch('https://dummyjson.com/auth/login-on-firebase/&lt;YOUR-REGISTERED-ID&gt;', {
+            fetch('<%= baseUrl %>/auth/login-on-firebase/&lt;YOUR-REGISTERED-ID&gt;', {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify({
@@ -142,7 +142,7 @@
         <a href="#awf-me" class="res-title">Get current auth user</a>
         <pre><code class="language-js">
           /* providing token in bearer */
-          fetch('https://dummyjson.com/auth/me/&lt;YOUR-REGISTERED-ID&gt;', {
+          fetch('<%= baseUrl %>/auth/me/&lt;YOUR-REGISTERED-ID&gt;', {
             method: 'GET',
             headers: {
               'Authorization': 'Bearer /* YOUR_TOKEN_HERE */', 
@@ -168,7 +168,7 @@
       <div class="resource" id="awf-refesh">
         <a href="#awf-refesh" class="res-title">Refresh auth session</a>
         <pre><code class="language-js">
-          fetch('https://dummyjson.com/auth/refresh/&lt;YOUR-REGISTERED-ID&gt;', {
+          fetch('<%= baseUrl %>/auth/refresh/&lt;YOUR-REGISTERED-ID&gt;', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
@@ -196,7 +196,7 @@
         <a href="#awf-register" class="res-title">Register</a>
         <div>
           <pre><code class="language-js">
-            fetch('https://dummyjson.com/auth/register/&lt;YOUR-REGISTERED-ID&gt;', {
+            fetch('<%= baseUrl %>/auth/register/&lt;YOUR-REGISTERED-ID&gt;', {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify({
@@ -237,7 +237,7 @@
             </ul>
           </div>
           <pre><code class="language-js">
-            fetch('https://dummyjson.com/auth/register/&lt;YOUR-REGISTERED-ID&gt;', {
+            fetch('<%= baseUrl %>/auth/register/&lt;YOUR-REGISTERED-ID&gt;', {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify({
@@ -265,7 +265,7 @@
       <div class="resource" id="awf-check-username-exist">
         <a href="#awf-check-username-exist" class="res-title">Check username exist</a>
         <pre><code class="language-js">
-          fetch('https://dummyjson.com/auth/check-username-exist/&lt;YOUR-REGISTERED-ID&gt;', {
+          fetch('<%= baseUrl %>/auth/check-username-exist/&lt;YOUR-REGISTERED-ID&gt;', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
@@ -289,7 +289,7 @@
       <div class="resource" id="awf-check-email-exist">
         <a href="#awf-check-email-exist" class="res-title">Check email exist</a>
         <pre><code class="language-js">
-          fetch('https://dummyjson.com/auth/check-email-exist/&lt;YOUR-REGISTERED-ID&gt;', {
+          fetch('<%= baseUrl %>/auth/check-email-exist/&lt;YOUR-REGISTERED-ID&gt;', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
@@ -320,7 +320,7 @@
           Either `username` or `email` param must exist to identity the user.
         </p>
         <pre><code class="language-js">
-          fetch('https://dummyjson.com/auth/verify-otp/&lt;YOUR-REGISTERED-ID&gt;', {
+          fetch('<%= baseUrl %>/auth/verify-otp/&lt;YOUR-REGISTERED-ID&gt;', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
@@ -362,7 +362,7 @@
           </ul>
         </div>
         <pre><code class="language-js">
-          fetch('https://dummyjson.com/auth/forgot-password/&lt;YOUR-REGISTERED-ID&gt;', {
+          fetch('<%= baseUrl %>/auth/forgot-password/&lt;YOUR-REGISTERED-ID&gt;', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
@@ -377,7 +377,7 @@
           Example of using `email` param.
         </div>
         <pre><code class="language-js">
-          fetch('https://dummyjson.com/auth/forgot-password/&lt;YOUR-REGISTERED-ID&gt;', {
+          fetch('<%= baseUrl %>/auth/forgot-password/&lt;YOUR-REGISTERED-ID&gt;', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
@@ -413,7 +413,7 @@
           Example of calling <a href="#awf-verify-otp">verify otp api</a>.
         </div>
         <pre><code class="language-js">
-          fetch('https://dummyjson.com/auth/verify-otp/&lt;YOUR-REGISTERED-ID&gt;', {
+          fetch('<%= baseUrl %>/auth/verify-otp/&lt;YOUR-REGISTERED-ID&gt;', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
@@ -438,7 +438,7 @@
           To identity the user, either `username` or `email` param must exist.
         </div>
         <pre><code class="language-js">
-          fetch('https://dummyjson.com/auth/reset-password/&lt;YOUR-REGISTERED-ID&gt;', {
+          fetch('<%= baseUrl %>/auth/reset-password/&lt;YOUR-REGISTERED-ID&gt;', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
@@ -462,7 +462,7 @@
       <div class="resource" id="awf-change-password">
         <a href="#awf-change-password" class="res-title">Change password</a>
         <pre><code class="language-js">
-          fetch('https://dummyjson.com/auth/change-password/&lt;YOUR-REGISTERED-ID&gt;', {
+          fetch('<%= baseUrl %>/auth/change-password/&lt;YOUR-REGISTERED-ID&gt;', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',

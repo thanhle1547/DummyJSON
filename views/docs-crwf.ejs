@@ -43,7 +43,7 @@
       <div class="resource" id="crwf-items">
         <a href="#crwf-items" class="res-title">Get cart items</a>
         <pre><code class="language-js">
-          fetch('https://dummyjson.com/cart/firebase/items/&lt;YOUR-REGISTERED-ID&gt;', {
+          fetch('<%= baseUrl %>/cart/firebase/items/&lt;YOUR-REGISTERED-ID&gt;', {
             method: 'POST',
             headers: {
               'Authorization': 'Bearer /* YOUR_TOKEN_HERE */', 
@@ -86,7 +86,7 @@
         <a href="#crwf-add-item" class="res-title">Add item to cart</a>
         <div>
           <pre><code class="language-js">
-            fetch('https://dummyjson.com/cart/firebase/add/&lt;YOUR-REGISTERED-ID&gt;', {
+            fetch('<%= baseUrl %>/cart/firebase/add/&lt;YOUR-REGISTERED-ID&gt;', {
               method: 'POST',
               headers: {
                 'Authorization': 'Bearer /* YOUR_TOKEN_HERE */', 
@@ -148,7 +148,7 @@
         <a href="#crwf-update-item" class="res-title">Update cart item</a>
         <div>
           <pre><code class="language-js">
-            fetch('https://dummyjson.com/cart/firebase/update/&lt;YOUR-REGISTERED-ID&gt;', {
+            fetch('<%= baseUrl %>/cart/firebase/update/&lt;YOUR-REGISTERED-ID&gt;', {
               method: 'POST',
               headers: {
                 'Authorization': 'Bearer /* YOUR_TOKEN_HERE */', 
@@ -210,7 +210,7 @@
         <a href="#crwf-remove-item" class="res-title">Remove cart item</a>
         <div>
           <pre><code class="language-js">
-            fetch('https://dummyjson.com/cart/firebase/remove/&lt;YOUR-REGISTERED-ID&gt;', {
+            fetch('<%= baseUrl %>/cart/firebase/remove/&lt;YOUR-REGISTERED-ID&gt;', {
               method: 'POST',
               headers: {
                 'Authorization': 'Bearer /* YOUR_TOKEN_HERE */', 
