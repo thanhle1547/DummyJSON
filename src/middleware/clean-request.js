@@ -1,6 +1,6 @@
 const APIError = require('../utils/error');
 const { isNumber, trueTypeOf } = require('../utils/util');
-const { multerInstance, deleteMulterTemporaryFiles } = require('../helpers');
+const { multerInstance } = require('../helpers');
 const { logError, log } = require('../helpers/logger');
 
 const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
@@ -164,8 +164,6 @@ const cleanRequest = async (req, res, next) => {
 
             log(`[File] ${file.originalname} - ${file.size} bytes`);
           }
-
-          deleteMulterTemporaryFiles(files);
         }
 
         next();
