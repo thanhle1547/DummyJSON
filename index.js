@@ -27,7 +27,6 @@ async function setupApp() {
 
   // serving static files
   app.use('/public', express.static('public'));
-  app.use('/public-fork', express.static('public'));
 
   // routes
   app.use('/', routes);
