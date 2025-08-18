@@ -251,7 +251,7 @@ controller.getNewRefreshTokenForFirebaseUser = async data => {
     "image": user.image ?? null,
   };
 
-  const newAccessToken = await generateAccessToken(payload);
+  const newAccessToken = await generateAccessToken(payload, expiresInMins);
   const newRefreshToken = await generateRefreshToken(payload, maxTokenExpireMins);
 
   return { token: newAccessToken, refreshToken: newRefreshToken };
