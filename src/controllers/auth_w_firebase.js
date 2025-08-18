@@ -101,12 +101,12 @@ controller.loginByUsernamePasswordOnFirebase = async data => {
   };
 
   try {
-    const token = await generateAccessToken(payload, expiresInMins);
+    const accessToken = await generateAccessToken(payload, expiresInMins);
     const refreshToken = await generateRefreshToken(payload, maxTokenExpireMins);
 
     return {
       ...payload,
-      token,
+      accessToken,
       refreshToken,
     };
   } catch (err) {
@@ -164,7 +164,7 @@ controller.loginSocial = async data => {
 
   return {
     ...payload,
-    token: accessToken,
+    accessToken,
     refreshToken,
   };
 }
@@ -172,10 +172,10 @@ controller.loginSocial = async data => {
 controller.getUserInfoOnFirebase = async data => {
   const { token } = data;
 
-  if (!token) throw new APIError('Authentication Problem', 403);
+  if (!token) throw new APIError('Access Token is required', 401);
 
   if (isAccessTokenEmpty(token)) {
-    throw new APIError(`Invalid token`, 400);
+    throw new APIError('Invalid access token', 400);
   }
 
   const decoded = await verifyAccessToken(token);
@@ -190,7 +190,7 @@ controller.getUserInfoOnFirebase = async data => {
 
   const usersQueryRes = await userCollectionRef.where("id", "==", userId).get();
   if (usersQueryRes.empty) {
-    throw new APIError(`Invalid token`, 400);
+    throw new APIError('Invalid access token', 400);
   }
 
   const userDocumentSnapshot = usersQueryRes.docs[0];
@@ -212,7 +212,7 @@ controller.getNewRefreshTokenForFirebaseUser = async data => {
   }
 
   if (!refreshToken) {
-    throw new APIError(`Refresh token required`, 401);
+    throw new APIError('Refresh token is required', 401);
   }
 
   let decodedToken;
@@ -221,7 +221,7 @@ controller.getNewRefreshTokenForFirebaseUser = async data => {
     decodedToken = await verifyRefreshToken(refreshToken);
     userId = decodedToken.id;
   } catch (error) {
-    throw new APIError(`Invalid refresh token`, 403);
+    throw new APIError('Invalid refresh token', 400);
   }
 
   let userCollectionRef;
@@ -233,7 +233,7 @@ controller.getNewRefreshTokenForFirebaseUser = async data => {
 
   const usersQueryRes = await userCollectionRef.where("id", "==", userId).get();
   if (usersQueryRes.empty) {
-    throw new APIError(`Invalid refresh token`, 403);
+    throw new APIError('Invalid refresh token', 400);
   }
 
   const userDocumentSnapshot = usersQueryRes.docs[0];
@@ -254,7 +254,7 @@ controller.getNewRefreshTokenForFirebaseUser = async data => {
   const newAccessToken = await generateAccessToken(payload, expiresInMins);
   const newRefreshToken = await generateRefreshToken(payload, maxTokenExpireMins);
 
-  return { token: newAccessToken, refreshToken: newRefreshToken };
+  return { accessToken: newAccessToken, refreshToken: newRefreshToken };
 };
 
 controller.register = async data => {
@@ -357,7 +357,7 @@ controller.register = async data => {
 
   return {
     ...userPayload,
-    token: accessToken,
+    accessToken,
     refreshToken,
   };
 };
@@ -517,17 +517,17 @@ controller.changePassword = async data => {
   const { token, oldPassword, newPassword } = data;
 
   if (!oldPassword) {
-    throw new APIError("oldPassword required", 400);
+    throw new APIError(`oldPassword required`, 400);
   }
 
   if (!newPassword) {
-    throw new APIError("newPassword required", 400);
+    throw new APIError(`newPassword required`, 400);
   }
 
-  if (!token) throw new APIError('Authentication Problem', 403);
+  if (!token) throw new APIError('Access Token is required', 401);
 
   if (isAccessTokenEmpty(token)) {
-    throw new APIError(`Invalid token`, 400);
+    throw new APIError('Invalid access token', 400);
   }
 
   const decoded = await verifyAccessToken(token);
