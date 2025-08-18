@@ -8,7 +8,7 @@ const {
 } = require("../utils/firebase");
 const { fiveMints: maxOtpExpireTime, oneHour: passwordResetExpireTime } = require("../constants");
 const APIError = require("../utils/error");
-const { thirtyDaysInMints: maxTokenExpireTime } = require('../constants');
+const { maxTokenExpireMins } = require('../constants');
 const { generateAccessToken, generateRefreshToken } = require("../utils/jwt");
 
 const controller = {};
@@ -219,7 +219,7 @@ controller.verifyOtp = async data => {
 
   try {
     const token = await generateAccessToken(payload, expiresInMins);
-    const refreshToken = await generateRefreshToken(payload, maxTokenExpireTime);
+    const refreshToken = await generateRefreshToken(payload, maxTokenExpireMins);
 
     return {
       ...payload,
