@@ -218,12 +218,12 @@ controller.verifyOtp = async data => {
   };
 
   try {
-    const token = await generateAccessToken(payload, expiresInMins);
+    const accessToken = await generateAccessToken(payload, expiresInMins);
     const refreshToken = await generateRefreshToken(payload, maxTokenExpireMins);
 
     return {
       ...payload,
-      token,
+      accessToken,
       refreshToken,
     };
   } catch (err) {
