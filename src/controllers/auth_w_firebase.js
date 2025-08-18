@@ -13,7 +13,7 @@ const {
   findUserWithEmail,
   validateEmail,
 } = require('../utils/util');
-const { thirtyDaysInMints: maxTokenExpireTime } = require('../constants');
+const { maxTokenExpireMins } = require('../constants');
 const {
   getAdminAuth,
   getUserCollectionRef,
@@ -33,8 +33,8 @@ controller.loginByUsernamePasswordOnFirebase = async data => {
     throw new APIError(`Username and password required`, 400);
   }
 
-  if (!isValidNumberInRange(expiresInMins, 1, maxTokenExpireTime)) {
-    throw new APIError(`maximum token expire time can be ${maxTokenExpireTime} minutes`);
+  if (!isValidNumberInRange(expiresInMins, 1, maxTokenExpireMins)) {
+    throw new APIError(`maximum token expire time can be ${maxTokenExpireMins} minutes`);
   }
 
   const accountCollectionRef = getAccountCollectionRef(data);
@@ -102,7 +102,7 @@ controller.loginByUsernamePasswordOnFirebase = async data => {
 
   try {
     const token = await generateAccessToken(payload, expiresInMins);
-    const refreshToken = await generateRefreshToken(payload, maxTokenExpireTime);
+    const refreshToken = await generateRefreshToken(payload, maxTokenExpireMins);
 
     return {
       ...payload,
@@ -160,7 +160,7 @@ controller.loginSocial = async data => {
   }
 
   const accessToken = await generateAccessToken(payload, expiresInMins);
-  const refreshToken = await generateRefreshToken(payload, maxTokenExpireTime);
+  const refreshToken = await generateRefreshToken(payload, maxTokenExpireMins);
 
   return {
     ...payload,
@@ -207,8 +207,8 @@ controller.getUserInfoOnFirebase = async data => {
 controller.getNewRefreshTokenForFirebaseUser = async data => {
   const { refreshToken, expiresInMins = 60 } = data;
 
-  if (!isValidNumberInRange(expiresInMins, 1, maxTokenExpireTime)) {
-    throw new APIError(`maximum token expire time can be ${maxTokenExpireTime} minutes`);
+  if (!isValidNumberInRange(expiresInMins, 1, maxTokenExpireMins)) {
+    throw new APIError(`maximum token expire time can be ${maxTokenExpireMins} minutes`);
   }
 
   if (!refreshToken) {
@@ -252,7 +252,7 @@ controller.getNewRefreshTokenForFirebaseUser = async data => {
   };
 
   const newAccessToken = await generateAccessToken(payload);
-  const newRefreshToken = await generateRefreshToken(payload, maxTokenExpireTime);
+  const newRefreshToken = await generateRefreshToken(payload, maxTokenExpireMins);
 
   return { token: newAccessToken, refreshToken: newRefreshToken };
 };
@@ -353,7 +353,7 @@ controller.register = async data => {
   }
 
   const accessToken = await generateAccessToken(userPayload, expiresInMins);
-  const refreshToken = await generateRefreshToken(userPayload, maxTokenExpireTime);
+  const refreshToken = await generateRefreshToken(userPayload, maxTokenExpireMins);
 
   return {
     ...userPayload,
